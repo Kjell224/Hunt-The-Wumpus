@@ -16,7 +16,7 @@ public class HexagonButton extends JButton {
     @Override
     protected void paintComponent(Graphics g) {
         if (getModel().isArmed()) {
-            g.setColor(Color.LIGHT_GRAY);
+            g.setColor(Color.RED);
         } else {
             g.setColor(getBackground());
         }

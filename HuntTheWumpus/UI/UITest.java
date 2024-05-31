@@ -24,6 +24,7 @@ public class UITest extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
         setSize(800, 800);
+        setBackground(Color.BLACK);
 
         int buttonNumber = 1;
 
@@ -53,7 +54,8 @@ public class UITest extends JFrame implements ActionListener {
         int posX = x * (HEX_WIDTH * 3 / 4);
         int posY = y * HEX_HEIGHT + (x % 2) * (HEX_HEIGHT / 2);
         button.setBounds(posX, posY, HEX_WIDTH, HEX_HEIGHT);
-        button.setBackground(Color.WHITE);
+        button.setBackground(Color.DARK_GRAY);
+        button.setForeground(Color.WHITE);
         button.addActionListener(this);
         add(button);
     }

@@ -90,7 +90,7 @@ public class gameLocations {
 
     public int getPlayerLocation(){ return playerPos; }
 
-    public void initializeHints() throws FileNotFoundException{
+    private void initializeHints() throws FileNotFoundException{
         try{
             File data = new File("HuntTheWumpus/Trivia/Questions.csv");
             Scanner readFile = new Scanner(data);

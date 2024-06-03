@@ -90,13 +90,13 @@ public class gameLocations {
 
     public int getPlayerLocation(){ return playerPos; }
 
-    public void initializeHints() throws FileNotFoundException{
+    private void initializeHints() throws FileNotFoundException{
         try{
             File data = new File("HuntTheWumpus/Trivia/Questions.csv");
             Scanner readFile = new Scanner(data);
             while(readFile.hasNextLine()){
                 String currentLine = readFile.nextLine();
-                String[] splitLine = currentLine.split(",");
+                String[] splitLine = currentLine.split(",");    
                 hints.add(splitLine[3]);
             }
             readFile.close();

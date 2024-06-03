@@ -60,29 +60,33 @@ public class gameLocations2 {
     private ArrayList<String> hints;
 
     /** Positions **/
-    public     int[] wumpusPos;
+    public     int   wumpusPos;
     public     int[] playerPos;
     public     int[] hazardPos;
-    
+    public     int[] batsPos;
+    public     int[] pitsPos;
+    private    Cell[][] map = new Cell[5][6];;
 
     ///////////////////////
     // Constructor(s)
     //////////////////////
     public gameLocations2() throws FileNotFoundException{
         hints     = new ArrayList<String>();
-        wumpusPos = new int[2];
+        wumpusPos = 0;
         playerPos = new int[2];
         hazardPos = new int[2];
+        batsPos   = new int[2];
+        pitsPos   = new int[2];
         initializeHints();
-        //initializeCave();
+        initializeCave();
+        initializeHazards();
     }
 
     ///////////////////////
     // Methods
     //////////////////////
 
-    public int[] findHazard(int[] pPos)
-    {
+    public int[] findHazard(int[] pPos){
         typeOfHazard = "";
         giveWarning(typeOfHazard);
         return hazardPos;
@@ -138,19 +142,50 @@ public class gameLocations2 {
         return adjacentRooms;
     }
 
-    public void initializeCave(Cave cave) {
+    private void initializeCave() throws FileNotFoundException{
        // Cell[][] map = cave.getMap();
-        String[][] map2 = new String[5][6];
+        
         File file = new File("../HuntTheWumpus/Cave/WH1.csv");
         Scanner readFile = new Scanner(file);
         String[] data = readFile.nextLine().split(",");
         int i = 0;
-        for(int y = 0; y < map2.length; y++){
-          for(int x = 0; x < map2[0].length; x++){
-            map2[y][x] = data[i];
+        for(int y = 0; y < map.length; y++){
+          for(int x = 0; x < map[0].length; x++){
+            map[y][x] = new Cell(data[i]);
             i++;
           }
         }
     }
+
+    private void initializeHazards() {
+        for(int r = 0; r < map.length; r++){
+            for(int c = 0; c < map[0].length; c++){
+                // Checks wumpus
+                if(map[r][c].getType().equals("Wumpus"))
+                    wumpusPos = map[r][c].getCellNum;
+                // Checks bats
+                else if(map[r][c].getType().equals("Bats")){
+                    if(batsPos[0] == 0)
+                        batsPos[0] = map[r][c].getCellNum;
+                    else 
+                        batsPos[1] = map[r][c].getCellNum;
+                }
+                // Checks pit
+                else if(map[r][c].getType().equals("Pit")){
+                    if(pitPos[0] == 0)
+                        pitPos[0] = map[r][c].getCellNum;
+                    else 
+                        pitPos[1] = map[r][c].getCellNum;
+                }
+                //Checks player
+                else if(map[r][c].getType().equals("Player"))
+                    playerPos = map[r][c].getCellNum;
+            }
+        }
+    }
+    public void updateLocation(){
+        
+    }
+
 
 }

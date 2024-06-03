@@ -8,7 +8,6 @@ import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.io.FileWriter;
 
@@ -17,45 +16,40 @@ public class Trivia{
     // Properties & Fields
     //////////////////////
     private File file;
-    public String[][] questions;
-    private static final int C = 15; //Idk know how but it's backwards
-    private static final int R = 3;
+    private ArrayList<Question> questions;
 
     /////////////////////
     // Constructor(s)
     /////////////////////
 
     public Trivia(){
-        this.file = new File("HuntTheWumpus\\Trivia\\Questions.csv"); //Creates a new file
-        this.questions = new String[C][R]; //Initializes questions to a 2D String array with the length and width of the csv
-        getQuestions(this.file); // This method fills the questions list with data from the csv
-        askQuestions(5, 3); // This questions returns whether or not the user got the needed correct answers
+        this.file = new File("HuntTheWumpus\\Trivia\\Questions.csv");
+        this.questions = new ArrayList<Question>();
+        createQuestions(this.file);
     }
 
     ///////////////////////
     // Methods
     //////////////////////
 
-    public void getQuestions(File f){
-        ArrayList<String[]> lines = new ArrayList<>(); //Creates an ArrayList of string arrays
+    public void createQuestions(File f){
         try{
             Scanner s = new Scanner(f); //Creates a new scanner to read the questions csv file
             while(s.hasNextLine()){
-                String line = s.nextLine(); //Initializes a string that is equal to the line of the scanner
-                String[] parts = line.split(","); //Splits the previous string into an array
-                lines.add(parts); //Adds the string array to the ArrayList lines
+                String line = s.nextLine();
+                String[] parts = line.split(",");
+                this.questions.add(new Question(parts[0], parts[1], parts[2]));
             }
             s.close();
         } catch(FileNotFoundException e){ //I use the catch in case the file is not found
             System.out.println("File not found");
         }
-        Collections.shuffle(lines); // This fully shuffles the arrayList lines into random order
-        for(int i = 0; i < lines.size(); i++){
-            this.questions[i] = lines.get(i); //The for loop sets each line of questions equal to each array from lines
-        }
+        Collections.shuffle(this.questions);
     }
 
-    public boolean askQuestions(int numOfQuestions, int needCorrect){
+
+/*
+ public boolean askQuestions(int numOfQuestions, int needCorrect){
         int numOfCorrect = 0;
         String active = "";
         ArrayList<String> indexes = new ArrayList<String>(); // This arrayList keeps track of which questions were asked so it knows what needs to be removed from the csv
@@ -105,8 +99,22 @@ public class Trivia{
             System.out.println("File not found!!!");
         }
         
-        
-        return numOfCorrect >= needCorrect; // Decides wether or not the user met the goal
+        return numOfCorrect >= needCorrect;
     }
-     
+ */
+    
+    public Question getQuestion(){
+        Question tempQuestion = this.questions.get(0);
+        this.questions.remove(0);
+        try{
+            FileWriter writer = new FileWriter(this.file);
+            for(int i = 0; i < this.questions.size(); i++){
+                writer.write(this.questions.get(i).toString() + "\n");
+            }
+            writer.close();
+        } catch(Exception e){
+            System.out.println("File not found!!!");
+        }
+        return tempQuestion;
+    }
 }

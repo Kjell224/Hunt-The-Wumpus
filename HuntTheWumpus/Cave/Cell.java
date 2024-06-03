@@ -23,12 +23,13 @@ public class Cell {
     setCellNum(Integer.parseInt(infoArray[0]));
     setWalls(getBoolWalls(infoArray[1]));
     setType(infoArray[2]);
+    System.out.println(toString());
   }
   /////////////////////
   //Methods
   ////////////////////
   
-  public boolean[] getBoolWalls(String info){
+  private boolean[] getBoolWalls(String info){
     boolean[] boolWalls = new boolean[6];
     for(int i = 0; i < info.length(); i++){
       if( info.substring(i, i + 1).equals("F") ){
@@ -40,7 +41,7 @@ public class Cell {
     return boolWalls;  
   }
 
-  public String getInfoWalls(boolean[] walls){
+  private String getInfoWalls(boolean[] walls){
     String str = "";
     for(int i = 0; i < walls.length; i++){
       if(walls[i] == false){
@@ -52,7 +53,7 @@ public class Cell {
     return str;
   }
 
-  public Integer[] getAllNeighbors(){
+  private Integer[] getAllNeighbors(){
     Integer[] cellValues = new Integer[6];
     cellValues[0] = getUp(cellNum);
     cellValues[1] = getUpRight(cellNum);
@@ -106,12 +107,12 @@ public class Cell {
 
   // Neighbor Methods (type int)
 
-  public int getUp(int num) {
+  private int getUp(int num) {
     int up = num - 6;
     return wrap(up);
   }
 
-  public int getUpRight(int num) {
+  private int getUpRight(int num) {
     int colNum = getCol(num);
     int UR = num;
     if (colNum % 2 == 0 && colNum != 0) {
@@ -123,7 +124,7 @@ public class Cell {
     }
   }
 
-  public int getDownRight(int num) {
+  private int getDownRight(int num) {
     int colNum = getCol(num);
     int DR = wrap(num + 1);
     if (colNum % 2 == 0 && colNum != 0) {
@@ -133,12 +134,12 @@ public class Cell {
     }
   }
 
-  public int getDown(int num) {
+  private int getDown(int num) {
     int down = num + 6;
     return wrap(down);
   }
 
-  public int getDownLeft(int num) {
+  private int getDownLeft(int num) {
     int colNum = getCol(num);
     int DL = num;
     if (colNum % 2 == 1 && colNum != 1) {
@@ -150,7 +151,7 @@ public class Cell {
     }
   }
 
-  public int getUpLeft(int num) {
+  private int getUpLeft(int num) {
     int colNum = getCol(num);
     int UL = wrap(num - 1);
     if (colNum % 2 == 1 && colNum != 1) {
@@ -160,14 +161,14 @@ public class Cell {
     }
   }
 
-  public int getCol(int num) {
+  private int getCol(int num) {
     int col = (num % 6);
     if (col == 0)
       col = 6;
     return col;
   }
 
-  public int wrap(int num) {
+  private int wrap(int num) {
     if (num > 30) {
       return num - 30;
     }

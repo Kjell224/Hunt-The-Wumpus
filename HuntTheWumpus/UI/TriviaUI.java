@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import Trivia.Trivia;
+import Trivia.Question;
 
 import java.util.Random;
 
@@ -27,8 +28,8 @@ public class TriviaUI {
                 Random random = new Random();
                 Trivia trivia = new Trivia();
                 Question question = trivia.getQuestion();
-                String question = question.getQuestion();
-                String correctAnswer = trivia.questions[questionIndex][3];
+                String questionText = question.getQuestion();
+                String correctAnswer = question.getAnswer();
 
                 String userAnswer = JOptionPane.showInputDialog(parent, question, null);
 

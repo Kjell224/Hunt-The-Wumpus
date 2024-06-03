@@ -92,7 +92,7 @@ public class gameLocations2 {
         return hazardPos;
     }
 
-    public int[] getWumpusLocation(){ return wumpusPos; }
+    public int getWumpusLocation(){ return wumpusPos; }
 
     public int[] getPlayerLocation(){ return playerPos; }
 

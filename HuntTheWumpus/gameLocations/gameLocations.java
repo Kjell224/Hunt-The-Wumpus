@@ -96,7 +96,7 @@ public class gameLocations {
             Scanner readFile = new Scanner(data);
             while(readFile.hasNextLine()){
                 String currentLine = readFile.nextLine();
-                String[] splitLine = currentLine.split(",");
+                String[] splitLine = currentLine.split(",");    
                 hints.add(splitLine[3]);
             }
             readFile.close();

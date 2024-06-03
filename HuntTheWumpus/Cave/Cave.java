@@ -21,14 +21,15 @@ public class Cave {
   //Constuctor(s)
   ///////////////
   public Cave() throws FileNotFoundException {
-    this.wallMap = new File("HuntTheWumpus\\Cave\\Maps.csv");
-    this.reader = new Scanner(wallMap);
-    this.map = getMapFromCsv();
+    this.wallMap = new File("HuntTheWumpus\\Cave\\Maps.csv"); // file
+    this.reader = new Scanner(wallMap); // scanner
+    this.map = getMapFromCsv(); // string
+    createCells();
   }
   ///////////
   //Methods
   //////////
-  public String getMapFromCsv() throws FileNotFoundException {
+  private String getMapFromCsv() throws FileNotFoundException {
     String map = reader.nextLine();
     String restOfLines = "";
     while(reader.hasNextLine()){
@@ -44,7 +45,7 @@ public class Cave {
     return map;
   }
   
-  public void createCells() throws FileNotFoundException {
+  private void createCells() throws FileNotFoundException {
     String[] cellInfo = getMap().split(",");
     for(int i = 0; i < 30; i++){
       Cell cell = new Cell(cellInfo[i]);
@@ -60,6 +61,17 @@ public class Cave {
     }
     return neighbors;
   }
+
+  public ArrayList<Cell> getNeighbors(int num){
+    ArrayList<Cell> neighbors = new ArrayList<Cell>();
+    Cell c = getCell(num);
+    ArrayList<Integer> cellValues = c.getAccesibleNeighbors();
+    for(int i = 0; i < cellValues.size(); i++){
+      neighbors.add(getCellsArray()[cellValues.get(i) - 1]);
+    }
+    return neighbors;
+  }
+
   public boolean isValid(Cell current, Cell target){
      ArrayList<Cell> neighbors = getNeighbors(current);
     for(int i = 0; i < neighbors.size(); i++){
@@ -69,13 +81,14 @@ public class Cave {
     }
     return false;
   }
-  
+  /* 
   public void printCellsNeighbors(Cell c){
     ArrayList<Integer> nums = c.getAccesibleNeighbors();
     for(int i = 0; i < nums.size(); i++){
       System.out.println(getCellsArray()[nums.get(i)].toString());
     }
   }
+  */
   
   public Cell[] getCellsArray(){
     return cellsArray;

@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 
 public class TrivaUI {
 
-    public static void main(final String[] args) {
+    public TrivaUI(final String[] args) {
         final JFrame parent = new JFrame();
         JButton button = new JButton();
 

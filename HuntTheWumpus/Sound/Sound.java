@@ -43,9 +43,7 @@ public class Sound {
             e.printStackTrace();
         }
     }
-}
-
-/* 
+ 
     // This method is the sound for when the player dies
     public void DeathSound(){
         File death = new File("HuntTheWumpus/Sound/SoundEffects/lose.mp3");
@@ -100,4 +98,3 @@ public class Sound {
         }
     }
 }
-*/

@@ -61,6 +61,10 @@ public class UITest extends JFrame implements ActionListener {
         add(button);
 
     }
+    
+    public void highlightButton(int number){
+        
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {

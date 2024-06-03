@@ -21,13 +21,21 @@ public class gameControl {
     private boolean isWumpusKilled;
     private int numberOfPlayers;
     private Scanner scanner;
+
+    public enum Direction {
+        UP,
+        DOWN,
+        UP_LEFT,
+        UP_RIGHT
+    }
     ///////////////////////
     // Constructor(s)
     //////////////////////
 
+    @SuppressWarnings("rawtypes")
     public gameControl() {
         numberOfPlayers = 0;
-        cellMap = new CellMap(new Cell(1)); 
+        cellMap = new CellMap(new Cell()); 
         player = new Player();
         isGameOver = false;
         isWumpusKilled = false;
@@ -35,23 +43,24 @@ public class gameControl {
     private Cave.Cell getNextCell(Cell currentCell, Direction direction) {
         ArrayList<Cave.Cell> adjacents = cellMap.allAjacents(currentCell);
         int targetValue = -1;
+        
         switch (direction) {
-            case direction:
+            case UP:
                 targetValue = cellMap.getUp(currentCell.getValue());
                 break;
-            case direction:
+            case DOWN:
                 targetValue = cellMap.getDown(currentCell.getValue());
                 break;
-            case direction:
+            case UP_LEFT:
                 targetValue = cellMap.getUpLeft(currentCell.getValue());
                 break;
-            case direction:
+            case UP_RIGHT:
                 targetValue = cellMap.getUpRight(currentCell.getValue());
                 break;
         }
 
         for (Cave.Cell cell : adjacents) {
-            if (cell.compare(targetValue)) {
+            if (cell.getValue() == targetValue) {
                 return cell;
             }
         }

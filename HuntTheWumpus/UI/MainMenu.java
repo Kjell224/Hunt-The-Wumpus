@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 
 public class MainMenu extends JFrame implements ActionListener {
 
@@ -20,6 +21,8 @@ public class MainMenu extends JFrame implements ActionListener {
         add(titleLabel, BorderLayout.NORTH);
 
         JButton playButton = new JButton("Play");
+        playButton.setForeground(new Color(255,0,0));
+
         playButton.setFont(new Font("Arial", Font.PLAIN, 30));
         playButton.setPreferredSize(new Dimension(200, 100));
         playButton.addActionListener(this);
@@ -32,8 +35,10 @@ public class MainMenu extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        
         if (e.getActionCommand().equals("Play")) {
-            new UITest();
+                new UITest();
+
             dispose();
         }
     }

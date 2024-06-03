@@ -1,9 +1,14 @@
 package UI;
 
 import javax.swing.*;
+
+import Cave.Cave;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class UITest extends JFrame implements ActionListener {
 
@@ -11,6 +16,7 @@ public class UITest extends JFrame implements ActionListener {
     private static final int HEX_WIDTH = (int) (Math.sqrt(3) * HEX_SIZE);
     private static final int HEX_HEIGHT = HEX_SIZE * 2;
     private String number;
+    private Cave cave;
 
     public UITest() {
         draw();
@@ -61,13 +67,24 @@ public class UITest extends JFrame implements ActionListener {
         add(button);
 
     }
+    
+    public void highlightButton(int number){
+
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        HexagonButton button = (HexagonButton) e.getSource();
-        this.number = button.getText();
-        System.out.println(number);
-
+        try {
+            HexagonButton button = (HexagonButton) e.getSource();
+            button.setForeground(new Color(255, 0, 0)); // set color of clicked button red
+            this.number = button.getText();
+            int num = Integer.parseInt(number);
+            //ArrayList<Integer> nums = cave.getNeighbors(num);
+            System.out.println(number);
+        } catch (Exception ex) {
+            // Handle other potential exceptions
+            JOptionPane.showMessageDialog(this, "An error occurred: " + ex.getMessage());
+        }
     }
 
     public String getNumber() {

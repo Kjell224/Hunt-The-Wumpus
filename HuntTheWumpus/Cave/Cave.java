@@ -51,12 +51,12 @@ public class Cave {
       Cell cell = new Cell(cellInfo[i]);
       cellsArray[i] = cell;
     }
-  }
+  } 
 
   // ⇓⇓⇓⇓⇓⇓⇓⇓⇓⇓⇓ RETURNS CELL ARRAYLIST ⇓⇓⇓⇓⇓⇓⇓⇓⇓⇓⇓
 
   // RETURNS ARRAYLIST OF CELLS GIVEN A CELL
-  public ArrayList<Cell> getNeighbors(Cell c){
+  public ArrayList<Cell> getCellNeighbors(Cell c){
     ArrayList<Cell> neighbors = new ArrayList<Cell>();
     ArrayList<Integer> cellValues = c.getAccesibleNeighbors();
     for(int i = 0; i < cellValues.size(); i++){
@@ -65,7 +65,7 @@ public class Cave {
     return neighbors;
   }
   // RETURNS ARRAYLIST OF CELLS GIVEN A INT
-  public ArrayList<Cell> getNeighbors(int num){
+  public ArrayList<Cell> getCellNeighbors(int num){
     ArrayList<Cell> neighbors = new ArrayList<Cell>();
     Cell c = getCell(num);
     ArrayList<Integer> cellValues = c.getAccesibleNeighbors();
@@ -74,9 +74,10 @@ public class Cave {
     }
     return neighbors;
   }
+  
 
   // ⇓⇓⇓⇓⇓⇓⇓⇓⇓⇓⇓ RETURNS INTEGER ARRAYLIST ⇓⇓⇓⇓⇓⇓⇓⇓⇓⇓⇓
-  /*
+  
   public ArrayList<Integer> getNeighbors(int num){
     return getCell(num).getAccesibleNeighbors();
   }
@@ -84,11 +85,11 @@ public class Cave {
   public ArrayList<Integer> getNeighbors(Cell cell){
     return cell.getAccesibleNeighbors();
   }
-  */
+  
 
   // CHECKS IF POSSIBLE TO MOVE TO A CELL GIVEN A CELLS DESTINATION
   public boolean isValid(Cell current, Cell target){
-     ArrayList<Cell> neighbors = getNeighbors(current);
+     ArrayList<Cell> neighbors = getCellNeighbors(current);
     for(int i = 0; i < neighbors.size(); i++){
       if( neighbors.get(i).getCellNum() == target.getCellNum() ){
         return true;

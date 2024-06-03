@@ -5,33 +5,46 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MainMenu {
+public class MainMenu extends JFrame implements ActionListener {
 
-    public MainMenu(String[] args) {
-        JFrame frame = new JFrame("Hunt the Wumpus");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 300);
-        frame.setLayout(new BorderLayout());
+    public MainMenu() {
+
+        setTitle("Main Menu");
+        setSize(8000, 8000);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
 
         JLabel titleLabel = new JLabel("Hunt the Wumpus", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Ariel", Font.BOLD, 24));
-        frame.add(titleLabel, BorderLayout.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 50));
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(50, 0, 50, 0)); 
+        add(titleLabel, BorderLayout.NORTH);
 
         JButton playButton = new JButton("Play");
-        playButton.setFont(new Font("Ariel", Font.PLAIN, 20));
-        frame.add(playButton, BorderLayout.SOUTH);
+        playButton.setForeground(new Color(255,0,0));
 
-        playButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                UITest.main(new String[]{});
-                frame.dispose(); 
-            }
-        });
+        playButton.setFont(new Font("Arial", Font.PLAIN, 30));
+        playButton.setPreferredSize(new Dimension(200, 100));
+        playButton.addActionListener(this);
 
-        frame.setVisible(true);
+        JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(new GridBagLayout());
+        centerPanel.add(playButton);
+        add(centerPanel, BorderLayout.CENTER);
     }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        
+        if (e.getActionCommand().equals("Play")) {
+            new UITest();
+            dispose();
+        }
+    }
+
     public static void main(String[] args) {
-        new MainMenu(args);
+        SwingUtilities.invokeLater(() -> {
+            MainMenu mainMenu = new MainMenu();
+            mainMenu.setVisible(true);
+        });
     }
 }

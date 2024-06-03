@@ -31,7 +31,7 @@ public class TriviaUI {
                 String questionText = question.getQuestion();
                 String correctAnswer = question.getAnswer();
 
-                String userAnswer = JOptionPane.showInputDialog(parent, question, null);
+                String userAnswer = JOptionPane.showInputDialog(parent, questionText, null);
 
                 if (userAnswer != null && userAnswer.equalsIgnoreCase(correctAnswer)) {
                     System.out.println("Correct");

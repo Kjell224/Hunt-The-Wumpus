@@ -25,8 +25,9 @@ public class TriviaUI {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Random random = new Random();
-                int questionIndex = random.nextInt(trivia.questions.size());
-                String question = trivia.questions[questionIndex][1];
+                Trivia trivia = new Trivia();
+                Question question = trivia.getQuestion();
+                String question = question.getQuestion();
                 String correctAnswer = trivia.questions[questionIndex][3];
 
                 String userAnswer = JOptionPane.showInputDialog(parent, question, null);

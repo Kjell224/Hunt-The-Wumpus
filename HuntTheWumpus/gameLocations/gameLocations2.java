@@ -127,7 +127,28 @@ public class gameLocations2 {
             }
         }
     }
-    public void updateLocation(){
+    // so what should we do?
+    /*  Preconditions
+     *  newPos has to be adjacent to currentPos
+     * 
+     * 
+     * 
+    */
+    public void updateLocations(int currentPos, int newPos){
+        Cell[] cells = new Cell[30];
+        for(int i = 0; i < map.length; i++){
+            int count = 0;
+            for(int j = 0; j < map[0].length; j++){
+                cells[count] = map[i][j];
+                count++;
+            }
+        }
+        if(cells[newPos-1].getType().equals("Bats")){
+            
+        }
+        
+        
+
         
     }
 

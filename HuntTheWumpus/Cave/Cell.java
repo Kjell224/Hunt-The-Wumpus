@@ -14,6 +14,7 @@ public class Cell {
   int cellNum; //the cell number (used to find neighbors)
   boolean[] walls; // true means there is a wall at that location
   String type; // initial hazard / wumpus / player
+  public int[] getCellNum;
   /////////////////////
   //Constuctor(s)
   ////////////////////

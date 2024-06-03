@@ -25,6 +25,7 @@ public class UITest extends JFrame implements ActionListener {
         setLayout(null);
         setSize(800, 800);
         setBackground(Color.BLACK);
+        setForeground(Color.BLACK);
 
         int buttonNumber = 1;
 

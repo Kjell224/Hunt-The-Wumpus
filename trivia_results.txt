@@ -20,3 +20,7 @@ Your Answer: null - Incorrect
 Question 5: What is the currency of Japan?
 Your Answer: null - Incorrect
 Final Score: 0 out of 5
+Question 1: What is the main ingredient in guacamole?
+Your Answer: null - Incorrect
+Question 2: In which sport would you perform a slam dunk?
+Your Answer: null - Incorrect

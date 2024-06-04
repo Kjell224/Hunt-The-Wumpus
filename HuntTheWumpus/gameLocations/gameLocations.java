@@ -87,39 +87,6 @@ public class gameLocations {
         e.printStackTrace();
     }
   }
-    public void findHazard(int[] pPos, Cave cave){
-        Cell[][] map = cave.getMap();
-        ArrayList<Cell> adjRooms = cave.allAdjacents(map[pPos[0]][pPos[1]]);
-        for(Cell c : adjRooms){
-            if(c.getType() != ""){
-                System.out.println(giveWarning(c.getType()));
-            }
-        } 
-    }
-
-    public int getWumpusLocation(){ return wumpusPos; }
-
-    public void setWumpusLocation(int newLoc){ wumpusPos = newLoc; }
-
-    public void setPlayerLocation(int newLoc){ playerPos = newLoc; }
-
-    public int getPlayerLocation(){ return playerPos; }
-
-    private void initializeHints() throws FileNotFoundException{
-        try{
-            File data = new File("HuntTheWumpus/Trivia/Questions.csv");
-            Scanner readFile = new Scanner(data);
-            while(readFile.hasNextLine()){
-                String currentLine = readFile.nextLine();
-                String[] splitLine = currentLine.split(",");    
-                hints.add(splitLine[3]);
-            }
-            readFile.close();
-        } catch(IOException e){
-            System.out.println("Error in writing file.");
-            e.printStackTrace();
-        }
-    }
 
   public String giveHint() throws FileNotFoundException{ 
     //Random number from 0-length of Hints, to give to player

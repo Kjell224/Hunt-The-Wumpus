@@ -43,11 +43,5 @@ public class MainMenu extends JFrame implements ActionListener {
         }
     }
 
-    // Main method to run the application
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> { // Ensure the UI is created on the Event Dispatch Thread
-            MainMenu mainMenu = new MainMenu(); // Create the main menu
-            mainMenu.setVisible(true); // Make the main menu visible
-        });
-    }
+    
 }

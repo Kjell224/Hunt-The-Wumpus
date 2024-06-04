@@ -16,11 +16,12 @@ public class TriviaUI {
         final JFrame parent = new JFrame();
         JButton button = new JButton();
 
-        button.setText("Start Trivia");
+        button.setText("Trivia");
         parent.add(button);
         parent.pack();
         parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         parent.setVisible(true);
+        //parent.setSize(800,800);
 
         button.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -51,7 +52,7 @@ public class TriviaUI {
                     }
 
                     printWriter.println("Final Score: " + correctAnswers + " out of 5");
-                    JOptionPane.showMessageDialog(parent, "Trivia session finished! You got " + correctAnswers + " out of 5 correct.");
+                    JOptionPane.showMessageDialog(parent, "Trivia session finished You got " + correctAnswers + " out of 5 correct.");
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(parent, "Error writing to file: " + e.getMessage());
                 }

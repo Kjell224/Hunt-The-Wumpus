@@ -22,6 +22,7 @@ public class UITest extends JFrame implements ActionListener {
     public UITest(Cave cave) {
         this.cave = cave;
         draw(); // Call the draw method to set up the UI
+        initilizePlayerPosition(cave.getPlayerCell()); // given the player position (int cell)
     }
 
     ///////////////////////
@@ -83,6 +84,27 @@ public class UITest extends JFrame implements ActionListener {
                     button.setBackground(Color.GREEN); // Highlight the button by setting its background color to green
                 } 
             }
+        }
+    }
+    public void initilizePlayerPosition(int num){
+        try {
+        Component[] components = getContentPane().getComponents(); // Get all components in the content pane
+        for (Component component : components) {
+            if (component instanceof HexagonButton) { // Check if the component is a HexagonButton
+                HexagonButton button = (HexagonButton) component;
+                if (button.getText().equals(String.valueOf(num))) { // Check if the button's text matches the number
+                    button.setBackground(Color.RED); // Highlight the button by setting its background color to green
+                } 
+            }
+        }
+
+        ArrayList<Integer> nums = cave.getNeighbors(num); // Get the neighbors from the Cave instance
+        for(int i = 0; i < nums.size(); i++) {
+            highlightButton(nums.get(i)); // Highlight the neighboring buttons
+        }
+
+        } catch (Exception e){
+            System.out.println("I suck " + e);
         }
     }
 

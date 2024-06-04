@@ -107,18 +107,19 @@ public class gameLocations {
 
   public void findHazard(Cave cave, int pPos){
     int i = 0; //Index to add to hazardPos
-    ArrayList<Cell> adjRooms = cave.getNeighbors(cave.getCell(pPos)); //Array List of Cells near Player
+    ArrayList<Integer> adjRooms = cave.getNeighbors(cave.getCell(pPos)); //Array List of Cells near Player
     //For each cell next to the player...
-    for(Cell c : adjRooms){ 
+    for(Integer c : adjRooms){ 
+      Cell curCell = cave.getCell(c); //Get the cell from the number
       //If the cellType is NOT an empty String
-      if(c.getType() != ""){
+      if(curCell.getType() != ""){
         //Give a warning depending on the type
-        System.out.println(giveWarning(c.getType()));
+        System.out.println(giveWarning(curCell.getType()));
         //If the type is NOT a wumpus
-        if(c.getType() != "Wumpus"){
+        if(curCell.getType() != "Wumpus"){
           //Add the number of the cell it is in to HazardPos
           //If it isn't Wumpus it means it is Bats or Pits
-          hazardPos[i] = c.getCellNum();
+          hazardPos[i] = c;
           i++;
         }
       }

@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+ 
+=======
 package UI;
 
 import javax.swing.*;
@@ -148,3 +151,4 @@ public class UITest extends JFrame implements ActionListener {
         return this.number;
     }
 }
+>>>>>>> dc93fd7830f0b41d88f63cabbeb576a11874c839

@@ -14,20 +14,24 @@ public class ActiveWumpus {
     // PROPERTIES
     /////////////////
     public int health = 1;
-    public int[] wumpusPos;
+    public int wumpusPos;
 
     /////////////////
     // CONSTRUCTOR(S)
     /////////////////
     public ActiveWumpus(){
-        wumpusPos = new int[2];
+        
     }
 
     /////////////////
     // METHODS
     /////////////////
-    public int[] getLocation(){
+    public int getLocation(){
         return wumpusPos;
+    }
+
+    public int setLocation(int wumpusPos){
+        return this.wumpusPos = wumpusPos;
     }
 
     

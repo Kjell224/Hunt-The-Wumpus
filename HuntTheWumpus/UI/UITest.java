@@ -17,11 +17,11 @@ public class UITest extends JFrame implements ActionListener {
     private static final int HEX_HEIGHT = HEX_SIZE * 2; // Calculated height of the hexagon
     private String number; // To store the selected number
     private Cave cave; // Instance of the Cave class
+    private TriviaUI triviaui;
     private HexagonButton selectedButton; // To track the currently selected button
 
     // Constructor to initialize the UI
-    public UITest(Cave cave) {
-        this.cave = cave;
+    public UITest() {
         draw(); // Call the draw method to set up the UI
         initilizePlayerPosition(cave.getPlayerCell()); // given the player position (int cell)
     }
@@ -129,7 +129,7 @@ public class UITest extends JFrame implements ActionListener {
                 highlightButton(nums.get(i)); // Highlight the neighboring buttons
             }
             selectedButton = button; // Update the selected button reference
-            TriviaUI triv = new TriviaUI();
+
         } catch (Exception ex) {
             // Handle other potential exceptions
             JOptionPane.showMessageDialog(this, "An error occurred: " + ex.getMessage());

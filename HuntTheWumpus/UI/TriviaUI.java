@@ -1,5 +1,7 @@
 package UI;
 
+import Cave.Cave;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -18,6 +20,8 @@ import javax.swing.JFrame;
 
 public class TriviaUI extends JFrame implements ActionListener {
 
+    private Trivia trivia;
+
     public TriviaUI() {
         final JFrame parent = new JFrame();
         JButton button = new JButton();
@@ -34,15 +38,44 @@ public class TriviaUI extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        int correctAnswers = 0;
-        Trivia trivia = new Trivia();
+        askQuestion();
+    }
 
+    public void askQuestion(){
+        int correctAnswers = 0;
         try (FileWriter fileWriter = new FileWriter("trivia_results.txt", true);
             PrintWriter printWriter = new PrintWriter(fileWriter)) {
 
-            for (int i = 1; i <= 5; i++) {
-                Question question = trivia.getQuestion();
-                String questionText = question.getQuestion();
+                Question question    = trivia.getQuestion();
+                String questionText  = question.getQuestion();
+                String correctAnswer = question.getAnswer();
+
+                String userAnswer = JOptionPane.showInputDialog(getParent(), questionText, null);
+
+                if (userAnswer != null && userAnswer.equalsIgnoreCase(correctAnswer)) {
+                    printWriter.println("Question 1 " + questionText);
+                    printWriter.println("Your Answer: " + userAnswer + " - Correct");
+                    correctAnswers++;
+                } else {
+                printWriter.println("Question 1 " + questionText);
+                    printWriter.println("Your Answer: " + userAnswer + " - Incorrect");
+                }
+                System.out.println(correctAnswers + " out of 1");
+
+            printWriter.println("Final Score: " + correctAnswers + " out of 5");
+            JOptionPane.showMessageDialog(getParent(), "Trivia session finished You got " + correctAnswers + " out of 5 correct.");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(getParent(), "Error writing to file: " + ex.getMessage());
+        }
+    }
+    public void askQuestion(int num){
+        int correctAnswers = 0;
+        try (FileWriter fileWriter = new FileWriter("trivia_results.txt", true);
+            PrintWriter printWriter = new PrintWriter(fileWriter)) {
+
+            for (int i = 1; i <= num; i++) {
+                Question question    = trivia.getQuestion();
+                String questionText  = question.getQuestion();
                 String correctAnswer = question.getAnswer();
 
                 String userAnswer = JOptionPane.showInputDialog(getParent(), questionText, null);
@@ -62,10 +95,12 @@ public class TriviaUI extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(getParent(), "Trivia session finished You got " + correctAnswers + " out of 5 correct.");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(getParent(), "Error writing to file: " + ex.getMessage());
-            }
+        }
     }
+
 
     public static void main(String[] args) {
         new TriviaUI();
     }
+
 }

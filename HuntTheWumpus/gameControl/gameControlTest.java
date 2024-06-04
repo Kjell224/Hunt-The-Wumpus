@@ -4,7 +4,9 @@
 // Hunt the Wumpus - Game Control Test Class
 
 package gameControl;
+import java.io.FileNotFoundException;
 
+import Trivia.Trivia;
 
 public class gameControlTest{
     ///////////////////////
@@ -14,8 +16,8 @@ public class gameControlTest{
     ///////////////////////
     // Constructor(s)
     //////////////////////
-    public gameControlTest(){
-
+     public static void main(String args[]) throws FileNotFoundException {
+        gameControl gc = new gameControl();
     }
 
     ///////////////////////

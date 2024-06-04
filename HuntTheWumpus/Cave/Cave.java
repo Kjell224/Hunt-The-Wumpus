@@ -25,6 +25,8 @@ public class Cave {
     this.reader = new Scanner(wallMap); // read the file
     this.map = getMapFromCsv(); // csv information (rotates the maps)
     createCells(this.map); // from information generates the cells info
+    System.out.println("Player cell : " + getPlayerCell());
+    System.out.println("Wumpus cell: " + getWumpusCell());
   }
   ///////////
   //Methods
@@ -96,6 +98,24 @@ public class Cave {
       }
     }
     return false;
+  }
+
+  public int getPlayerCell(){
+    for(int i = 1; i <= cellsArray.length; i++){
+      if(getCell(i).getPlayer()){
+        return getCell(i).getCellNum();
+      }
+    }
+    return -1;
+  }
+
+  public int getWumpusCell(){
+    for(int i = 1; i <= cellsArray.length; i++){
+      if(getCell(i).getWumpus()){
+        return getCell(i).getCellNum();
+      }
+    }
+    return -1;
   }
 
   /* 

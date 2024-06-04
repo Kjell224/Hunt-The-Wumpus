@@ -142,33 +142,33 @@ public class gameLocations2 {
      * Second situtation is when the player is moving to a cell with a bat
         * When this happens a method setRandomBatsLocation() is called 
      */
-    public void updateLocations(int currentPos, int newPos, boolean arrowMiss/*true if arrowFrom player missed false if player didn't shoot arrow*/){
-
+    public void updateLocations(int currentPos, int newPos){
+        cells[currentPos - 1 ].setType("null");
+        cells[newPos - 1].setType("Player");
+        playerPos = newPos;
+        /* 
         if(cells[newPos-1].getType().equals("Bats")){
             if(cells[newPos-1].getCellNum() == batsPos[0]) setRandomBatsLocation(0);
             else setRandomBatsLocation(1);
         }
-        else if(cells[newPos-1].getType().equals("null")){
-            cells[currentPos - 1 ].setType("null");
-            cells[newPos - 1].setType("Player");
-            playerPos = newPos;
-        }
+        cells[currentPos - 1 ].setType("null");
+        cells[newPos - 1].setType("Player");
+        playerPos = newPos;
+        
         else if(cells[newPos-1].getType().equals("Pit")){
 
         }
         else if(cells[newPos - 1].getType().equals("Wumpus")){
 
         }
-        else if(arrowMiss){
-            
-        }
+       */
     
     }
     /*
      * setRandomBatsLocation is a method that is private to the gameLocations class
      * 
      */
-    private void setRandomBatsLocation(int batNum){
+    public void setRandomBatsLocation(int batNum){
         int rndBatCell = (int) (Math.random() * 30);
         int rndPlayerCell = (int) (Math.random() * 30);
         if(cells[rndPlayerCell].getType().equals("null") && (cells[rndBatCell].getType().equals("null") || rndBatCell + 1 == playerPos)){

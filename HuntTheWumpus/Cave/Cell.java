@@ -11,11 +11,11 @@ public class Cell {
   /////////////////////
   //Properties
   ////////////////////
-  int cellNum; //the cell number (used to find neighbors)
-  boolean[] walls; // true means there is a wall at that location
-  String type; // initial hazard
-  boolean wumpus; // is wumpus in cell
-  boolean player; // is player in cell
+  private int cellNum; //the cell number (used to find neighbors)
+  private boolean[] walls; // true means there is a wall at that location
+  private String type; // initial hazard
+  private boolean wumpus; // is wumpus in cell
+  private boolean player; // is player in cell
   /////////////////////
   //Constuctor(s)
   ////////////////////
@@ -116,6 +116,22 @@ public class Cell {
 
   public void setWalls(boolean[] walls){
     this.walls = walls;
+  }
+
+  public boolean getPlayer() {
+    return this.player;
+  }
+
+  public void setPlayer(boolean player) {
+    this.player = player;
+  }
+
+  public boolean getWumpus() {
+    return this.wumpus;
+  }
+
+  public void setWumpus(boolean wumpus) {
+    this.wumpus = wumpus;
   }
 
   // Neighbor Methods (type int)

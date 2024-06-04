@@ -25,7 +25,7 @@ public class UITest extends JFrame implements ActionListener {
     public UITest(Cave cave) {
         this.cave = cave;
         draw(); // Call the draw method to set up the UI
-        initilizePlayerPosition(9); // given the player position (int cell)
+        initilizePlayerPosition(cave.getPlayerCell()); // given the player position (int cell)
     }
 
     ///////////////////////

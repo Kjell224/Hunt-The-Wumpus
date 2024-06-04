@@ -10,7 +10,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Random;
 
-public class TriviaUI {
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+ 
+import javax.swing.JFrame;
+
+public class TriviaUI extends JFrame implements ActionListener {
 
     public TriviaUI(final String[] args) {
         final JFrame parent = new JFrame();
@@ -23,41 +29,40 @@ public class TriviaUI {
         parent.setVisible(true);
         //parent.setSize(800,800);
 
-        button.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                int correctAnswers = 0;
-                Trivia trivia = new Trivia();
+        button.addActionListener(this);
+    }
 
-                try (FileWriter fileWriter = new FileWriter("trivia_results.txt", true);
-                     PrintWriter printWriter = new PrintWriter(fileWriter)) {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        int correctAnswers = 0;
+        Trivia trivia = new Trivia();
 
-                    for (int i = 1; i <= 5; i++) {
-                        Question question = trivia.getQuestion();
-                        String questionText = question.getQuestion();
-                        String correctAnswer = question.getAnswer();
+        try (FileWriter fileWriter = new FileWriter("trivia_results.txt", true);
+            PrintWriter printWriter = new PrintWriter(fileWriter)) {
 
-                        String userAnswer = JOptionPane.showInputDialog(parent, questionText, null);
+            for (int i = 1; i <= 5; i++) {
+                Question question = trivia.getQuestion();
+                String questionText = question.getQuestion();
+                String correctAnswer = question.getAnswer();
 
-                        if (userAnswer != null && userAnswer.equalsIgnoreCase(correctAnswer)) {
-                            printWriter.println("Question " + i + ": " + questionText);
-                            printWriter.println("Your Answer: " + userAnswer + " - Correct");
-                            correctAnswers++;
-                        } else {
-                            printWriter.println("Question " + i + ": " + questionText);
-                            printWriter.println("Your Answer: " + userAnswer + " - Incorrect");
-                        }
+                String userAnswer = JOptionPane.showInputDialog(getParent(), questionText, null);
 
-                        System.out.println(correctAnswers + " out of " + i);
-                    }
-
-                    printWriter.println("Final Score: " + correctAnswers + " out of 5");
-                    JOptionPane.showMessageDialog(parent, "Trivia session finished You got " + correctAnswers + " out of 5 correct.");
-                } catch (IOException e) {
-                    JOptionPane.showMessageDialog(parent, "Error writing to file: " + e.getMessage());
+                if (userAnswer != null && userAnswer.equalsIgnoreCase(correctAnswer)) {
+                    printWriter.println("Question " + i + ": " + questionText);
+                    printWriter.println("Your Answer: " + userAnswer + " - Correct");
+                    correctAnswers++;
+                } else {
+                    printWriter.println("Question " + i + ": " + questionText);
+                    printWriter.println("Your Answer: " + userAnswer + " - Incorrect");
                 }
+                System.out.println(correctAnswers + " out of " + i);
             }
-        });
+
+            printWriter.println("Final Score: " + correctAnswers + " out of 5");
+            JOptionPane.showMessageDialog(getParent(), "Trivia session finished You got " + correctAnswers + " out of 5 correct.");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(getParent(), "Error writing to file: " + ex.getMessage());
+            }
     }
 
     public static void main(String[] args) {

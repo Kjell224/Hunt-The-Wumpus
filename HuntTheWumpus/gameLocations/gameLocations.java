@@ -114,7 +114,7 @@ public class gameLocations {
       //If the cellType is NOT an empty String
       if(curCell.getType() != ""){
         //Give a warning depending on the type
-        System.out.println(giveWarning(c.getType()));
+        System.out.println(giveWarning(curCell.getType()));
         //If the type is NOT a wumpus
         if(curCell.getType() != "Wumpus"){
           //Add the number of the cell it is in to HazardPos

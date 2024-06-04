@@ -13,8 +13,9 @@ public class Cell {
   ////////////////////
   int cellNum; //the cell number (used to find neighbors)
   boolean[] walls; // true means there is a wall at that location
-  String type; // initial hazard / wumpus / player
-  public int[] getCellNum;
+  String type; // initial hazard
+  boolean wumpus; // is wumpus in cell
+  boolean player; // is player in cell
   /////////////////////
   //Constuctor(s)
   ////////////////////
@@ -24,11 +25,22 @@ public class Cell {
     setCellNum(Integer.parseInt(infoArray[0]));
     setWalls(getBoolWalls(infoArray[1]));
     setType(infoArray[2]);
-    System.out.println(toString());
+    this.wumpus = convertInfo(infoArray[3]);
+    this.player = convertInfo(infoArray[4]);
+    //System.out.println(toString());
   }
+  
   /////////////////////
   //Methods
   ////////////////////
+
+  private boolean convertInfo(String bool){
+    if(bool.equals("F")){
+      return false;
+    }else{
+      return true;
+    }
+  }
   
   private boolean[] getBoolWalls(String info){
     boolean[] boolWalls = new boolean[6];

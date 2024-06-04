@@ -68,11 +68,11 @@ public class gameLocations2 {
     public     int[] hazardPos;
     public     int[] batsPos;
     public     int[] pitsPos;
-    private    Cell[][] map = new Cell[5][6];;
-
+    private    Cell[][] map = new Cell[5][6];
+    private    Cell[] cells = new Cell[30];
     ///////////////////////
     // Constructor(s)
-    //////////////////////
+    ///////////////////////
     public gameLocations2() throws FileNotFoundException{
         hints     = new ArrayList<String>();
         wumpusPos = 0;
@@ -95,13 +95,14 @@ public class gameLocations2 {
         for(int y = 0; y < map.length; y++){
           for(int x = 0; x < map[0].length; x++){
             map[y][x] = new Cell(data[i]);
+            cells[i] = new Cell(data[i]);
             i++;
           }
         }
         readFile.close();
     }
 
-    private void initializeHazards() {
+    private void initializeTypes() {
         for(int r = 0; r < map.length; r++){
             for(int c = 0; c < map[0].length; c++){
                 // Checks wumpus
@@ -127,9 +128,59 @@ public class gameLocations2 {
             }
         }
     }
-    public void updateLocation(){
-        
+    // so what should we do?
+    /*  Preconditions
+     *  newPos has to be adjacent to currentPos
+     *  
+     * 
+     * 
+    */
+
+    /*
+     * There are two situations where trivia is not needed:
+     * First situtation is when the player is moving to a null cell
+     * Second situtation is when the player is moving to a cell with a bat
+        * When this happens a method setRandomBatsLocation() is called 
+     */
+    public void updateLocations(int currentPos, int newPos, boolean arrowMiss/*true if arrowFrom player missed false if player didn't shoot arrow*/){
+
+        if(cells[newPos-1].getType().equals("Bats")){
+            if(cells[newPos-1].getCellNum() == batsPos[0]) setRandomBatsLocation(0);
+            else setRandomBatsLocation(1);
+        }
+        else if(cells[newPos-1].getType().equals("null")){
+            cells[currentPos - 1 ].setType("null");
+            cells[newPos - 1].setType("Player");
+            playerPos = newPos;
+        }
+        else if(cells[newPos-1].getType().equals("Pit")){
+
+        }
+        else if(cells[newPos - 1].getType().equals("Wumpus")){
+
+        }
+        else if(arrowMiss){
+            
+        }
+    
     }
+    /*
+     * setRandomBatsLocation is a method that is private to the gameLocations class
+     * 
+     */
+    private void setRandomBatsLocation(int batNum){
+        int rndBatCell = (int) (Math.random() * 30);
+        int rndPlayerCell = (int) (Math.random() * 30);
+        if(cells[rndPlayerCell].getType().equals("null") && (cells[rndBatCell].getType().equals("null") || rndBatCell + 1 == playerPos)){
+            cells[rndPlayerCell].setType("Player");
+            cells[rndBatCell].setType("Bat");
+            playerPos = rndPlayerCell + 1;
+            batsPos[batNum] = rndBatCell + 1;
+        }
+        else setRandomBatsLocation(batNum);
+
+    }
+
 
 
 }

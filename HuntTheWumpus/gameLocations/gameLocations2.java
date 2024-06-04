@@ -47,6 +47,9 @@ import HuntTheWumpus.Wumpus.*;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import Cave.Cell;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -61,23 +64,22 @@ public class gameLocations2 {
 
     /** Positions **/
     public     int   wumpusPos;
-    public     int[] playerPos;
+    public     int playerPos;
     public     int[] hazardPos;
     public     int[] batsPos;
     public     int[] pitsPos;
-    private Cell[][] map = new Cell[5][6];;
-
+    private    Cell[][] map = new Cell[5][6];
+    private    Cell[] cells = new Cell[30];
     ///////////////////////
     // Constructor(s)
-    //////////////////////
+    ///////////////////////
     public gameLocations2() throws FileNotFoundException{
         hints     = new ArrayList<String>();
         wumpusPos = 0;
-        playerPos = new int[2];
+        playerPos = 0;
         hazardPos = new int[2];
         batsPos   = new int[2];
         pitsPos   = new int[2];
-        initializeHints();
         initializeCave();
         initializeHazards();
     }
@@ -85,66 +87,7 @@ public class gameLocations2 {
     ///////////////////////
     // Methods
     //////////////////////
-
-    public int[] findHazard(int[] pPos){
-        typeOfHazard = "";
-        giveWarning(typeOfHazard);
-        return hazardPos;
-    }
-
-    public int[] getWumpusLocation(){ return wumpusPos; }
-
-    public int[] getPlayerLocation(){ return playerPos; }
-
-    public void initializeHints() throws FileNotFoundException{
-        try{
-            File data = new File("../HuntTheWumpus/Trivia/Questions.csv");
-            Scanner readFile = new Scanner(data);
-            while(readFile.hasNextLine()){
-                hints.add(readFile.nextLine().split(",")[3]);
-            }
-        } catch(IOException e){
-            System.out.println("Error in writing file.");
-            e.printStackTrace();
-        }
-    }
-
-    public String giveHint() throws FileNotFoundException{ 
-        int randNum = (int) (Math.random() * (hints.size()));
-        return hints.remove(randNum);
-    }
-
-    public String giveWarning(String warnType){
-        if(warnType.equals("SuperBats")) 
-            return "Bats Nearby.";
-        else if(warnType.equals("Pit")) 
-            return "I feel a draft."; 
-        else if(warnType.equals("Wumpus")) 
-            return "I smell a Wumpus!";
-        return warnType;
-    }
-
-    public int shootArrow(int arrowCount){
-        boolean isValid = false; 
-        while(!isValid){
-        //TODO: Create findAdjacentRooms() Method for Valid Moves 
-            System.out.print("Where would you like to shoot?");
-            String direction = user.next();
-        }
-        arrowCount--;  
-        return arrowCount;
-    }
-
-    private ArrayList<int[]> findAdjacentRooms(){ 
-        //Need Cave To Be Figured Out
-        ArrayList<int[]> adjacentRooms = new ArrayList<int[]>();
-        
-        return adjacentRooms;
-    }
-
     private void initializeCave() throws FileNotFoundException{
-       // Cell[][] map = cave.getMap();
-        
         File file = new File("../HuntTheWumpus/Cave/WH1.csv");
         Scanner readFile = new Scanner(file);
         String[] data = readFile.nextLine().split(",");
@@ -152,9 +95,11 @@ public class gameLocations2 {
         for(int y = 0; y < map.length; y++){
           for(int x = 0; x < map[0].length; x++){
             map[y][x] = new Cell(data[i]);
+            cells[i] = new Cell(data[i]);
             i++;
           }
         }
+        readFile.close();
     }
 
     private void initializeHazards() {
@@ -162,30 +107,55 @@ public class gameLocations2 {
             for(int c = 0; c < map[0].length; c++){
                 // Checks wumpus
                 if(map[r][c].getType().equals("Wumpus"))
-                    wumpusPos = map[r][c].getCellNum;
+                    wumpusPos = map[r][c].getCellNum();
                 // Checks bats
                 else if(map[r][c].getType().equals("Bats")){
                     if(batsPos[0] == 0)
-                        batsPos[0] = map[r][c].getCellNum;
+                        batsPos[0] = map[r][c].getCellNum();
                     else 
-                        batsPos[1] = map[r][c].getCellNum;
+                        batsPos[1] = map[r][c].getCellNum();
                 }
                 // Checks pit
                 else if(map[r][c].getType().equals("Pit")){
-                    if(pitPos[0] == 0)
-                        pitPos[0] = map[r][c].getCellNum;
+                    if(pitsPos[0] == 0)
+                        pitsPos[0] = map[r][c].getCellNum();
                     else 
-                        pitPos[1] = map[r][c].getCellNum;
+                        pitsPos[1] = map[r][c].getCellNum();
                 }
                 //Checks player
                 else if(map[r][c].getType().equals("Player"))
-                    playerPos = map[r][c].getCellNum;
+                    playerPos = map[r][c].getCellNum();
             }
         }
     }
-    public void updateLocation(){
+    // so what should we do?
+    /*  Preconditions
+     *  newPos has to be adjacent to currentPos
+     *  
+     * 
+     * 
+    */
+    public void updateLocations(int currentPos, int newPos){
+
+        if(cells[newPos-1].getType().equals("Bats")){
+            if(cells[newPos-1].getCellNum() == batsPos[0]){
+                playerPos = setRandomLocation(playerPos);
+                batsPos[0] = setRandomLocation(batsPos[0]);
+                
+            }        
+        }
         
+    
     }
+    private int setRandomLocation(int initialPos){
+        int rndCell = (int) (Math.random() * 30);
+        if(cells[rndCell] == null){
+            cells[rndCell] = new Cell(cells[initialPos]);
+            cells[initalPos] = null;
+        }
+
+    }
+
 
 
 }

@@ -4,10 +4,14 @@
 // Hunt the Wumpus - Sound Class
 
 package Sound;
-import java.io.File;
 
+import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.File;
+import java.io.IOException;
 
 public class Sound {
     ///////////////////////
@@ -24,18 +28,22 @@ public class Sound {
     // Methods
     //////////////////////
 
-    public void BackgroundSound(){
-        File background = new File("HuntTheWumpus/Sound/SoundEffects/background.wav");
 
-        try{
+
+
+
+    public static void BackgroundSound() {
+        try {
+            File backgroundFile = new File("HuntTheWumpus/Sound/SoundEffects/background.wav");
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(backgroundFile);
             Clip clip = AudioSystem.getClip();
-            clip.open(AudioSystem.getAudioInputStream(background));
+            clip.open(audioInputStream);
             clip.start();
-        } catch (Exception e){
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
         }
     }
-
+ 
     // This method is the sound for when the player dies
     public void DeathSound(){
         File death = new File("HuntTheWumpus/Sound/SoundEffects/lose.mp3");

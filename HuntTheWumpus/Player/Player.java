@@ -97,7 +97,7 @@ public class Player {
             chooseMove();
         }
     }
-*/  
+*/
     public void attack(Cell c){
         arrows--;
     }

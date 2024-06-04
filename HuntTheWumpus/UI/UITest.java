@@ -96,6 +96,7 @@ public class UITest extends JFrame implements ActionListener {
             System.out.println(number); // Print the number to the console
 
             // Update the button colors
+            resetAllButtonsToWhite();
             if (selectedButton != null) {
                 selectedButton.setBackground(Color.WHITE); // Reset the previous button color
             }
@@ -110,6 +111,15 @@ public class UITest extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(this, "An error occurred: " + ex.getMessage());
         }
     }
+    
+    private void resetAllButtonsToWhite() {
+        for (Component component : getContentPane().getComponents()) {
+            if (component instanceof HexagonButton) {
+                ((HexagonButton) component).setBackground(Color.WHITE); // Set all buttons to white
+            }
+        }
+    }
+
 
     // Method to get the currently selected number
     public String getNumber() {

@@ -39,13 +39,13 @@ public class LazyWumpus {
     public String state(String state){
         return state;
     }
-
+/* 
     public void miss(){
         if ((arrows == 2 && whealth != 0) | (arrows == 1 && whealth != 0) | (arrows == 0 && whealth != 0)){
             wumpusPos[0] += 2 | wumpusPos[1] + 2;
         }
     }
-
+*/
     public boolean loseTrivia(){
         if (playerCorrect == 3){
             return true;

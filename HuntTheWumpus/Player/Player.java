@@ -1,7 +1,8 @@
 // Amrit Gill
 // March 1, 2024
 // Period 5
-// Hunt the Wumpus - Player Class
+// Hunt the Wumpus - Player Class 
+//On me amrit is selling our team.
 
 package Player;
 import Cave.Cell;

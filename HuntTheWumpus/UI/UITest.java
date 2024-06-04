@@ -64,7 +64,7 @@ public class UITest extends JFrame implements ActionListener {
         int posY = y * (HEX_HEIGHT * 3 / 4) + (x % 2) * (HEX_HEIGHT / 2) + 200; // Calculate the y position
 
         if (x % 2 == 0) {
-            posY += 6; // Adjust y position for even columns
+            posY += 6; 
         }
         
         button.setBounds(posX, posY, HEX_WIDTH, HEX_HEIGHT); // Set the button's bounds

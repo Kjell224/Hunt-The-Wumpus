@@ -18,7 +18,7 @@ import javax.swing.JFrame;
 
 public class TriviaUI extends JFrame implements ActionListener {
 
-    public TriviaUI(final String[] args) {
+    public TriviaUI() {
         final JFrame parent = new JFrame();
         JButton button = new JButton();
 
@@ -66,6 +66,6 @@ public class TriviaUI extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        new TriviaUI(args);
+        new TriviaUI();
     }
 }

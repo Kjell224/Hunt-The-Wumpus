@@ -2,6 +2,7 @@ package UI;
 
 import javax.swing.*;
 import Cave.Cave;
+import UI.TriviaUI;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -128,6 +129,7 @@ public class UITest extends JFrame implements ActionListener {
                 highlightButton(nums.get(i)); // Highlight the neighboring buttons
             }
             selectedButton = button; // Update the selected button reference
+            TriviaUI triv = new TriviaUI();
         } catch (Exception ex) {
             // Handle other potential exceptions
             JOptionPane.showMessageDialog(this, "An error occurred: " + ex.getMessage());

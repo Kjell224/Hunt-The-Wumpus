@@ -5,14 +5,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class UITest extends JFrame implements ActionListener {
+public class UITest1 extends JFrame implements ActionListener {
 
     private static final int HEX_SIZE = 50;
     private static final int HEX_WIDTH = (int) (Math.sqrt(3) * HEX_SIZE);
     private static final int HEX_HEIGHT = HEX_SIZE * 2;
     private String number;
 
-    public UITest() {
+    public UITest1() {
         draw();
     }
 
@@ -53,7 +53,7 @@ public class UITest extends JFrame implements ActionListener {
         int posX = x * (HEX_WIDTH * 3 / 4) + 500; 
         int posY = y * (HEX_HEIGHT * 3 / 4) + (x % 2) * (HEX_HEIGHT / 2) + 200; 
         if (x % 2 == 0) {
-            posY += 5; 
+            posY += 6; 
         }
         button.setBounds(posX, posY, HEX_WIDTH, HEX_HEIGHT);
         button.setBackground(Color.DARK_GRAY);

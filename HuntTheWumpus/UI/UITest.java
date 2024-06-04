@@ -19,7 +19,8 @@ public class UITest extends JFrame implements ActionListener {
     private HexagonButton selectedButton; // To track the currently selected button
 
     // Constructor to initialize the UI
-    public UITest() {
+    public UITest(Cave cave) {
+        this.cave = cave;
         draw(); // Call the draw method to set up the UI
     }
 
@@ -63,7 +64,7 @@ public class UITest extends JFrame implements ActionListener {
         int posY = y * (HEX_HEIGHT * 3 / 4) + (x % 2) * (HEX_HEIGHT / 2) + 200; // Calculate the y position
 
         if (x % 2 == 0) {
-            posY += 6; // Adjust y position for even columns
+            posY += 6; 
         }
         
         button.setBounds(posX, posY, HEX_WIDTH, HEX_HEIGHT); // Set the button's bounds
@@ -95,6 +96,7 @@ public class UITest extends JFrame implements ActionListener {
             System.out.println(number); // Print the number to the console
 
             // Update the button colors
+            resetAllButtonsToWhite();
             if (selectedButton != null) {
                 selectedButton.setBackground(Color.WHITE); // Reset the previous button color
             }
@@ -109,6 +111,15 @@ public class UITest extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(this, "An error occurred: " + ex.getMessage());
         }
     }
+    
+    private void resetAllButtonsToWhite() {
+        for (Component component : getContentPane().getComponents()) {
+            if (component instanceof HexagonButton) {
+                ((HexagonButton) component).setBackground(Color.WHITE); // Set all buttons to white
+            }
+        }
+    }
+
 
     // Method to get the currently selected number
     public String getNumber() {

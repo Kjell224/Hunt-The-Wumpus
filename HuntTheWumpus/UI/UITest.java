@@ -19,7 +19,8 @@ public class UITest extends JFrame implements ActionListener {
     private HexagonButton selectedButton; // To track the currently selected button
 
     // Constructor to initialize the UI
-    public UITest() {
+    public UITest(Cave cave) {
+        this.cave = cave;
         draw(); // Call the draw method to set up the UI
     }
 

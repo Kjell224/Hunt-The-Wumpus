@@ -1,0 +1,22 @@
+Question 1: Who was the first person to walk on the moon?
+Your Answer: neil armstrong - Correct
+Question 2: Who wrote the play 'Romeo and Juliet'?
+Your Answer: shakespear - Incorrect
+Question 3: Which planet is known as the Red Planet?
+Your Answer: mars - Correct
+Question 4: What is the hardest natural substance on Earth?
+Your Answer: diamond - Correct
+Question 5: What is the name of the largest ocean on Earth?
+Your Answer: atlantic - Incorrect
+Final Score: 3 out of 5
+Question 1: Who discovered penicillin?
+Your Answer: null - Incorrect
+Question 2: Who painted the Mona Lisa?
+Your Answer: null - Incorrect
+Question 3: Who is known as the Father of Computers?
+Your Answer: null - Incorrect
+Question 4: What is the smallest country in the world?
+Your Answer: null - Incorrect
+Question 5: What is the currency of Japan?
+Your Answer: null - Incorrect
+Final Score: 0 out of 5

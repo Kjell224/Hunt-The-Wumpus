@@ -44,119 +44,96 @@ import java.io.File;
 import java.io.IOException;
 
 public class gameLocations {
-    ///////////////////////
-    // Properties & Fields
-    //////////////////////
-    private static final Scanner console = new Scanner(System.in);
-    private String   typeOfHazard;
-    private ArrayList<String> hints;
+  ///////////////////////
+  // Properties & Fields
+  //////////////////////
+  private ArrayList<String> hints;
+  public     int wumpusPos;
+  public     int playerPos;
+  public   int[] hazardPos;
 
 
-    /** Positions **/
-    public     int wumpusPos;
-    public     int playerPos;
-    public   int[] hazardPos;
+  ///////////////////////
+  // Constructor(s)
+  //////////////////////
+  public gameLocations() throws FileNotFoundException{
+    //Array List of Hints to make it easy to Modify
+    hints     = new ArrayList<String>();
+    //4 Different Hazards (Wumpus Exclusive)
+    hazardPos = new int[4];
+    initializeHints();
+  }
 
+  ///////////////////////
+  // Methods
+  //////////////////////
 
-    ///////////////////////
-    // Constructor(s)
-    //////////////////////
-    public gameLocations() throws FileNotFoundException{
-        hints     = new ArrayList<String>();
-        hazardPos = new int[4];
-        initializeHints();
-        //initializeCave();
+  //Initialize the ArrayList hints to include all answers from Questions.csv to give to the player
+  public void initializeHints() throws FileNotFoundException{
+    try{
+      //Initialize File Questions.csv and a Scanner to read the file
+      File data = new File("HuntTheWumpus/Trivia/Questions.csv");
+      Scanner readFile = new Scanner(data);
+      //Read through the file
+      while(readFile.hasNextLine()){
+        String currentLine = readFile.nextLine();
+        //Array of the Line in Questions.csv
+        String[] splitLine = currentLine.split(",");   
+        hints.add(splitLine[2]); // Get the answer portion and fill up ArrayList hints
+      }
+      readFile.close(); // Close the Scanner
+    } catch(IOException e){ // Catch Exceptions
+        System.out.println("Error in writing file.");
+        e.printStackTrace();
     }
+  }
 
-    ///////////////////////
-    // Methods
-    //////////////////////
+  public String giveHint() throws FileNotFoundException{ 
+    //Random number from 0-length of Hints, to give to player
+    int randNum = (int) (Math.random() * (hints.size()));
+    return hints.remove(randNum); //Remove so hints don't get repeated
+  }
 
-    public void findHazard(int[] pPos, Cave cave){
-        Cell[][] map = cave.getMap();
-        ArrayList<Cell> adjRooms = cave.allAdjacents(map[pPos[0]][pPos[1]]);
-        for(Cell c : adjRooms){
-            if(c.getType() != ""){
-                System.out.println(giveWarning(c.getType()));
-            }
-        } 
-    }
+  public String giveWarning(String warnType){
+    //Return certain warnings depending on the String warnType (or cell type)
+    if(warnType.equals("SuperBats")) 
+      return "Bats Nearby.";
+    else if(warnType.equals("Pit")) 
+      return "I feel a draft."; 
+    else if(warnType.equals("Wumpus")) 
+      return "I smell a Wumpus!";
+    return warnType;
+  }
 
-    public int getWumpusLocation(){ return wumpusPos; }
-
-    public void setWumpusLocation(int newLoc){ wumpusPos = newLoc; }
-
-    public void setPlayerLocation(int newLoc){ playerPos = newLoc; }
-
-    public int getPlayerLocation(){ return playerPos; }
-
-    public void initializeHints() throws FileNotFoundException{
-        try{
-            File data = new File("HuntTheWumpus/Trivia/Questions.csv");
-            Scanner readFile = new Scanner(data);
-            while(readFile.hasNextLine()){
-                String currentLine = readFile.nextLine();
-                String[] splitLine = currentLine.split(",");    
-                hints.add(splitLine[3]);
-            }
-            readFile.close();
-        } catch(IOException e){
-            System.out.println("Error in writing file.");
-            e.printStackTrace();
-        }
-    }
-
-    public String giveHint() throws FileNotFoundException{ 
-        int randNum = (int) (Math.random() * (hints.size()));
-        return hints.remove(randNum);
-    }
-
-    public String giveWarning(String warnType){
-        if(warnType.equals("SuperBats")) 
-            return "Bats Nearby.";
-        else if(warnType.equals("Pit")) 
-            return "I feel a draft."; 
-        else if(warnType.equals("Wumpus")) 
-            return "I smell a Wumpus!";
-        return warnType;
-    }
-
-    public void initializeCave(Cave cave) {
-        Cell[][] map = cave.getMap();
-        int wumpusPlace = (int) (Math.random() * 31);
-        int bat1Place = (int) (Math.random() * 31);
-        int bat2Place = (int) (Math.random() * 31);
-        int pit1Place = (int) (Math.random() * 31);
-        int pit2Place = (int) (Math.random() * 31);
-        int count = 0;
-        for (int i = 0; i < map.length; i++) {
-          for (int j = 0; j < map[0].length; j++) {
-            count += 1;
-            if (count == wumpusPlace) {
-              map[i][j].setType("Wumpus");
-            } else if (count == bat1Place) {
-              while (bat1Place == wumpusPlace) {
-                bat1Place = (int) (Math.random() * 31);
-              }
-              map[i][j].setType("SuperBats");
-            } else if (count == bat2Place) {
-              while (bat2Place == wumpusPlace) {
-                bat2Place = (int) (Math.random() * 31);
-              }
-              map[i][j].setType("SuperBats");
-            } else if (count == pit1Place) {
-              while (pit1Place == wumpusPlace) {
-                pit1Place = (int) (Math.random() * 31);
-              }
-              map[i][j].setType("Pit");
-            } else if (count == pit2Place) {
-              while (pit2Place == wumpusPlace) {
-                pit2Place = (int) (Math.random() * 31);
-              }
-              map[i][j].setType("Pit");
-            }
-          }
+  public void findHazard(Cave cave, int pPos){
+    int i = 0; //Index to add to hazardPos
+    ArrayList<Cell> adjRooms = cave.getNeighbors(cave.getCell(pPos)); //Array List of Cells near Player
+    //For each cell next to the player...
+    for(Cell c : adjRooms){ 
+      //If the cellType is NOT an empty String
+      if(c.getType() != ""){
+        //Give a warning depending on the type
+        System.out.println(giveWarning(c.getType()));
+        //If the type is NOT a wumpus
+        if(c.getType() != "Wumpus"){
+          //Add the number of the cell it is in to HazardPos
+          //If it isn't Wumpus it means it is Bats or Pits
+          hazardPos[i] = c.getCellNum();
+          i++;
         }
       }
+    } 
+  }
+
+  //* **** Getters & Setters **** *//
+  public int[] getHazardsLocation(){ return hazardPos; }
+
+  public int getWumpusLocation(){ return wumpusPos; }
+
+  public void setWumpusLocation(int newLoc){ wumpusPos = newLoc; }
+
+  public int getPlayerLocation(){ return playerPos; }
+
+  public void setPlayerLocation(int newLoc){ playerPos = newLoc; }
 
 }

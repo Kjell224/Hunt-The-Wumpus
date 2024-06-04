@@ -1,5 +1,6 @@
 package gameControl;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 // Mateen and Eyouel 
 // February 12, 2024
@@ -7,64 +8,47 @@ import java.util.ArrayList;
 // Hunt the Wumpus - Game Control Class
 import java.util.Scanner;
 
-import Cave.CellMap;
+import javax.swing.SwingUtilities;
+
+import Cave.Cave;
 import Player.Player;
-import javafx.scene.control.Cell;
+import UI.MainMenu;
+import UI.UITest;
 
 public class gameControl {
     ///////////////////////
     // Properties & Fields
     //////////////////////
-    private CellMap cellMap;
     private Player player;
-    private boolean isGameOver;
-    private boolean isWumpusKilled;
-    private int numberOfPlayers;
+    private Cave cave;
     private Scanner scanner;
+    private MainMenu mainmenu;
+    private UITest uitest;
 
-    public enum Direction {
-        UP,
-        DOWN,
-        UP_LEFT,
-        UP_RIGHT
-    }
+ 
     ///////////////////////
     // Constructor(s)
     //////////////////////
+    
+    public gameControl() throws FileNotFoundException {
+            this.cave = new Cave();
+            SwingUtilities.invokeLater(() -> { // Ensure the UI is created on the Event Dispatch Thread
+            this.mainmenu = new MainMenu(this.cave); // Create the main menu
+            this.mainmenu.setVisible(true); // Make the main menu visible
+        });
 
-    @SuppressWarnings("rawtypes")
-    public gameControl() {
-        numberOfPlayers = 0;
-        cellMap = new CellMap(new Cell()); 
-        player = new Player();
-        isGameOver = false;
-        isWumpusKilled = false;
     }
-    private Cave.Cell getNextCell(Cell currentCell, Direction direction) {
-        ArrayList<Cave.Cell> adjacents = cellMap.allAjacents(currentCell);
-        int targetValue = -1;
-        
-        switch (direction) {
-            case UP:
-                targetValue = cellMap.getUp(currentCell.getValue());
-                break;
-            case DOWN:
-                targetValue = cellMap.getDown(currentCell.getValue());
-                break;
-            case UP_LEFT:
-                targetValue = cellMap.getUpLeft(currentCell.getValue());
-                break;
-            case UP_RIGHT:
-                targetValue = cellMap.getUpRight(currentCell.getValue());
-                break;
-        }
 
-        for (Cave.Cell cell : adjacents) {
-            if (cell.getValue() == targetValue) {
-                return cell;
-            }
-        }
-        return null;
+    public Cave getCave(){
+        return this.cave;
+    }
+
+    public Player getPlayer(){
+        return this.player;
+    }
+
+    public UITest getUITest(){
+        return this.uitest;
     }
 
 
@@ -72,11 +56,5 @@ public class gameControl {
     // Methods
     //////////////////////
 
-    public boolean isGameOver() {
-        return isGameOver;
-    }
-
-    public boolean isWumpusKilled() {
-        return isWumpusKilled;
-    }
 }
+

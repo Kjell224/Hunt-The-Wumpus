@@ -26,6 +26,12 @@ public class Cell {
     setType(infoArray[2]);
     System.out.println(toString());
   }
+
+  public Cell(int cellNum, String walls, String type, boolean ){
+    setCellNum(cellNum);
+    setWalls(getBoolWalls(walls));
+    setType(type);
+  }
   /////////////////////
   //Methods
   ////////////////////

@@ -68,11 +68,11 @@ public class gameLocations2 {
     public     int[] hazardPos;
     public     int[] batsPos;
     public     int[] pitsPos;
-    private    Cell[][] map = new Cell[5][6];;
-
+    private    Cell[][] map = new Cell[5][6];
+    private    Cell[] cells = new Cell[30];
     ///////////////////////
     // Constructor(s)
-    //////////////////////
+    ///////////////////////
     public gameLocations2() throws FileNotFoundException{
         hints     = new ArrayList<String>();
         wumpusPos = 0;
@@ -95,6 +95,7 @@ public class gameLocations2 {
         for(int y = 0; y < map.length; y++){
           for(int x = 0; x < map[0].length; x++){
             map[y][x] = new Cell(data[i]);
+            cells[i] = new Cell(data[i]);
             i++;
           }
         }
@@ -130,27 +131,31 @@ public class gameLocations2 {
     // so what should we do?
     /*  Preconditions
      *  newPos has to be adjacent to currentPos
-     * 
+     *  
      * 
      * 
     */
     public void updateLocations(int currentPos, int newPos){
-        Cell[] cells = new Cell[30];
-        for(int i = 0; i < map.length; i++){
-            int count = 0;
-            for(int j = 0; j < map[0].length; j++){
-                cells[count] = map[i][j];
-                count++;
-            }
-        }
-        if(cells[newPos-1].getType().equals("Bats")){
-            
-        }
-        
-        
 
+        if(cells[newPos-1].getType().equals("Bats")){
+            if(cells[newPos-1].getCellNum() == batsPos[0]){
+                playerPos = setRandomLocation(playerPos);
+                batsPos[0] = setRandomLocation(batsPos[0]);
+                
+            }        
+        }
         
+    
     }
+    private int setRandomLocation(int initialPos){
+        int rndCell = (int) (Math.random() * 30);
+        if(cells[rndCell] == null){
+            cells[rndCell] = new Cell(cells[initialPos]);
+            cells[initalPos] = null;
+        }
+
+    }
+
 
 
 }

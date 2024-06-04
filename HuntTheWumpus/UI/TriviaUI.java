@@ -8,7 +8,6 @@ import Trivia.Question;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Random;
 
 public class TriviaUI {
 
@@ -16,11 +15,12 @@ public class TriviaUI {
         final JFrame parent = new JFrame();
         JButton button = new JButton();
 
-        button.setText("Start Trivia");
+        button.setText("Trivia");
         parent.add(button);
         parent.pack();
         parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         parent.setVisible(true);
+        parent.setSize(800,800);
 
         button.addActionListener(new java.awt.event.ActionListener() {
             @Override

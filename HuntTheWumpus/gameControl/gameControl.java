@@ -43,7 +43,7 @@ public class gameControl {
             this.player = new Player();
 
             SwingUtilities.invokeLater(() -> { // Ensure the UI is created on the Event Dispatch Thread
-            this.mainmenu = new MainMenu(); // Create the main menu
+            this.mainmenu = new MainMenu(cave); // Create the main menu
             this.mainmenu.setVisible(true); // Make the main menu visible
         });
     }

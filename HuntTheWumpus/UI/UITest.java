@@ -2,6 +2,7 @@ package UI;
 
 import javax.swing.*;
 import Cave.Cave;
+import Player.Player;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -161,6 +162,10 @@ public class UITest extends JFrame implements ActionListener {
         shootArrowButton.setBounds(rightSideX, rightSideY, buttonWidth, buttonHeight);
         shootArrowButton.addActionListener(e -> shootArrow());
         add(shootArrowButton);
+        /* 
+        JTextField gold = new JTextField("gold")
+        gold.setBounds(rightSideX, rightSideY + 140);
+        */
 
         JButton getGoldButton = new JButton("Get Gold");
         getGoldButton.setBounds(rightSideX, rightSideY + 70, buttonWidth, buttonHeight);
@@ -183,6 +188,7 @@ public class UITest extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(this, "Correct!");
         } else {
             JOptionPane.showMessageDialog(this, "Wrong.");
+        
         }
     }
 

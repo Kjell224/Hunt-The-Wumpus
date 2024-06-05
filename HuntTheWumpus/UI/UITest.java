@@ -21,11 +21,17 @@ public class UITest extends JFrame implements ActionListener {
     private Cave cave; // Instance of the Cave class
     private HexagonButton selectedButton; // To track the currently selected button
     private Trivia trivia; // Instance of the Trivia class
+    private int goldCount; // To store the player's gold count
+    private JLabel goldLabel; // Label to display the gold count
+    private int arrowCount;
+    private JLabel arrowLabel;
 
     // Constructor to initialize the UI
     public UITest(Cave cave) {
         this.cave = cave;
         this.trivia = new Trivia(); // Initialize the Trivia instance
+        this.goldCount = 0; // Initialize the gold count
+        this.arrowCount = 0;
         draw(); // Call the draw method to set up the UI
         initilizePlayerPosition(cave.getPlayerCell()); // given the player position (int cell)
     }
@@ -62,6 +68,16 @@ public class UITest extends JFrame implements ActionListener {
 
         // Add action buttons on the right side in the middle
         addRightSideButtons();
+
+        // Add the gold label to display the current gold count
+        goldLabel = new JLabel("Gold: 0");
+        goldLabel.setBounds(1050, 280, 150, 50);
+        goldLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        add(goldLabel);
+        arrowLabel = new JLabel("Arrow: 0");
+        arrowLabel.setBounds(1050, 300, 150, 50);
+        arrowLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        add(arrowLabel);
 
         setVisible(true); // Make the JFrame visible
     }
@@ -162,10 +178,6 @@ public class UITest extends JFrame implements ActionListener {
         shootArrowButton.setBounds(rightSideX, rightSideY, buttonWidth, buttonHeight);
         shootArrowButton.addActionListener(e -> shootArrow());
         add(shootArrowButton);
-        /* 
-        JTextField gold = new JTextField("gold")
-        gold.setBounds(rightSideX, rightSideY + 140);
-        */
 
         JButton getGoldButton = new JButton("Get Gold");
         getGoldButton.setBounds(rightSideX, rightSideY + 70, buttonWidth, buttonHeight);
@@ -185,10 +197,11 @@ public class UITest extends JFrame implements ActionListener {
 
         // Check the answer
         if (userAnswer != null && userAnswer.equalsIgnoreCase(question.getAnswer())) {
+            goldCount++; // Increase the gold count
+            goldLabel.setText("Gold: " + goldCount); // Update the gold label
             JOptionPane.showMessageDialog(this, "Correct!");
         } else {
             JOptionPane.showMessageDialog(this, "Wrong.");
-        
         }
     }
 

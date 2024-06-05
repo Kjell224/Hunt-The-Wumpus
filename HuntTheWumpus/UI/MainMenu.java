@@ -3,7 +3,6 @@ package UI;
 import javax.swing.*;
 
 import Cave.Cave;
-import UI.TriviaUI;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,9 +10,9 @@ import java.awt.event.ActionListener;
 
 public class MainMenu extends JFrame implements ActionListener {
     private Cave cave;
-    private TriviaUI triviaui;
     // Constructor to initialize the main menu UI
-    public MainMenu() {
+    public MainMenu(Cave cave) {
+        this.cave = cave;
         setTitle("Main Menu"); // Set the title of the JFrame
         setSize(8000, 8000); // Set the size of the JFrame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Close the application when the window is closed
@@ -43,16 +42,13 @@ public class MainMenu extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Play")) { // Check if the "Play" button was clicked
-            new UITest(); // Create and show the UITest frame
+            new UITest(getCave()); // Create and show the UITest frame
             dispose(); // Close the main menu window
         }
     }
     
     public Cave getCave(){
         return this.cave;
-    }
-    public TriviaUI getTriviaUI(){
-        return this.triviaui;
     }
 
     

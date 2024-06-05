@@ -15,6 +15,7 @@ public class ActiveWumpus {
     /////////////////
     public int health = 1;
     public int wumpusPos;
+    public int turns;
 
     /////////////////
     // CONSTRUCTOR(S)
@@ -34,10 +35,12 @@ public class ActiveWumpus {
         return this.wumpusPos = wumpusPos;
     }
 
-    
-
 // Precondition: the String state must be "asleep" or "awake"
     public String state(String state){
         return state;
+    }
+
+    public int turnMove(){
+        
     }
 }

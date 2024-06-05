@@ -68,7 +68,6 @@ public class gameLocations2 {
     public     int[] hazardPos;
     public     int[] batsPos;
     public     int[] pitsPos;
-    private    Cell[][] map = new Cell[5][6];
     private    Cell[] cells = new Cell[30];
     ///////////////////////
     // Constructor(s)
@@ -81,7 +80,7 @@ public class gameLocations2 {
         batsPos   = new int[2];
         pitsPos   = new int[2];
         initializeCave();
-        initializeHazards();
+        initialize();
     }
 
     ///////////////////////
@@ -91,41 +90,35 @@ public class gameLocations2 {
         File file = new File("../HuntTheWumpus/Cave/WH1.csv");
         Scanner readFile = new Scanner(file);
         String[] data = readFile.nextLine().split(",");
-        int i = 0;
-        for(int y = 0; y < map.length; y++){
-          for(int x = 0; x < map[0].length; x++){
-            map[y][x] = new Cell(data[i]);
+        for(int i = 0; i < 30; i++){
             cells[i] = new Cell(data[i]);
-            i++;
-          }
         }
         readFile.close();
     }
 
-    private void initializeTypes() {
-        for(int r = 0; r < map.length; r++){
-            for(int c = 0; c < map[0].length; c++){
-                // Checks wumpus
-                if(map[r][c].getType().equals("Wumpus"))
-                    wumpusPos = map[r][c].getCellNum();
-                // Checks bats
-                else if(map[r][c].getType().equals("Bats")){
-                    if(batsPos[0] == 0)
-                        batsPos[0] = map[r][c].getCellNum();
-                    else 
-                        batsPos[1] = map[r][c].getCellNum();
-                }
-                // Checks pit
-                else if(map[r][c].getType().equals("Pit")){
-                    if(pitsPos[0] == 0)
-                        pitsPos[0] = map[r][c].getCellNum();
-                    else 
-                        pitsPos[1] = map[r][c].getCellNum();
-                }
-                //Checks player
-                else if(map[r][c].getType().equals("Player"))
-                    playerPos = map[r][c].getCellNum();
+    private void initialize() {
+        for(int r = 0; r < 30; r++){
+            // Checks wumpus
+            if(cells[r].getWumpus())
+                wumpusPos = cells[r].getCellNum();
+            // Checks bats
+            else if(cells[r].getType().equals("Bats")){
+                if(batsPos[0] == 0)
+                    batsPos[0] = cells[r].getCellNum();
+                else 
+                    batsPos[1] = cells[r].getCellNum();
             }
+            // Checks pit
+            else if(cells[r].getType().equals("Pit")){
+                if(pitsPos[0] == 0)
+                    pitsPos[0] = cells[r].getCellNum();
+                else 
+                    pitsPos[1] = cells[r].getCellNum();
+            }
+            //Checks player
+            else if(cells[r].getPlayer())
+                playerPos = cells[r].getCellNum();
+        
         }
     }
     // so what should we do?
@@ -142,37 +135,37 @@ public class gameLocations2 {
      * Second situtation is when the player is moving to a cell with a bat
         * When this happens a method setRandomBatsLocation() is called 
      */
-    public void updateLocations(int currentPos, int newPos, boolean arrowMiss/*true if arrowFrom player missed false if player didn't shoot arrow*/){
-
+    public void updateLocations(int currentPos, int newPos){
+        cells[currentPos - 1 ].setType("null");
+        cells[newPos - 1].setType("Player");
+        playerPos = newPos;
+        /* 
         if(cells[newPos-1].getType().equals("Bats")){
             if(cells[newPos-1].getCellNum() == batsPos[0]) setRandomBatsLocation(0);
             else setRandomBatsLocation(1);
         }
-        else if(cells[newPos-1].getType().equals("null")){
-            cells[currentPos - 1 ].setType("null");
-            cells[newPos - 1].setType("Player");
-            playerPos = newPos;
-        }
+        cells[currentPos - 1 ].setType("null");
+        cells[newPos - 1].setType("Player");
+        playerPos = newPos;
+        
         else if(cells[newPos-1].getType().equals("Pit")){
 
         }
         else if(cells[newPos - 1].getType().equals("Wumpus")){
 
         }
-        else if(arrowMiss){
-            
-        }
+       */
     
     }
     /*
      * setRandomBatsLocation is a method that is private to the gameLocations class
      * 
      */
-    private void setRandomBatsLocation(int batNum){
+    public void setRandomBatsLocation(int batNum){
         int rndBatCell = (int) (Math.random() * 30);
         int rndPlayerCell = (int) (Math.random() * 30);
         if(cells[rndPlayerCell].getType().equals("null") && (cells[rndBatCell].getType().equals("null") || rndBatCell + 1 == playerPos)){
-            cells[rndPlayerCell].setType("Player");
+            cells[rndPlayerCell].setPlayer(true);
             cells[rndBatCell].setType("Bat");
             playerPos = rndPlayerCell + 1;
             batsPos[batNum] = rndBatCell + 1;

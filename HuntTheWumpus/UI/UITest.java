@@ -7,6 +7,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import Trivia.Trivia;
+import Trivia.Question;
 
 public class UITest extends JFrame implements ActionListener {
 
@@ -17,12 +19,14 @@ public class UITest extends JFrame implements ActionListener {
     private String number; // To store the selected number
     private Cave cave; // Instance of the Cave class
     private HexagonButton selectedButton; // To track the currently selected button
+    private Trivia trivia; // Instance of the Trivia class
 
     // Constructor to initialize the UI
     public UITest(Cave cave) {
         this.cave = cave;
+        this.trivia = new Trivia(); // Initialize the Trivia instance
         draw(); // Call the draw method to set up the UI
-        initilizePlayerPosition(9); // given the player position (int cell)
+        initilizePlayerPosition(cave.getPlayerCell()); // given the player position (int cell)
     }
 
     ///////////////////////
@@ -55,6 +59,9 @@ public class UITest extends JFrame implements ActionListener {
             }
         }
 
+        // Add action buttons on the right side in the middle
+        addRightSideButtons();
+
         setVisible(true); // Make the JFrame visible
     }
 
@@ -86,22 +93,23 @@ public class UITest extends JFrame implements ActionListener {
             }
         }
     }
+
     public void initilizePlayerPosition(int num){
         try {
-        Component[] components = getContentPane().getComponents(); // Get all components in the content pane
-        for (Component component : components) {
-            if (component instanceof HexagonButton) { // Check if the component is a HexagonButton
-                HexagonButton button = (HexagonButton) component;
-                if (button.getText().equals(String.valueOf(num))) { // Check if the button's text matches the number
-                    button.setBackground(Color.RED); // Highlight the button by setting its background color to green
-                } 
+            Component[] components = getContentPane().getComponents(); // Get all components in the content pane
+            for (Component component : components) {
+                if (component instanceof HexagonButton) { // Check if the component is a HexagonButton
+                    HexagonButton button = (HexagonButton) component;
+                    if (button.getText().equals(String.valueOf(num))) { // Check if the button's text matches the number
+                        button.setBackground(Color.RED); // Highlight the button by setting its background color to red
+                    } 
+                }
             }
-        }
 
-        ArrayList<Integer> nums = cave.getNeighbors(num); // Get the neighbors from the Cave instance
-        for(int i = 0; i < nums.size(); i++) {
-            highlightButton(nums.get(i)); // Highlight the neighboring buttons
-        }
+            ArrayList<Integer> nums = cave.getNeighbors(num); // Get the neighbors from the Cave instance
+            for (int i = 0; i < nums.size(); i++) {
+                highlightButton(nums.get(i)); // Highlight the neighboring buttons
+            }
 
         } catch (Exception e){
             System.out.println("I suck " + e);
@@ -124,7 +132,7 @@ public class UITest extends JFrame implements ActionListener {
             }
             button.setBackground(Color.RED); // Highlight the new button
             ArrayList<Integer> nums = cave.getNeighbors(num); // Get the neighbors from the Cave instance
-            for(int i = 0; i < nums.size(); i++) {
+            for (int i = 0; i < nums.size(); i++) {
                 highlightButton(nums.get(i)); // Highlight the neighboring buttons
             }
             selectedButton = button; // Update the selected button reference
@@ -142,6 +150,41 @@ public class UITest extends JFrame implements ActionListener {
         }
     }
 
+    // Method to add "Shoot Arrow" and "Get Gold" buttons on the right side in the middle
+    private void addRightSideButtons() {
+        int buttonWidth = 150;
+        int buttonHeight = 50;
+        int rightSideX = 1050;
+        int rightSideY = 350; 
+
+        JButton shootArrowButton = new JButton("Shoot Arrow");
+        shootArrowButton.setBounds(rightSideX, rightSideY, buttonWidth, buttonHeight);
+        shootArrowButton.addActionListener(e -> shootArrow());
+        add(shootArrowButton);
+
+        JButton getGoldButton = new JButton("Get Gold");
+        getGoldButton.setBounds(rightSideX, rightSideY + 70, buttonWidth, buttonHeight);
+        getGoldButton.addActionListener(e -> getGold());
+        add(getGoldButton);
+    }
+
+    private void shootArrow() {
+        // Implement the logic for shooting an arrow
+        JOptionPane.showMessageDialog(this, "Arrow shot!");
+    }
+
+    private void getGold() {
+        // Implement the logic for getting gold
+        Question question = trivia.getQuestion(); // Get a trivia question
+        String userAnswer = JOptionPane.showInputDialog(this, question.getQuestion()); // Prompt the user for an answer
+
+        // Check the answer
+        if (userAnswer != null && userAnswer.equalsIgnoreCase(question.getAnswer())) {
+            JOptionPane.showMessageDialog(this, "Correct!");
+        } else {
+            JOptionPane.showMessageDialog(this, "Wrong.");
+        }
+    }
 
     // Method to get the currently selected number
     public String getNumber() {

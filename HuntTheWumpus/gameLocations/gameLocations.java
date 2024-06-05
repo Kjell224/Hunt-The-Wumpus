@@ -126,6 +126,58 @@ public class gameLocations {
     } 
   }
 
+  /*  Preconditions
+  *  newPos has to be adjacent to currentPos
+  *  
+  * 
+  * 
+*/
+
+/*
+  * There are two situations where trivia is not needed:
+  * First situtation is when the player is moving to a null cell
+  * Second situtation is when the player is moving to a cell with a bat
+    * When this happens a method setRandomBatsLocation() is called 
+  */
+public void updateLocations(int currentPos, int newPos){
+    cells[currentPos - 1 ].setType("null");
+    cells[newPos - 1].setType("Player");
+    playerPos = newPos;
+    /* 
+    if(cells[newPos-1].getType().equals("Bats")){
+        if(cells[newPos-1].getCellNum() == batsPos[0]) setRandomBatsLocation(0);
+        else setRandomBatsLocation(1);
+    }
+    cells[currentPos - 1 ].setType("null");
+    cells[newPos - 1].setType("Player");
+    playerPos = newPos;
+    
+    else if(cells[newPos-1].getType().equals("Pit")){
+
+    }
+    else if(cells[newPos - 1].getType().equals("Wumpus")){
+
+    }
+    */
+
+}
+/*
+  * setRandomBatsLocation is a method that is private to the gameLocations class
+  * 
+  */
+public void setRandomBatsLocation(int batNum){
+    int rndBatCell = (int) (Math.random() * 30);
+    int rndPlayerCell = (int) (Math.random() * 30);
+    if(cells[rndPlayerCell].getType().equals("null") && (cells[rndBatCell].getType().equals("null") || rndBatCell + 1 == playerPos)){
+        cells[rndPlayerCell].setPlayer(true);
+        cells[rndBatCell].setType("Bat");
+        playerPos = rndPlayerCell + 1;
+        batsPos[batNum] = rndBatCell + 1;
+    }
+    else setRandomBatsLocation(batNum);
+
+}
+
   //* **** Getters & Setters **** *//
   public int[] getHazardsLocation(){ return hazardPos; }
 

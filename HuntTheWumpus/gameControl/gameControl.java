@@ -2,7 +2,6 @@ package gameControl;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-
 // Mateen and Eyouel 
 // February 12, 2024
 // Period 5
@@ -15,8 +14,6 @@ import Cave.Cave;
 import Player.Player;
 import UI.MainMenu;
 import UI.UITest;
-import UI.TriviaUI;
-import Trivia.Trivia;
 
 public class gameControl {
     ///////////////////////
@@ -27,9 +24,6 @@ public class gameControl {
     private Scanner scanner;
     private MainMenu mainmenu;
     private UITest uitest;
-    private TriviaUI triviaui;
-    private Trivia trivia;
-
 
  
     ///////////////////////
@@ -38,14 +32,11 @@ public class gameControl {
     
     public gameControl() throws FileNotFoundException {
             this.cave = new Cave();
-            this.trivia = new Trivia();
-            this.triviaui = new TriviaUI();
-            this.player = new Player();
-
             SwingUtilities.invokeLater(() -> { // Ensure the UI is created on the Event Dispatch Thread
-            this.mainmenu = new MainMenu(cave); // Create the main menu
+            this.mainmenu = new MainMenu(this.cave); // Create the main menu
             this.mainmenu.setVisible(true); // Make the main menu visible
         });
+
     }
 
     public Cave getCave(){

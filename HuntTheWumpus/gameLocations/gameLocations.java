@@ -48,10 +48,11 @@ public class gameLocations {
   // Properties & Fields
   //////////////////////
   private ArrayList<String> hints;
-  public int wumpusPos;
-  public int playerPos;
-  public int[] batsPos;
-  public int[] pitsPos;
+  private int wumpusPos;
+  private int playerPos;
+  private int[] batsPos;
+  private int[] pitsPos;
+  
 
 
   ///////////////////////
@@ -227,18 +228,26 @@ public void updatePlayerLocations(int currentPos, int newPos, Cave c){
     else setRandomBatsLocation(c, startingCellNum);
 }
 
-  //* **** Getters & Setters **** *//
-  public int[] getBatsLocation(){ return batsPos; }
+public void setRandomWumpusLocation(Cave c, int startingWumpCell){
+  int rnd = (int)(Math.random() * 3) + 2; // Random number from 2-4 - how many spaces the wumpus will move
+  int newPos = (rnd + startingWumpCell) % 30;
+  c.cellsArray[wumpusPos - 1].setWumpus(false);
+  c.cellsArray[newPos - 1].setWumpus(true);
+  wumpusPos = newPos;
+}
 
-  public int[] getPitsLocation(){ return pitsPos; }
+//* **** Getters & Setters **** *//
+public int[] getBatsLocation(){ return batsPos; }
 
-  public int getWumpusLocation(){ return wumpusPos; }
+public int[] getPitsLocation(){ return pitsPos; }
 
-  public void setWumpusLocation(int newLoc){ wumpusPos = newLoc; }
+public int getWumpusLocation(){ return wumpusPos; }
 
-  public int getPlayerLocation(){ return playerPos; }
+public void setWumpusLocation(int newLoc){ wumpusPos = newLoc; }
 
-  public void setPlayerLocation(int newLoc){ playerPos = newLoc; }
+public int getPlayerLocation(){ return playerPos; }
+
+public void setPlayerLocation(int newLoc){ playerPos = newLoc; }
 
       
 

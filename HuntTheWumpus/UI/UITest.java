@@ -117,7 +117,7 @@ public class UITest extends JFrame implements ActionListener {
     ArrayList<Integer> neighbors = cave.getNeighbors(num); // Get the neighbors from the Cave instance
     for (HexagonButton button : buttonMap.values()) {
         button.setEnabled(false); // Disable all buttons
-        button.setBackground(Color.WHITE); // Reset all buttons to white
+        button.setBackground(Color.DARK_GRAY); // Reset all buttons to white
     }
     buttonMap.get(num).setEnabled(true); // Enable the current button
     for (int neighbor : neighbors) {

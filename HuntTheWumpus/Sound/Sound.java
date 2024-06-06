@@ -28,6 +28,7 @@ public class Sound {
     // Methods
     //////////////////////
 
+    // This method plays the background sound of the entire game
     public static void BackgroundSound() {
         try {
             File backgroundFile = new File("HuntTheWumpus/Sound/SoundEffects/background.wav");

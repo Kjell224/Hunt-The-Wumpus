@@ -8,15 +8,18 @@ package Wumpus;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+import Cave.Cave;
+import Cave.Cell;
 
 public class ActiveWumpus {
     /////////////////
     // PROPERTIES
     /////////////////
     public int health = 1;
-    public int wumpusPos;
+    public Cell wumpusPos;
     public int turns;
     public int playerCorrect;
+    public Cave cave;
 
     /////////////////
     // CONSTRUCTOR(S)
@@ -28,12 +31,12 @@ public class ActiveWumpus {
     /////////////////
     // METHODS
     /////////////////
-    public int getLocation(){
-        return wumpusPos;
-    }
 
-    public int setLocation(int wumpusPos){
-        return this.wumpusPos = wumpusPos;
+    // This method gets the location of the wumpus
+    public Cell getLocation(){
+        wumpusPos = cave.getCell(cave.getWumpusCell());
+
+        return wumpusPos;
     }
 
 // Precondition: the String state must be "asleep" or "awake"

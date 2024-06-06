@@ -15,7 +15,7 @@ public class Player {
     ///////////////////////
     // Properties & Fields
     //////////////////////
-    public String name; // This variable is for the name of the Player
+    public String name; 
     public Cave cave;
     private boolean triviaAnswer;
     private int gold = 0;
@@ -38,6 +38,7 @@ public class Player {
     // Methods
     //////////////////////
 
+    // This method gets the player position
     public Cell getPlayerPos(){
         playerPos = cave.getCell(cave.getPlayerCell()); // cell
         return playerPos;
@@ -70,17 +71,19 @@ public class Player {
     }
 
 
+    // This method tracks how many turns the player has taken
     public int turnTracker(){
         return turns;
     }
 
+    // This method calculates the high score of the Player
     public int highScore(){
         score = 100 - turns + gold + (5 * arrows) + points;
 
         return score;
     }
 
-
+    // This method is for when the player attacks the wumpus
     public void attack(Cell c){
         arrows--;
     }
@@ -100,6 +103,7 @@ public class Player {
         }
     }
 
+    // This method is for when the player wins, it is give 50 points upon killing the wumpus
     public int win(){
         if (wumpushealth == 0){
             points += 50;

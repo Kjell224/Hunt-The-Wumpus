@@ -11,12 +11,20 @@ public class Question {
     //////////////////////
     private String index;
     private String question;
+    private String optionA;
+    private String optionB;
+    private String optionC;
+    private String optionD;
     private String answer;
 
 
-    public Question(String index, String question, String answer){
+    public Question(String index, String question, String optionA, String optionB, String optionC, String optionD, String answer){
         this.index = index;
         this.question = question;
+        this.optionA = optionA;
+        this.optionB = optionB;
+        this.optionC = optionC;
+        this.optionD = optionD;
         this.answer = answer;
     }
 
@@ -47,6 +55,11 @@ public class Question {
 
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+
+    public void printQuestion(){
+        System.out.println(this.question + " (" + this.optionA + "," + this.optionB + "," + this.optionC + "," + this.optionD + ")") ;
     }
 
     @Override

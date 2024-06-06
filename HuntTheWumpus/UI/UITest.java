@@ -221,6 +221,7 @@ public class UITest extends JFrame implements ActionListener {
             arrowCount--;
             arrowLabel.setText("Arrows: " + arrowCount);
             if (arrowCount == 0) {
+                new GameOver();
                 dispose();
             }
         };
@@ -237,16 +238,22 @@ public class UITest extends JFrame implements ActionListener {
 
     private void getArrow() {
         // Implement the logic for getting arrow
-        Question question = trivia.getQuestion(); // Get a trivia question
-        String userAnswer = JOptionPane.showInputDialog(this, question.getQuestion()); // Prompt the user for an answer
+        int right = 0;
+        for(int c = 0; c < 3; c++){
+            Question question = trivia.getQuestion(); // Get a trivia question
+            String userAnswer = JOptionPane.showInputDialog(this, question.getQuestion()); // Prompt the user for an answer
 
-        // Check the answer
-        if (userAnswer != null && userAnswer.equalsIgnoreCase(question.getAnswer())) {
-            JOptionPane.showMessageDialog(this, "Correct!");
-            arrowCount++; // Increment the arrow count
-            arrowLabel.setText("Arrow: " + arrowCount); // Update the arrow label
-        } else {
-            JOptionPane.showMessageDialog(this, "Wrong.");
+            // Check the answer
+            if (userAnswer != null && userAnswer.equalsIgnoreCase(question.getAnswer())) {
+                JOptionPane.showMessageDialog(this, "Correct!");
+                right++; // Increment the arrow count
+                if(right >= 2){
+                    arrowCount += 2;
+                    arrowLabel.setText("Arrow: " + arrowCount); // Update the arrow label
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Wrong.");
+            }
         }
     }
 

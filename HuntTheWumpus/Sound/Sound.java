@@ -28,10 +28,6 @@ public class Sound {
     // Methods
     //////////////////////
 
-
-
-
-
     public static void BackgroundSound() {
         try {
             File backgroundFile = new File("HuntTheWumpus/Sound/SoundEffects/background.wav");

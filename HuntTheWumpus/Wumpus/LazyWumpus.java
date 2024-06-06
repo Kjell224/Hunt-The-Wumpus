@@ -17,41 +17,67 @@ public class LazyWumpus {
     public int whealth = 1;
     public int phealth = 1;
     private int numQ;
-    public int[] wumpusPos;
+    public int wumpusPos;
     public int playerCorrect;
+    public String state;
 
     ///////////////////////
     // Constructor(s)
     //////////////////////
     public LazyWumpus(){
-        wumpusPos = new int[2];
+
     }
 
     ///////////////////////
     // Methods
     //////////////////////
 
-    public int[] getLocation(){
+    public int getLocation(){
         return wumpusPos;
+    }
+
+    public int setLocation(int wumpusPos){
+        return this.wumpusPos = wumpusPos;
     }
 
     // Precondition: the String state must be "asleep", "awake", or "moving"
     public String state(String state){
-        return state;
+        return this.state = state;
     }
-/* 
+
     public void miss(){
         if ((arrows == 2 && whealth != 0) | (arrows == 1 && whealth != 0) | (arrows == 0 && whealth != 0)){
-            wumpusPos[0] += 2 | wumpusPos[1] + 2;
+            wumpusPos += 2;
         }
     }
-*/
     public boolean loseTrivia(){
         if (playerCorrect == 3){
             return true;
         } else {
             return false;
         }
+    }
+
+    public int move(){
+        if (loseTrivia()){
+            wumpusPos += 1 | wumpusPos + 2 | wumpusPos + 3;
+        } else {
+            return wumpusPos;
+        }
+
+        return wumpusPos;
+    }
+
+    public int stateMove(){
+        if (state.equalsIgnoreCase("asleep")){
+            return wumpusPos;
+        } else if (state.equalsIgnoreCase("awake")){
+            return wumpusPos;
+        } else if (state.equalsIgnoreCase("moving")){
+            wumpusPos++;
+        }
+
+        return wumpusPos;
     }
 
     public boolean WumpusWins(){

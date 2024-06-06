@@ -23,9 +23,7 @@ public class gameControl {
     private Cave cave;
     private Scanner scanner;
     private MainMenu mainmenu;
-    private UITest uitest;
 
- 
     ///////////////////////
     // Constructor(s)
     //////////////////////
@@ -45,10 +43,6 @@ public class gameControl {
 
     public Player getPlayer(){
         return this.player;
-    }
-
-    public UITest getUITest(){
-        return this.uitest;
     }
 
 

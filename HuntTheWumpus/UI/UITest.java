@@ -23,15 +23,15 @@ public class UITest extends JFrame implements ActionListener {
     private Trivia trivia; // Instance of the Trivia class
     private int goldCount; // To store the player's gold count
     private JLabel goldLabel; // Label to display the gold count
-    private int arrowCount;
-    private JLabel arrowLabel;
+    private int arrowCount; // To store the player's arrow count
+    private JLabel arrowLabel; // Label to display the arrow count
 
     // Constructor to initialize the UI
     public UITest(Cave cave) {
         this.cave = cave;
         this.trivia = new Trivia(); // Initialize the Trivia instance
         this.goldCount = 0; // Initialize the gold count
-        this.arrowCount = 0;
+        this.arrowCount = 3; // Initialize the arrow count
         draw(); // Call the draw method to set up the UI
         initilizePlayerPosition(cave.getPlayerCell()); // given the player position (int cell)
     }
@@ -74,8 +74,10 @@ public class UITest extends JFrame implements ActionListener {
         goldLabel.setBounds(1050, 280, 150, 50);
         goldLabel.setFont(new Font("Arial", Font.BOLD, 20));
         add(goldLabel);
-        arrowLabel = new JLabel("Arrow: 0");
-        arrowLabel.setBounds(1050, 300, 150, 50);
+
+        // Add the arrow label to display the current arrow count
+        arrowLabel = new JLabel("Arrows: 3");
+        arrowLabel.setBounds(1050, 320, 150, 50);
         arrowLabel.setFont(new Font("Arial", Font.BOLD, 20));
         add(arrowLabel);
 
@@ -167,7 +169,7 @@ public class UITest extends JFrame implements ActionListener {
         }
     }
 
-    // Method to add "Shoot Arrow" and "Get Gold" buttons on the right side in the middle
+    // Method to add "Shoot Arrow" and "Get Arrow" buttons on the right side in the middle
     private void addRightSideButtons() {
         int buttonWidth = 150;
         int buttonHeight = 50;
@@ -179,27 +181,70 @@ public class UITest extends JFrame implements ActionListener {
         shootArrowButton.addActionListener(e -> shootArrow());
         add(shootArrowButton);
 
-        JButton getGoldButton = new JButton("Get Gold");
-        getGoldButton.setBounds(rightSideX, rightSideY + 70, buttonWidth, buttonHeight);
-        getGoldButton.addActionListener(e -> getGold());
-        add(getGoldButton);
+        JButton getArrowButton = new JButton("Get Arrow");
+        getArrowButton.setBounds(rightSideX, rightSideY + 70, buttonWidth, buttonHeight);
+        getArrowButton.addActionListener(e -> getArrow());
+        add(getArrowButton);
     }
 
     private void shootArrow() {
-        // Implement the logic for shooting an arrow
-        JOptionPane.showMessageDialog(this, "Arrow shot!");
+        // Define arrow buttons with Unicode arrow symbols
+        JButton northButton = new JButton("\u2191"); // Up arrow
+        JButton northEastButton = new JButton("\u2197"); // Up-right arrow
+        JButton southEastButton = new JButton("\u2198"); // Down-right arrow
+        JButton southButton = new JButton("\u2193"); // Down arrow
+        JButton southWestButton = new JButton("\u2199"); // Down-left arrow
+        JButton northWestButton = new JButton("\u2196"); // Up-left arrow
+
+        // Set up the direction panel
+        JPanel directionPanel = new JPanel();
+        directionPanel.setLayout(new GridLayout(2, 3));
+        directionPanel.add(northWestButton);
+        directionPanel.add(northButton);
+        directionPanel.add(northEastButton);
+        directionPanel.add(southWestButton);
+        directionPanel.add(southButton);
+        directionPanel.add(southEastButton);
+
+        // Create a dialog to display the direction panel
+        JDialog dialog = new JDialog(this, "Select Direction", true);
+        dialog.setLayout(new BorderLayout());
+        dialog.add(directionPanel, BorderLayout.CENTER);
+        dialog.setSize(300, 150);
+        dialog.setLocationRelativeTo(this);
+
+        // Add action listeners to the buttons
+        ActionListener arrowListener = e -> {
+            dialog.dispose(); // Close the dialog
+            JButton source = (JButton) e.getSource();
+            JOptionPane.showMessageDialog(this, "Arrow shot " + source.getText() + "!");
+            arrowCount--;
+            arrowLabel.setText("Arrows: " + arrowCount);
+            if (arrowCount == 0) {
+                dispose();
+            }
+        };
+
+        northButton.addActionListener(arrowListener);
+        northEastButton.addActionListener(arrowListener);
+        southEastButton.addActionListener(arrowListener);
+        southButton.addActionListener(arrowListener);
+        southWestButton.addActionListener(arrowListener);
+        northWestButton.addActionListener(arrowListener);
+
+        dialog.setVisible(true);
     }
 
-    private void getGold() {
-        // Implement the logic for getting gold
+    private void getArrow() {
+        // Implement the logic for getting arrow
         Question question = trivia.getQuestion(); // Get a trivia question
         String userAnswer = JOptionPane.showInputDialog(this, question.getQuestion()); // Prompt the user for an answer
 
         // Check the answer
         if (userAnswer != null && userAnswer.equalsIgnoreCase(question.getAnswer())) {
-            goldCount++; // Increase the gold count
-            goldLabel.setText("Gold: " + goldCount); // Update the gold label
             JOptionPane.showMessageDialog(this, "Correct!");
+            arrowCount++; // Increment the arrow count
+            arrowLabel.setText("Arrow: " + arrowCount); // Update the arrow label
         } else {
             JOptionPane.showMessageDialog(this, "Wrong.");
         }

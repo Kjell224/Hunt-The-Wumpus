@@ -9,12 +9,14 @@ package Player;
 import Cave.Cell;
 import java.util.Scanner;
 import java.util.Random;
+import Cave.Cave;
 
 public class Player {
     ///////////////////////
     // Properties & Fields
     //////////////////////
-    public String name;
+    public String name; // This variable is for the name of the Player
+    public Cave cave;
     private boolean triviaAnswer;
     private int gold = 0;
     public int health = 1;
@@ -36,11 +38,8 @@ public class Player {
     // Methods
     //////////////////////
 
-    public int setPlayerPos(int playerPos){
-        return this.playerPos = playerPos;
-    }
-
     public int getPlayerPos(){
+        cave.getPlayerCell();
         return playerPos;
     }
 
@@ -54,11 +53,6 @@ public class Player {
         s.close();
 
         return name;
-    }
-
-    // This method makes the player move
-    public Cell move(Cell c){
-        return c;
     }
 
     // This method gives gold to the player
@@ -75,29 +69,6 @@ public class Player {
         }
     }
 
-    // This method allows the player to choose which spot they would like to move to
-    public void chooseMove(){
-        Scanner s = new Scanner(System.in);
-        System.out.println("Where would you like to move? Up, Down, Left, or Right? or Would you like to Shoot?");
-        choice = s.nextLine();
-        if (choice.substring(0,1).equalsIgnoreCase("R")){
-            playerPos++;
-        } else if (choice.substring(0,1).equalsIgnoreCase("L")){
-            playerPos--;
-        } else if (choice.substring(0,1).equalsIgnoreCase("U")){
-            playerPos++;
-        } else if (choice.substring(0,1).equalsIgnoreCase("D")){
-            playerPos--;
-        } else if(choice.substring(0,1).equalsIgnoreCase("S")){    
-            arrows--;
-        }else {
-            System.out.println();
-            System.out.println("Sorry you did not enter one of the following options. Please try again.");
-            System.out.println();
-            turns++;
-            chooseMove();
-        }
-    }
 
     public int turnTracker(){
         return turns;

@@ -22,7 +22,7 @@ public class Player {
     public int health = 1;
     public String choice;
     public int arrows = 3;
-    public int playerPos;
+    public Cell playerPos;
     public int turns = 0;
     public int score;
     public int points;
@@ -38,8 +38,8 @@ public class Player {
     // Methods
     //////////////////////
 
-    public int getPlayerPos(){
-        cave.getPlayerCell();
+    public Cell getPlayerPos(){
+        playerPos = cave.getCell(cave.getPlayerCell()); // cell
         return playerPos;
     }
 

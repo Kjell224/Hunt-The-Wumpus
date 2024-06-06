@@ -69,21 +69,13 @@ public class LazyWumpus {
         return wumpusPos;
     }
 
-    public int turnMove(){
-        while (turn < 0 && whealth < 0){
-            wumpusPos++;
-        }
-
-        return wumpusPos;
-    }
-
     public int stateMove(){
         if (state.equalsIgnoreCase("asleep")){
             return wumpusPos;
         } else if (state.equalsIgnoreCase("awake")){
             return wumpusPos;
         } else if (state.equalsIgnoreCase("moving")){
-            turnMove();
+            wumpusPos++;
         }
 
         return wumpusPos;

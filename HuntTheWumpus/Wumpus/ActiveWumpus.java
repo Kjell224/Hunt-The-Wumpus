@@ -41,7 +41,7 @@ public class ActiveWumpus {
     }
 
     public int turnMove(){
-        when (turns += 5 | turns += 6 | turns += 7 | turns += 8 | turns += 9 | turns += 10 ){
+        if (turns % 5 == 0 | turns % 6 == 0 | turns % 7 == 0 | turns % 8 == 0 | turns % 9 == 0 | turns % 10 == 0){
             wumpusPos++;
         }
 
@@ -49,8 +49,9 @@ public class ActiveWumpus {
     }
 
     public int teleport(){
-        when (turn++){
-            
+        
+        if (turns % 1 == 0){
+
         }
     }
 }

@@ -101,7 +101,7 @@ public class Cave {
   }
 
   public int getPlayerCell(){
-    for(int i = 1; i <= cellsArray.length; i++){
+    for(int i = 0; i < cellsArray.length; i++){
       if(getCell(i).getPlayer()){
         return getCell(i).getCellNum();
       }

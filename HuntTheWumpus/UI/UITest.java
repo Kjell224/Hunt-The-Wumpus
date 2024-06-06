@@ -2,12 +2,12 @@ package UI;
 
 import javax.swing.*;
 import Cave.Cave;
-import Player.Player;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import Trivia.Trivia;
 import Trivia.Question;
 
@@ -25,6 +25,7 @@ public class UITest extends JFrame implements ActionListener {
     private JLabel goldLabel; // Label to display the gold count
     private int arrowCount; // To store the player's arrow count
     private JLabel arrowLabel; // Label to display the arrow count
+    private Map<Integer, HexagonButton> buttonMap; // Map to store hexagon buttons
 
     // Constructor to initialize the UI
     public UITest(Cave cave) {
@@ -32,8 +33,9 @@ public class UITest extends JFrame implements ActionListener {
         this.trivia = new Trivia(); // Initialize the Trivia instance
         this.goldCount = 0; // Initialize the gold count
         this.arrowCount = 3; // Initialize the arrow count
+        this.buttonMap = new HashMap<>(); // Initialize the button map
         draw(); // Call the draw method to set up the UI
-        initilizePlayerPosition(cave.getPlayerCell()); // given the player position (int cell)
+        initializePlayerPosition(cave.getPlayerCell()); // given the player position (int cell)
     }
 
     ///////////////////////
@@ -44,9 +46,9 @@ public class UITest extends JFrame implements ActionListener {
     public void draw() {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Close the frame when the close button is clicked
         setLayout(null); // Use null layout for absolute positioning
-        this.getContentPane().setBackground(Color.LIGHT_GRAY); // Set background color
+        this.getContentPane().setBackground(Color.BLACK); // Set background color
 
-        setSize(8000, 8000); // Set the size of the JFrame
+        setSize(800, 800); // Set the size of the JFrame
 
         // Define a pattern for the hexagon buttons
         int[][] pattern = {
@@ -97,41 +99,43 @@ public class UITest extends JFrame implements ActionListener {
         button.setBounds(posX, posY, HEX_WIDTH, HEX_HEIGHT); // Set the button's bounds
         button.setBackground(Color.WHITE); // Set the button's background color
         button.addActionListener(this); // Add the action listener to handle button clicks
+        buttonMap.put(number, button); // Store the button in the map
         add(button); // Add the button to the JFrame
     }
 
     // Method to highlight a button based on its number
     public void highlightButton(int number) {
-        Component[] components = getContentPane().getComponents(); // Get all components in the content pane
-        for (Component component : components) {
-            if (component instanceof HexagonButton) { // Check if the component is a HexagonButton
-                HexagonButton button = (HexagonButton) component;
-                if (button.getText().equals(String.valueOf(number))) { // Check if the button's text matches the number
-                    button.setBackground(Color.GREEN); // Highlight the button by setting its background color to green
-                } 
-            }
+        HexagonButton button = buttonMap.get(number);
+        if (button != null) {
+            button.setBackground(Color.GREEN); // Highlight the button by setting its background color to green
+            button.setEnabled(true); // Enable the button
         }
     }
 
-    public void initilizePlayerPosition(int num){
+  // Method to enable only the neighboring buttons
+  private void OnlyNeighbors(int num) {
+    ArrayList<Integer> neighbors = cave.getNeighbors(num); // Get the neighbors from the Cave instance
+    for (HexagonButton button : buttonMap.values()) {
+        button.setEnabled(false); // Disable all buttons
+        button.setBackground(Color.WHITE); // Reset all buttons to white
+    }
+    buttonMap.get(num).setEnabled(true); // Enable the current button
+    for (int neighbor : neighbors) {
+        highlightButton(neighbor); // Highlight and enable the neighboring buttons
+    }
+}
+
+
+    public void initializePlayerPosition(int num) {
         try {
-            Component[] components = getContentPane().getComponents(); // Get all components in the content pane
-            for (Component component : components) {
-                if (component instanceof HexagonButton) { // Check if the component is a HexagonButton
-                    HexagonButton button = (HexagonButton) component;
-                    if (button.getText().equals(String.valueOf(num))) { // Check if the button's text matches the number
-                        button.setBackground(Color.RED); // Highlight the button by setting its background color to red
-                    } 
-                }
+            HexagonButton button = buttonMap.get(num);
+            if (button != null) {
+                button.setBackground(Color.RED); // Highlight the button by setting its background color to red
+                OnlyNeighbors(num); // Enable only the neighboring buttons
+                //button.setText("number");
             }
-
-            ArrayList<Integer> nums = cave.getNeighbors(num); // Get the neighbors from the Cave instance
-            for (int i = 0; i < nums.size(); i++) {
-                highlightButton(nums.get(i)); // Highlight the neighboring buttons
-            }
-
-        } catch (Exception e){
-            System.out.println("I suck " + e);
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
         }
     }
 
@@ -144,28 +148,15 @@ public class UITest extends JFrame implements ActionListener {
             int num = Integer.parseInt(number); // Parse the number
             System.out.println(number); // Print the number to the console
 
-            // Update the button colors
-            resetAllButtonsToWhite();
             if (selectedButton != null) {
                 selectedButton.setBackground(Color.WHITE); // Reset the previous button color
             }
             button.setBackground(Color.RED); // Highlight the new button
-            ArrayList<Integer> nums = cave.getNeighbors(num); // Get the neighbors from the Cave instance
-            for (int i = 0; i < nums.size(); i++) {
-                highlightButton(nums.get(i)); // Highlight the neighboring buttons
-            }
             selectedButton = button; // Update the selected button reference
+            OnlyNeighbors(num); // Enable only the neighboring buttons
         } catch (Exception ex) {
             // Handle other potential exceptions
             JOptionPane.showMessageDialog(this, "An error occurred: " + ex.getMessage());
-        }
-    }
-    
-    private void resetAllButtonsToWhite() {
-        for (Component component : getContentPane().getComponents()) {
-            if (component instanceof HexagonButton) {
-                ((HexagonButton) component).setBackground(Color.WHITE); // Set all buttons to white
-            }
         }
     }
 
@@ -249,7 +240,7 @@ public class UITest extends JFrame implements ActionListener {
                 right++; // Increment the arrow count
                 if(right >= 2){
                     arrowCount += 2;
-                    arrowLabel.setText("Arrow: " + arrowCount); // Update the arrow label
+                    arrowLabel.setText("Arrows: " + arrowCount); // Update the arrow label
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Wrong.");

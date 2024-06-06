@@ -131,11 +131,8 @@ public class UITest extends JFrame implements ActionListener {
             HexagonButton button = buttonMap.get(num);
             if (button != null) {
                 button.setBackground(Color.RED); // Highlight the button by setting its background color to red
-<<<<<<< HEAD
-=======
                 OnlyNeighbors(num); // Enable only the neighboring buttons
                 //button.setForeground(Color.GREEN);
->>>>>>> 19b64ea632739770a3016cedbe826ff33d0aa721
                 button.setText("웃");
             }
         } catch (Exception e) {

@@ -45,7 +45,8 @@ public class ActiveWumpus {
     }
 
     public int turnMove(){
-        if (turns % 5 == 0 | turns % 6 == 0 | turns % 7 == 0 | turns % 8 == 0 | turns % 9 == 0 | turns % 10 == 0){
+        int rnd = (int) Math.random() * 6 + 5;
+        if (turns % rnd == 0){
             wumpusPos++;
         }
 

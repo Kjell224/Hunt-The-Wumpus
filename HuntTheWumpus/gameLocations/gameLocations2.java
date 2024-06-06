@@ -161,22 +161,31 @@ public class gameLocations2 {
             // Update gL variable playerPos to match new location of player
             playerPos = rndPlayerCell + 1;
             
-            if(c.cellsArray[batsPos[0] - 1].getCellNum == startingCellNum){
-                c.cellsArray[batPos[0] - 1].setType("null");
+            if(c.cellsArray[batsPos[0] - 1].getCellNum() == startingCellNum){
+                c.cellsArray[batsPos[0] - 1].setType("null");
                 batsPos[0] = rndBatCell + 1;
             }
             else{
-                c.cellsArray[batPos[1] - 1].setType("null");
+                c.cellsArray[batsPos[1] - 1].setType("null");
                 batsPos[1] = rndBatCell + 1;
             }
         }
         // if the random numbers do not fit the requirements
             // Then run the method again and get new random numbers that have a possibility of working.
-        else setRandomBatsLocation();
+        else setRandomBatsLocation(c, startingCellNum);
     }
 
-    public void setRandomWumpusLocaton(){
-        int rnd = Math.random()
+    public void setRandomWumpusLocaton(Cave c, int startingWumpCell){
+        int rnd = (int)(Math.random() * 3) + 2;
+        int newPos = 0;
+        if(rnd + startingWumpCell > 30)
+            newPos = (rnd + startingWumpCell) % 30;
+        else
+            newPos = rnd + startingWumpCell;
+        c.cellsArray[wumpusPos - 1].setWumpus(false);
+        c.cellsArray[newPos - 1].setWumpus(true);
+        wumpusPos = newPos;
+        
     }
 
 

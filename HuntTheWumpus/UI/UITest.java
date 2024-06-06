@@ -2,12 +2,12 @@ package UI;
 
 import javax.swing.*;
 import Cave.Cave;
-import Player.Player;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import Trivia.Trivia;
 import Trivia.Question;
 
@@ -23,17 +23,19 @@ public class UITest extends JFrame implements ActionListener {
     private Trivia trivia; // Instance of the Trivia class
     private int goldCount; // To store the player's gold count
     private JLabel goldLabel; // Label to display the gold count
-    private int arrowCount;
-    private JLabel arrowLabel;
+    private int arrowCount; // To store the player's arrow count
+    private JLabel arrowLabel; // Label to display the arrow count
+    private Map<Integer, HexagonButton> buttonMap; // Map to store hexagon buttons
 
     // Constructor to initialize the UI
     public UITest(Cave cave) {
         this.cave = cave;
         this.trivia = new Trivia(); // Initialize the Trivia instance
         this.goldCount = 0; // Initialize the gold count
-        this.arrowCount = 0;
+        this.arrowCount = 3; // Initialize the arrow count
+        this.buttonMap = new HashMap<>(); // Initialize the button map
         draw(); // Call the draw method to set up the UI
-        initilizePlayerPosition(cave.getPlayerCell()); // given the player position (int cell)
+        initializePlayerPosition(cave.getPlayerCell()); // given the player position (int cell)
     }
 
     ///////////////////////
@@ -44,9 +46,9 @@ public class UITest extends JFrame implements ActionListener {
     public void draw() {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Close the frame when the close button is clicked
         setLayout(null); // Use null layout for absolute positioning
-        this.getContentPane().setBackground(Color.LIGHT_GRAY); // Set background color
+        this.getContentPane().setBackground(Color.BLACK); // Set background color
 
-        setSize(8000, 8000); // Set the size of the JFrame
+        setSize(800, 800); // Set the size of the JFrame
 
         // Define a pattern for the hexagon buttons
         int[][] pattern = {
@@ -74,8 +76,10 @@ public class UITest extends JFrame implements ActionListener {
         goldLabel.setBounds(1050, 280, 150, 50);
         goldLabel.setFont(new Font("Arial", Font.BOLD, 20));
         add(goldLabel);
-        arrowLabel = new JLabel("Arrow: 0");
-        arrowLabel.setBounds(1050, 300, 150, 50);
+
+        // Add the arrow label to display the current arrow count
+        arrowLabel = new JLabel("Arrows: 3");
+        arrowLabel.setBounds(1050, 320, 150, 50);
         arrowLabel.setFont(new Font("Arial", Font.BOLD, 20));
         add(arrowLabel);
 
@@ -95,41 +99,44 @@ public class UITest extends JFrame implements ActionListener {
         button.setBounds(posX, posY, HEX_WIDTH, HEX_HEIGHT); // Set the button's bounds
         button.setBackground(Color.WHITE); // Set the button's background color
         button.addActionListener(this); // Add the action listener to handle button clicks
+        buttonMap.put(number, button); // Store the button in the map
         add(button); // Add the button to the JFrame
     }
 
     // Method to highlight a button based on its number
     public void highlightButton(int number) {
-        Component[] components = getContentPane().getComponents(); // Get all components in the content pane
-        for (Component component : components) {
-            if (component instanceof HexagonButton) { // Check if the component is a HexagonButton
-                HexagonButton button = (HexagonButton) component;
-                if (button.getText().equals(String.valueOf(number))) { // Check if the button's text matches the number
-                    button.setBackground(Color.GREEN); // Highlight the button by setting its background color to green
-                } 
-            }
+        HexagonButton button = buttonMap.get(number);
+        if (button != null) {
+            button.setBackground(Color.GREEN); // Highlight the button by setting its background color to green
+            button.setEnabled(true); // Enable the button
         }
     }
 
-    public void initilizePlayerPosition(int num){
+  // Method to enable only the neighboring buttons
+  private void OnlyNeighbors(int num) {
+    ArrayList<Integer> neighbors = cave.getNeighbors(num); // Get the neighbors from the Cave instance
+    for (HexagonButton button : buttonMap.values()) {
+        button.setEnabled(false); // Disable all buttons
+        button.setBackground(Color.DARK_GRAY); // Reset all buttons to white
+    }
+    buttonMap.get(num).setEnabled(true); // Enable the current button
+    for (int neighbor : neighbors) {
+        highlightButton(neighbor); // Highlight and enable the neighboring buttons
+    }
+}
+
+
+    public void initializePlayerPosition(int num) {
         try {
-            Component[] components = getContentPane().getComponents(); // Get all components in the content pane
-            for (Component component : components) {
-                if (component instanceof HexagonButton) { // Check if the component is a HexagonButton
-                    HexagonButton button = (HexagonButton) component;
-                    if (button.getText().equals(String.valueOf(num))) { // Check if the button's text matches the number
-                        button.setBackground(Color.RED); // Highlight the button by setting its background color to red
-                    } 
-                }
+            HexagonButton button = buttonMap.get(num);
+            if (button != null) {
+                button.setBackground(Color.RED); // Highlight the button by setting its background color to red
+                OnlyNeighbors(num); // Enable only the neighboring buttons
+                //button.setForeground(Color.GREEN);
+                button.setText("웃");
             }
-
-            ArrayList<Integer> nums = cave.getNeighbors(num); // Get the neighbors from the Cave instance
-            for (int i = 0; i < nums.size(); i++) {
-                highlightButton(nums.get(i)); // Highlight the neighboring buttons
-            }
-
-        } catch (Exception e){
-            System.out.println("I suck " + e);
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
         }
     }
 
@@ -142,32 +149,19 @@ public class UITest extends JFrame implements ActionListener {
             int num = Integer.parseInt(number); // Parse the number
             System.out.println(number); // Print the number to the console
 
-            // Update the button colors
-            resetAllButtonsToWhite();
             if (selectedButton != null) {
                 selectedButton.setBackground(Color.WHITE); // Reset the previous button color
             }
             button.setBackground(Color.RED); // Highlight the new button
-            ArrayList<Integer> nums = cave.getNeighbors(num); // Get the neighbors from the Cave instance
-            for (int i = 0; i < nums.size(); i++) {
-                highlightButton(nums.get(i)); // Highlight the neighboring buttons
-            }
             selectedButton = button; // Update the selected button reference
+            OnlyNeighbors(num); // Enable only the neighboring buttons
         } catch (Exception ex) {
             // Handle other potential exceptions
             JOptionPane.showMessageDialog(this, "An error occurred: " + ex.getMessage());
         }
     }
-    
-    private void resetAllButtonsToWhite() {
-        for (Component component : getContentPane().getComponents()) {
-            if (component instanceof HexagonButton) {
-                ((HexagonButton) component).setBackground(Color.WHITE); // Set all buttons to white
-            }
-        }
-    }
 
-    // Method to add "Shoot Arrow" and "Get Gold" buttons on the right side in the middle
+    // Method to add "Shoot Arrow" and "Get Arrow" buttons on the right side in the middle
     private void addRightSideButtons() {
         int buttonWidth = 150;
         int buttonHeight = 50;
@@ -179,29 +173,79 @@ public class UITest extends JFrame implements ActionListener {
         shootArrowButton.addActionListener(e -> shootArrow());
         add(shootArrowButton);
 
-        JButton getGoldButton = new JButton("Get Gold");
-        getGoldButton.setBounds(rightSideX, rightSideY + 70, buttonWidth, buttonHeight);
-        getGoldButton.addActionListener(e -> getGold());
-        add(getGoldButton);
+        JButton getArrowButton = new JButton("Get Arrow");
+        getArrowButton.setBounds(rightSideX, rightSideY + 70, buttonWidth, buttonHeight);
+        getArrowButton.addActionListener(e -> getArrow());
+        add(getArrowButton);
     }
 
     private void shootArrow() {
-        // Implement the logic for shooting an arrow
-        JOptionPane.showMessageDialog(this, "Arrow shot!");
+        // Define arrow buttons with Unicode arrow symbols
+        JButton northButton = new JButton("\u2191"); // Up arrow
+        JButton northEastButton = new JButton("\u2197"); // Up-right arrow
+        JButton southEastButton = new JButton("\u2198"); // Down-right arrow
+        JButton southButton = new JButton("\u2193"); // Down arrow
+        JButton southWestButton = new JButton("\u2199"); // Down-left arrow
+        JButton northWestButton = new JButton("\u2196"); // Up-left arrow
+
+        // Set up the direction panel
+        JPanel directionPanel = new JPanel();
+        directionPanel.setLayout(new GridLayout(2, 3));
+        directionPanel.add(northWestButton);
+        directionPanel.add(northButton);
+        directionPanel.add(northEastButton);
+        directionPanel.add(southWestButton);
+        directionPanel.add(southButton);
+        directionPanel.add(southEastButton);
+
+        // Create a dialog to display the direction panel
+        JDialog dialog = new JDialog(this, "Select Direction", true);
+        dialog.setLayout(new BorderLayout());
+        dialog.add(directionPanel, BorderLayout.CENTER);
+        dialog.setSize(300, 150);
+        dialog.setLocationRelativeTo(this);
+
+        // Add action listeners to the buttons
+        ActionListener arrowListener = e -> {
+            dialog.dispose(); // Close the dialog
+            JButton source = (JButton) e.getSource();
+            JOptionPane.showMessageDialog(this, "Arrow shot " + source.getText() + "!");
+            arrowCount--;
+            arrowLabel.setText("Arrows: " + arrowCount);
+            if (arrowCount == 0) {
+                new GameOver();
+                dispose();
+            }
+        };
+
+        northButton.addActionListener(arrowListener);
+        northEastButton.addActionListener(arrowListener);
+        southEastButton.addActionListener(arrowListener);
+        southButton.addActionListener(arrowListener);
+        southWestButton.addActionListener(arrowListener);
+        northWestButton.addActionListener(arrowListener);
+
+        dialog.setVisible(true);
     }
 
-    private void getGold() {
-        // Implement the logic for getting gold
-        Question question = trivia.getQuestion(); // Get a trivia question
-        String userAnswer = JOptionPane.showInputDialog(this, question.getQuestion()); // Prompt the user for an answer
+    private void getArrow() {
+        // Implement the logic for getting arrow
+        int right = 0;
+        for(int c = 0; c < 3; c++){
+            Question question = trivia.getQuestion(); // Get a trivia question
+            String userAnswer = JOptionPane.showInputDialog(this, question.getQuestion()); // Prompt the user for an answer
 
-        // Check the answer
-        if (userAnswer != null && userAnswer.equalsIgnoreCase(question.getAnswer())) {
-            goldCount++; // Increase the gold count
-            goldLabel.setText("Gold: " + goldCount); // Update the gold label
-            JOptionPane.showMessageDialog(this, "Correct!");
-        } else {
-            JOptionPane.showMessageDialog(this, "Wrong.");
+            // Check the answer
+            if (userAnswer != null && userAnswer.equalsIgnoreCase(question.getAnswer())) {
+                JOptionPane.showMessageDialog(this, "Correct!");
+                right++; // Increment the arrow count
+                if(right >= 2){
+                    arrowCount += 2;
+                    arrowLabel.setText("Arrows: " + arrowCount); // Update the arrow label
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Wrong.");
+            }
         }
     }
 

@@ -63,12 +63,12 @@ public class gameLocations2 {
     private ArrayList<String> hints;
 
     /** Positions **/
-    public     int   wumpusPos;
-    public     int playerPos;
-    public     int[] hazardPos;
-    public     int[] batsPos;
-    public     int[] pitsPos;
-    private    Cell[] cells = new Cell[30];
+    private     int   wumpusPos;
+    private     int playerPos;
+    private     int[] hazardPos;
+    private     int[] batsPos;
+    private     int[] pitsPos;
+    public      Cell[] cells = new Cell[30];
     ///////////////////////
     // Constructor(s)
     ///////////////////////
@@ -80,45 +80,49 @@ public class gameLocations2 {
         batsPos   = new int[2];
         pitsPos   = new int[2];
         initializeCave();
-        initialize();
+        initializeHazards();
     }
 
     ///////////////////////
     // Methods
     //////////////////////
-    private void initializeCave() throws FileNotFoundException{
+
+    // done
+    /* 
+    private void initializeCave(Cave c) throws FileNotFoundException{
         File file = new File("../HuntTheWumpus/Cave/WH1.csv");
         Scanner readFile = new Scanner(file);
         String[] data = readFile.nextLine().split(",");
         for(int i = 0; i < 30; i++){
-            cells[i] = new Cell(data[i]);
+            c.cellsArray[i] = new Cell(data[i]);
         }
         readFile.close();
     }
-
-    private void initialize() {
-        for(int r = 0; r < 30; r++){
-            // Checks wumpus
-            if(cells[r].getWumpus())
-                wumpusPos = cells[r].getCellNum();
-            // Checks bats
-            else if(cells[r].getType().equals("Bats")){
-                if(batsPos[0] == 0)
-                    batsPos[0] = cells[r].getCellNum();
+    */
+    // done
+    private void initializeTypes(Cave c) { 
+        for(int i = 0; i < 30; i++){
+            // Checks wumpus 
+            if(c.cellsArray[i].getWumpus())
+                wumpusPos = c.cellsArray[i].getCellNum();
+            // Checks bats 
+            else if(c.cellsArray[i].getType().equals("Bats")){
+                if(batsPos[0] == 0) 
+                    batsPos[0] = c.cellsArray[i].getCellNum();
                 else 
-                    batsPos[1] = cells[r].getCellNum();
+                    batsPos[1] = c.cellsArray[i].getCellNum();
             }
             // Checks pit
-            else if(cells[r].getType().equals("Pit")){
+            else if(c.cellsArray[i].getType().equals("Pit")){
                 if(pitsPos[0] == 0)
-                    pitsPos[0] = cells[r].getCellNum();
+                    pitsPos[0] = c.cellsArray[i].getCellNum();
                 else 
-                    pitsPos[1] = cells[r].getCellNum();
+                    pitsPos[1] = c.cellsArray[i].getCellNum();
             }
             //Checks player
-            else if(cells[r].getPlayer())
-                playerPos = cells[r].getCellNum();
-        
+            else if(c.cellsArray[i].getPlayer())
+                playerPos = c.cellsArray[i].getCellNum();
+
         }
     }
     // so what should we do?
@@ -135,43 +139,44 @@ public class gameLocations2 {
      * Second situtation is when the player is moving to a cell with a bat
         * When this happens a method setRandomBatsLocation() is called 
      */
-    public void updateLocations(int currentPos, int newPos){
-        cells[currentPos - 1 ].setType("null");
-        cells[newPos - 1].setType("Player");
-        playerPos = newPos;
-        /* 
-        if(cells[newPos-1].getType().equals("Bats")){
-            if(cells[newPos-1].getCellNum() == batsPos[0]) setRandomBatsLocation(0);
-            else setRandomBatsLocation(1);
-        }
-        cells[currentPos - 1 ].setType("null");
-        cells[newPos - 1].setType("Player");
-        playerPos = newPos;
-        
-        else if(cells[newPos-1].getType().equals("Pit")){
-
-        }
-        else if(cells[newPos - 1].getType().equals("Wumpus")){
-
-        }
-       */
-    
-    }
+   
     /*
      * setRandomBatsLocation is a method that is private to the gameLocations class
      * 
      */
-    public void setRandomBatsLocation(int batNum){
-        int rndBatCell = (int) (Math.random() * 30);
-        int rndPlayerCell = (int) (Math.random() * 30);
-        if(cells[rndPlayerCell].getType().equals("null") && (cells[rndBatCell].getType().equals("null") || rndBatCell + 1 == playerPos)){
-            cells[rndPlayerCell].setPlayer(true);
-            cells[rndBatCell].setType("Bat");
+    // done 
+    // GameControl use this when the player enters a room with a bat in it
+    private void setRandomBatsLocation(Cave c, int startingCellNum){
+        // Both are random locations 
+        int rndBatCell = (int) (Math.random() * 30); // (0-30) not a mistake
+        int rndPlayerCell = (int) (Math.random() * 30); // (0-30) not a mistake
+        // If the cell that the player is going to is null AND if the cell that the bat is going to is null OR is the player's old position
+        if(c.cellsArray[rndPlayerCell].getType().equals("null") && (c.cellsArray[rndBatCell].getType().equals("null") || rndBatCell + 1 == playerPos)){
+            // Move the player to the new random cell
+            c.cellsArray[rndPlayerCell].setPlayer(true);
+            // Move the bat to the new random cell
+            c.cellsArray[rndBatCell].setType("Bat");
+            // Set the old cell the player was in back to null
+            c.cellsArray[playerPos - 1].setPlayer(false);
+            // Update gL variable playerPos to match new location of player
             playerPos = rndPlayerCell + 1;
-            batsPos[batNum] = rndBatCell + 1;
+            
+            if(c.cellsArray[batsPos[0] - 1].getCellNum == startingCellNum){
+                c.cellsArray[batPos[0] - 1].setType("null");
+                batsPos[0] = rndBatCell + 1;
+            }
+            else{
+                c.cellsArray[batPos[1] - 1].setType("null");
+                batsPos[1] = rndBatCell + 1;
+            }
         }
-        else setRandomBatsLocation(batNum);
+        // if the random numbers do not fit the requirements
+            // Then run the method again and get new random numbers that have a possibility of working.
+        else setRandomBatsLocation();
+    }
 
+    public void setRandomWumpusLocaton(){
+        int rnd = Math.random()
     }
 
 

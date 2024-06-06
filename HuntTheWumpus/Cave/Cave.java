@@ -112,7 +112,7 @@ public class Cave {
 
     // Get the cell number where the player is located
     public int getPlayerCell() {
-        for (int i = 0; i < cellsArray.length; i++) { // Loop through the cellsArray
+        for (int i = 1; i <= cellsArray.length; i++) { // Loop through the cellsArray
             if (getCell(i).getPlayer()) { // Check if the cell has the player
                 return getCell(i).getCellNum(); // Return the cell number
             }

@@ -52,7 +52,7 @@ public class gameLocations {
   private int playerPos;
   private int[] batsPos;
   private int[] pitsPos;
-  
+
 
 
   ///////////////////////
@@ -72,7 +72,7 @@ public class gameLocations {
   //////////////////////
 
   //Initialize the ArrayList hints to include all answers from Questions.csv to give to the player
-  public void initializeHints() throws FileNotFoundException{
+  private void initializeHints() throws FileNotFoundException{
     try{
       //Initialize File Questions.csv and a Scanner to read the file
       File data = new File("HuntTheWumpus/Trivia/Questions.csv");

@@ -48,9 +48,10 @@ public class gameLocations {
   // Properties & Fields
   //////////////////////
   private ArrayList<String> hints;
-  public     int wumpusPos;
-  public     int playerPos;
-  public   int[] hazardPos;
+  public int wumpusPos;
+  public int playerPos;
+  public int[] batsPos;
+  public int[] pitsPos;
 
 
   ///////////////////////
@@ -60,7 +61,8 @@ public class gameLocations {
     //Array List of Hints to make it easy to Modify
     hints     = new ArrayList<String>();
     //4 Different Hazards (Wumpus Exclusive)
-    hazardPos = new int[4];
+    batsPos = new int[2];
+    pitsPos = new int[2];
     initializeHints();
   }
 
@@ -105,6 +107,8 @@ public class gameLocations {
     return warnType;
   }
 
+
+
   public void findHazard(Cave cave, int pPos){
     int i = 0; //Index to add to hazardPos
     ArrayList<Integer> adjRooms = cave.getNeighbors(cave.getCell(pPos)); //Array List of Cells near Player
@@ -126,13 +130,6 @@ public class gameLocations {
     } 
   }
 
-  /*  Preconditions
-  *  newPos has to be adjacent to currentPos
-  *  
-  * 
-  * 
-*/
-
 /*
   * There are two situations where trivia is not needed:
   * First situtation is when the player is moving to a null cell
@@ -141,7 +138,8 @@ public class gameLocations {
   */
 public void updateLocations(int currentPos, int newPos){
     cells[currentPos - 1 ].setType("null");
-    cells[newPos - 1].setType("Player");
+    cells[currentPos - 1].setPlayer(false);
+    cells[newPos - 1].setPlayer(true);
     playerPos = newPos;
     /* 
     if(cells[newPos-1].getType().equals("Bats")){
@@ -171,6 +169,8 @@ public void setRandomBatsLocation(int batNum){
     if(cells[rndPlayerCell].getType().equals("null") && (cells[rndBatCell].getType().equals("null") || rndBatCell + 1 == playerPos)){
         cells[rndPlayerCell].setPlayer(true);
         cells[rndBatCell].setType("Bat");
+        cells[playerPos].setPlayer(false);
+        cells[batsPos[batNum]].setType("null");
         playerPos = rndPlayerCell + 1;
         batsPos[batNum] = rndBatCell + 1;
     }

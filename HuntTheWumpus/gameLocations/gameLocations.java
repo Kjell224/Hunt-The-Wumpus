@@ -48,10 +48,11 @@ public class gameLocations {
   // Properties & Fields
   //////////////////////
   private ArrayList<String> hints;
-  public int wumpusPos;
-  public int playerPos;
-  public int[] batsPos;
-  public int[] pitsPos;
+  private int wumpusPos;
+  private int playerPos;
+  private int[] batsPos;
+  private int[] pitsPos;
+  
 
 
   ///////////////////////

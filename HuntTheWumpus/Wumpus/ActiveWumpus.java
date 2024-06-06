@@ -50,10 +50,10 @@ public class ActiveWumpus {
     }
 
     public int teleport(){
-        double rnd = Math.random() * 20 + 1
+        double rnd = Math.random() * 20 + 1;
         int num = (int) rnd;
-        if (turns % 1 == 0 && num = 5){
-            double rnd2 = Math.random * 10 + 1;
+        if (turns % 1 == 0 && num == 5){
+            double rnd2 = Math.random() * 10 + 1;
             int num2 = (int) rnd2;
 
             wumpusPos += num2;
@@ -78,5 +78,7 @@ public class ActiveWumpus {
                 wumpusPos += 2;
             }
         }
+
+        return wumpusPos;
     }
 }

@@ -175,8 +175,8 @@ public class gameLocations2 {
         else setRandomBatsLocation();
     }
 
-    private void setRandomWumpusLocaton(){
-
+    public void setRandomWumpusLocaton(){
+        int rnd = Math.random()
     }
 
 

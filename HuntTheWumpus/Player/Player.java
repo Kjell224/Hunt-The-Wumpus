@@ -5,9 +5,8 @@
 //On me amrit is selling our team.
 
 package Player;
+
 import Cave.Cell;
-
-
 import java.util.Scanner;
 import java.util.Random;
 
@@ -22,6 +21,10 @@ public class Player {
     public String choice;
     public int arrows = 3;
     public int playerPos;
+    public int turns = 0;
+    public int score;
+    public int points;
+    public int wumpushealth = 1;
 
     ///////////////////////
     // Constructor(s)
@@ -71,7 +74,7 @@ public class Player {
             }
         }
     }
-/* 
+
     // This method allows the player to choose which spot they would like to move to
     public void chooseMove(){
         Scanner s = new Scanner(System.in);
@@ -79,26 +82,37 @@ public class Player {
         choice = s.nextLine();
         if (choice.substring(0,1).equalsIgnoreCase("R")){
             move(choice.substring(0,1));
-            playerPos[0]++;
+            playerPos++;
         } else if (choice.substring(0,1).equalsIgnoreCase("L")){
             move(choice.substring(0,1));
-            playerPos[0]--;
+            playerPos--;
         } else if (choice.substring(0,1).equalsIgnoreCase("U")){
             move(choice.substring(0,1));
-            playerPos[1]++;
+            playerPos++;
         } else if (choice.substring(0,1).equalsIgnoreCase("D")){
             move(choice.substring(0,1));
-            playerPos[1]--;
+            playerPos--;
         } else if(choice.substring(0,1).equalsIgnoreCase("S")){    
             arrows--;
         }else {
             System.out.println();
             System.out.println("Sorry you did not enter one of the following options. Please try again.");
             System.out.println();
+            turns++;
             chooseMove();
         }
     }
-*/
+
+    public int turnTracker(){
+        returns turns;
+    }
+
+    public int highScore(){
+        score = 100 - turns + gold + (5 * arrows) + points;
+
+        return score;
+    }
+
 
     public void attack(Cell c){
         arrows--;
@@ -117,5 +131,13 @@ public class Player {
         } else {
             return false;
         }
+    }
+
+    public int win(){
+        if (wumpushealth == 0){
+            points += 50;
+        }
+
+        return points;
     }
 }

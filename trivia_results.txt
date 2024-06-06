@@ -64,3 +64,7 @@ Your Answer: null - Incorrect
 Question 5: Who discovered penicillin?
 Your Answer: null - Incorrect
 Final Score: 0 out of 5
+Question 1: What is the main ingredient in guacamole?
+Your Answer: null - Incorrect
+Question 2: In which sport would you perform a slam dunk?
+Your Answer: null - Incorrect

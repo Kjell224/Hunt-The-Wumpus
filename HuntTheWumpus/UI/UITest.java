@@ -130,8 +130,12 @@ public class UITest extends JFrame implements ActionListener {
         try {
             HexagonButton button = buttonMap.get(num);
             if (button != null) {
-                OnlyNeighbors(num); // Enable only the neighboring buttons
                 button.setBackground(Color.RED); // Highlight the button by setting its background color to red
+<<<<<<< HEAD
+=======
+                OnlyNeighbors(num); // Enable only the neighboring buttons
+                //button.setForeground(Color.GREEN);
+>>>>>>> 19b64ea632739770a3016cedbe826ff33d0aa721
                 button.setText("웃");
             }
         } catch (Exception e) {
@@ -151,9 +155,9 @@ public class UITest extends JFrame implements ActionListener {
             if (selectedButton != null) {
                 selectedButton.setBackground(Color.WHITE); // Reset the previous button color
             }
+            button.setBackground(Color.RED); // Highlight the new button
             selectedButton = button; // Update the selected button reference
             OnlyNeighbors(num); // Enable only the neighboring buttons
-            button.setBackground(Color.RED); // Highlight the new button
         } catch (Exception ex) {
             // Handle other potential exceptions
             JOptionPane.showMessageDialog(this, "An error occurred: " + ex.getMessage());
@@ -232,7 +236,7 @@ public class UITest extends JFrame implements ActionListener {
         int right = 0;
         for(int c = 0; c < 3; c++){
             Question question = trivia.getQuestion(); // Get a trivia question
-            String userAnswer = JOptionPane.showInputDialog(this, question.getQuestion()); // Prompt the user for an answer
+            String userAnswer = JOptionPane.showInputDialog(this, question.printQuestion()); // Prompt the user for an answer
 
             // Check the answer
             if (userAnswer != null && userAnswer.equalsIgnoreCase(question.getAnswer())) {

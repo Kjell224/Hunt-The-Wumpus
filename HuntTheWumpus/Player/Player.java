@@ -81,16 +81,12 @@ public class Player {
         System.out.println("Where would you like to move? Up, Down, Left, or Right? or Would you like to Shoot?");
         choice = s.nextLine();
         if (choice.substring(0,1).equalsIgnoreCase("R")){
-            move(choice.substring(0,1));
             playerPos++;
         } else if (choice.substring(0,1).equalsIgnoreCase("L")){
-            move(choice.substring(0,1));
             playerPos--;
         } else if (choice.substring(0,1).equalsIgnoreCase("U")){
-            move(choice.substring(0,1));
             playerPos++;
         } else if (choice.substring(0,1).equalsIgnoreCase("D")){
-            move(choice.substring(0,1));
             playerPos--;
         } else if(choice.substring(0,1).equalsIgnoreCase("S")){    
             arrows--;
@@ -104,7 +100,7 @@ public class Player {
     }
 
     public int turnTracker(){
-        returns turns;
+        return turns;
     }
 
     public int highScore(){

@@ -58,8 +58,8 @@ public class Question {
     }
 
 
-    public void printQuestion(){
-        System.out.println(this.question + " (" + this.optionA + "," + this.optionB + "," + this.optionC + "," + this.optionD + ")") ;
+    public String printQuestion(){
+        return this.question + " (" + this.optionA + "," + this.optionB + "," + this.optionC + "," + this.optionD + ")";
     }
 
     @Override

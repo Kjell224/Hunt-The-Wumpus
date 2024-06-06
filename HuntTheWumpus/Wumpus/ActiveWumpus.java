@@ -48,5 +48,9 @@ public class ActiveWumpus {
         return wumpusPos;
     }
 
-    public 
+    public int teleport(){
+        when (turn++){
+            
+        }
+    }
 }

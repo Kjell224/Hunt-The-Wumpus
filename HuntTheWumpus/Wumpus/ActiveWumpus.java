@@ -41,6 +41,12 @@ public class ActiveWumpus {
     }
 
     public int turnMove(){
-        
+        when (turns += 5 | turns += 6 | turns += 7 | turns += 8 | turns += 9 | turns += 10 ){
+            wumpusPos++;
+        }
+
+        return wumpusPos;
     }
+
+    public 
 }

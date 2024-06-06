@@ -48,7 +48,7 @@ public class UITest extends JFrame implements ActionListener {
         setLayout(null); // Use null layout for absolute positioning
         this.getContentPane().setBackground(Color.BLACK); // Set background color
 
-        setSize(800, 800); // Set the size of the JFrame
+        setSize(8000, 8000); // Set the size of the JFrame
 
         // Define a pattern for the hexagon buttons
         int[][] pattern = {
@@ -131,8 +131,9 @@ public class UITest extends JFrame implements ActionListener {
             HexagonButton button = buttonMap.get(num);
             if (button != null) {
                 OnlyNeighbors(num); // Enable only the neighboring buttons
+                //button.setForeground(Color.GREEN);
+                //button.setText("웃");
                 button.setBackground(Color.RED); // Highlight the button by setting its background color to red
-                //button.setText("P");
             }
         } catch (Exception e) {
             System.out.println("Error: " + e);
@@ -232,7 +233,7 @@ public class UITest extends JFrame implements ActionListener {
         int right = 0;
         for(int c = 0; c < 3; c++){
             Question question = trivia.getQuestion(); // Get a trivia question
-            String userAnswer = JOptionPane.showInputDialog(this, question.getQuestion()); // Prompt the user for an answer
+            String userAnswer = JOptionPane.showInputDialog(this, question.printQuestion()); // Prompt the user for an answer
 
             // Check the answer
             if (userAnswer != null && userAnswer.equalsIgnoreCase(question.getAnswer())) {

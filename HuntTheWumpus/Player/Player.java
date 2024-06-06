@@ -1,7 +1,8 @@
 // Amrit Gill
 // March 1, 2024
 // Period 5
-// Hunt the Wumpus - Player Class
+// Hunt the Wumpus - Player Class 
+//On me amrit is selling our team.
 
 package Player;
 import Cave.Cell;
@@ -53,20 +54,20 @@ public class Player {
     }
 
     // This method makes the player move
-    public String move(String c){
+    public Cell move(Cell c){
         return c;
     }
 
     // This method gives gold to the player
     public void giveGold(){
         if(triviaAnswer == true){
-            gold = gold + 50;
+            gold = gold++;
         } else if (triviaAnswer == false){
             if (gold == 0){
-                health = health - 1;
+                health = health--;
             }
-            else if (gold >= 50){
-                gold = gold - 50;
+            else if (gold >= 1){
+                gold = gold--;
             }
         }
     }
@@ -97,7 +98,8 @@ public class Player {
             chooseMove();
         }
     }
-*/  
+*/
+
     public void attack(Cell c){
         arrows--;
     }

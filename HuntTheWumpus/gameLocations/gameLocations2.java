@@ -47,6 +47,9 @@ import HuntTheWumpus.Wumpus.*;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import Cave.Cell;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -60,97 +63,122 @@ public class gameLocations2 {
     private ArrayList<String> hints;
 
     /** Positions **/
-    public     int[] wumpusPos;
-    public     int[] playerPos;
-    public     int[] hazardPos;
-    
-
+    private     int   wumpusPos;
+    private     int playerPos;
+    private     int[] hazardPos;
+    private     int[] batsPos;
+    private     int[] pitsPos;
+    public      Cell[] cells = new Cell[30];
     ///////////////////////
     // Constructor(s)
-    //////////////////////
+    ///////////////////////
     public gameLocations2() throws FileNotFoundException{
         hints     = new ArrayList<String>();
-        wumpusPos = new int[2];
-        playerPos = new int[2];
+        wumpusPos = 0;
+        playerPos = 0;
         hazardPos = new int[2];
-        initializeHints();
-        //initializeCave();
+        batsPos   = new int[2];
+        pitsPos   = new int[2];
+        initializeCave();
+        initializeHazards();
     }
 
     ///////////////////////
     // Methods
     //////////////////////
 
-    public int[] findHazard(int[] pPos)
-    {
-        typeOfHazard = "";
-        giveWarning(typeOfHazard);
-        return hazardPos;
-    }
-
-    public int[] getWumpusLocation(){ return wumpusPos; }
-
-    public int[] getPlayerLocation(){ return playerPos; }
-
-    public void initializeHints() throws FileNotFoundException{
-        try{
-            File data = new File("../HuntTheWumpus/Trivia/Questions.csv");
-            Scanner readFile = new Scanner(data);
-            while(readFile.hasNextLine()){
-                hints.add(readFile.nextLine().split(",")[3]);
-            }
-        } catch(IOException e){
-            System.out.println("Error in writing file.");
-            e.printStackTrace();
-        }
-    }
-
-    public String giveHint() throws FileNotFoundException{ 
-        int randNum = (int) (Math.random() * (hints.size()));
-        return hints.remove(randNum);
-    }
-
-    public String giveWarning(String warnType){
-        if(warnType.equals("SuperBats")) 
-            return "Bats Nearby.";
-        else if(warnType.equals("Pit")) 
-            return "I feel a draft."; 
-        else if(warnType.equals("Wumpus")) 
-            return "I smell a Wumpus!";
-        return warnType;
-    }
-
-    public int shootArrow(int arrowCount){
-        boolean isValid = false; 
-        while(!isValid){
-        //TODO: Create findAdjacentRooms() Method for Valid Moves 
-            System.out.print("Where would you like to shoot?");
-            String direction = user.next();
-        }
-        arrowCount--;  
-        return arrowCount;
-    }
-
-    private ArrayList<int[]> findAdjacentRooms(){ 
-        //Need Cave To Be Figured Out
-        ArrayList<int[]> adjacentRooms = new ArrayList<int[]>();
-        
-        return adjacentRooms;
-    }
-
-    public void initializeCave(Cave cave) {
-       // Cell[][] map = cave.getMap();
-        String[][] map2 = new String[5][6];
+    // done
+    /* 
+    private void initializeCave(Cave c) throws FileNotFoundException{
         File file = new File("../HuntTheWumpus/Cave/WH1.csv");
         Scanner readFile = new Scanner(file);
         String[] data = readFile.nextLine().split(",");
-        int i = 0;
-        for(int y = 0; y < map2.length; y++){
-          for(int x = 0; x < map2[0].length; x++){
-            map2[y][x] = data[i];
-            i++;
-          }
+        for(int i = 0; i < 30; i++){
+            c.cellsArray[i] = new Cell(data[i]);
+        }
+        readFile.close();
+    }
+    */
+    // done
+    private void initializeTypes(Cave c) { 
+        for(int i = 0; i < 30; i++){
+            // Checks wumpus 
+            if(c.cellsArray[i].getWumpus())
+                wumpusPos = c.cellsArray[i].getCellNum();
+            // Checks bats 
+            else if(c.cellsArray[i].getType().equals("Bats")){
+                if(batsPos[0] == 0) 
+                    batsPos[0] = c.cellsArray[i].getCellNum();
+                else 
+                    batsPos[1] = c.cellsArray[i].getCellNum();
+            }
+            // Checks pit
+            else if(c.cellsArray[i].getType().equals("Pit")){
+                if(pitsPos[0] == 0)
+                    pitsPos[0] = c.cellsArray[i].getCellNum();
+                else 
+                    pitsPos[1] = c.cellsArray[i].getCellNum();
+            }
+            //Checks player
+            else if(c.cellsArray[i].getPlayer())
+                playerPos = c.cellsArray[i].getCellNum();
+
         }
     }
+    // so what should we do?
+    /*  Preconditions
+     *  newPos has to be adjacent to currentPos
+     *  
+     * 
+     * 
+    */
+
+    /*
+     * There are two situations where trivia is not needed:
+     * First situtation is when the player is moving to a null cell
+     * Second situtation is when the player is moving to a cell with a bat
+        * When this happens a method setRandomBatsLocation() is called 
+     */
+   
+    /*
+     * setRandomBatsLocation is a method that is private to the gameLocations class
+     * 
+     */
+    // done 
+    // GameControl use this when the player enters a room with a bat in it
+    private void setRandomBatsLocation(Cave c, int startingCellNum){
+        // Both are random locations 
+        int rndBatCell = (int) (Math.random() * 30); // (0-30) not a mistake
+        int rndPlayerCell = (int) (Math.random() * 30); // (0-30) not a mistake
+        // If the cell that the player is going to is null AND if the cell that the bat is going to is null OR is the player's old position
+        if(c.cellsArray[rndPlayerCell].getType().equals("null") && (c.cellsArray[rndBatCell].getType().equals("null") || rndBatCell + 1 == playerPos)){
+            // Move the player to the new random cell
+            c.cellsArray[rndPlayerCell].setPlayer(true);
+            // Move the bat to the new random cell
+            c.cellsArray[rndBatCell].setType("Bat");
+            // Set the old cell the player was in back to null
+            c.cellsArray[playerPos - 1].setPlayer(false);
+            // Update gL variable playerPos to match new location of player
+            playerPos = rndPlayerCell + 1;
+            
+            if(c.cellsArray[batsPos[0] - 1].getCellNum == startingCellNum){
+                c.cellsArray[batPos[0] - 1].setType("null");
+                batsPos[0] = rndBatCell + 1;
+            }
+            else{
+                c.cellsArray[batPos[1] - 1].setType("null");
+                batsPos[1] = rndBatCell + 1;
+            }
+        }
+        // if the random numbers do not fit the requirements
+            // Then run the method again and get new random numbers that have a possibility of working.
+        else setRandomBatsLocation();
+    }
+
+    private void setRandomWumpusLocaton(){
+
+    }
+
+
 
 }

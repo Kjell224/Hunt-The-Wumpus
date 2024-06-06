@@ -1,0 +1,66 @@
+Question 1: Who was the first person to walk on the moon?
+Your Answer: neil armstrong - Correct
+Question 2: Who wrote the play 'Romeo and Juliet'?
+Your Answer: shakespear - Incorrect
+Question 3: Which planet is known as the Red Planet?
+Your Answer: mars - Correct
+Question 4: What is the hardest natural substance on Earth?
+Your Answer: diamond - Correct
+Question 5: What is the name of the largest ocean on Earth?
+Your Answer: atlantic - Incorrect
+Final Score: 3 out of 5
+Question 1: Who discovered penicillin?
+Your Answer: null - Incorrect
+Question 2: Who painted the Mona Lisa?
+Your Answer: null - Incorrect
+Question 3: Who is known as the Father of Computers?
+Your Answer: null - Incorrect
+Question 4: What is the smallest country in the world?
+Your Answer: null - Incorrect
+Question 5: What is the currency of Japan?
+Your Answer: null - Incorrect
+Final Score: 0 out of 5
+Question 1: What is the capital city of France?
+Your Answer: paris - Correct
+Question 2: Who painted the Mona Lisa?
+Your Answer: davinki - Incorrect
+Question 3: Who is known as the Father of Computers?
+Your Answer: touring - Incorrect
+Question 4: In which sport would you perform a slam dunk?
+Your Answer: basketball - Correct
+Question 5: What is the hardest natural substance on Earth?
+Your Answer: diamond - Correct
+Final Score: 3 out of 5
+Question 1: In which year did the Titanic sink?
+Your Answer: 1893 - Incorrect
+Question 2: What is the smallest country in the world?
+Your Answer: vatican city - Correct
+Question 3: What is the main ingredient in guacamole?
+Your Answer: avocado - Correct
+Question 4: Which country is known as the Land of the Rising Sun?
+Your Answer: japan - Correct
+Question 5: What is the chemical symbol for water?
+Your Answer: h20 - Incorrect
+Final Score: 3 out of 5
+Question 1: Who wrote 'To Kill a Mockingbird'?
+Your Answer: harper lee - Correct
+Question 2: What is the tallest mountain in the world?
+Your Answer: mount everest - Correct
+Question 3: Who was the first person to walk on the moon?
+Your Answer: neil armstrong - Correct
+Question 4: What is the longest river in the world?
+Your Answer: nile river - Incorrect
+Question 5: Which planet is known as the Red Planet?
+Your Answer: mars - Correct
+Final Score: 4 out of 5
+Question 1: What is the currency of Japan?
+Your Answer: null - Incorrect
+Question 2: What is the name of the largest ocean on Earth?
+Your Answer: null - Incorrect
+Question 3: What is the largest planet in our solar system?
+Your Answer: null - Incorrect
+Question 4: Who wrote the play 'Romeo and Juliet'?
+Your Answer: null - Incorrect
+Question 5: Who discovered penicillin?
+Your Answer: null - Incorrect
+Final Score: 0 out of 5

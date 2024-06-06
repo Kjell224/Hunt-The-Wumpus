@@ -17,34 +17,36 @@ public class Trivia{
     //////////////////////
     private File file;
     private ArrayList<Question> questions;
-
+    private ArrayList<Question> AllQuestions;
     /////////////////////
     // Constructor(s)
     /////////////////////
 
     public Trivia(){
         this.file = new File("HuntTheWumpus\\Trivia\\Questions.csv");
-        this.questions = new ArrayList<Question>();
-        createQuestions(this.file);
+        this.questions = createQuestions(this.file);
+        this.AllQuestions = createQuestions(this.file);
+        Collections.shuffle(this.questions);
     }
 
     ///////////////////////
     // Methods
     //////////////////////
 
-    public void createQuestions(File f){
+    public ArrayList<Question> createQuestions(File f){
+        ArrayList<Question> q = new ArrayList<Question>();
         try{
             Scanner s = new Scanner(f); //Creates a new scanner to read the questions csv file
             while(s.hasNextLine()){
                 String line = s.nextLine();
                 String[] parts = line.split(",");
-                this.questions.add(new Question(parts[0], parts[1], parts[2]));
+                q.add(new Question(parts[0], parts[1], parts[2]));
             }
             s.close();
         } catch(FileNotFoundException e){ //I use the catch in case the file is not found
             System.out.println("File not found");
         }
-        Collections.shuffle(this.questions);
+        return q;
     }
 
 
@@ -117,4 +119,18 @@ public class Trivia{
         }
         return tempQuestion;
     }
+
+    // method used by game control
+    public void reInitilizeQuestions(){
+        try{
+            FileWriter writer = new FileWriter(this.file);
+            for(int i = 0; i < this.AllQuestions.size(); i++){
+                writer.write(this.AllQuestions.get(i).toString() + "\n");
+            }
+            writer.close();
+        } catch (Exception e){
+            System.out.println("I SUCK! " + e);
+        }
+    }
+
 }

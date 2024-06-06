@@ -18,10 +18,11 @@ public class gameLocationsTest {
     // Constructor(s)
     //////////////////////
     public static void main(String[] args) throws FileNotFoundException{
-       // gameLocations gL = new gameLocations();
-        gameLocations2 gL2 = new gameLocations2();
+        gameLocations gL = new gameLocations();
+        //gameLocations2 gL2 = new gameLocations2();
+        System.out.println(gL.giveWarning("SuperBats"));
         //System.out.println(gL.giveHint());
-        System.out.println(gL2.giveHint());
+        //System.out.println(gL2.giveHint());
 
 
         //System.out.println("hello world");

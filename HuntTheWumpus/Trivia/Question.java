@@ -31,7 +31,7 @@ public class Question {
 
 
     public String getQuestion() {
-        return question;
+        return this.question;
     }
 
 

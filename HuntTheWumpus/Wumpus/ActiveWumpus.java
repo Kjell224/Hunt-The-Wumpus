@@ -16,6 +16,7 @@ public class ActiveWumpus {
     public int health = 1;
     public int wumpusPos;
     public int turns;
+    public int playerCorrect;
 
     /////////////////
     // CONSTRUCTOR(S)
@@ -49,9 +50,33 @@ public class ActiveWumpus {
     }
 
     public int teleport(){
-        
-        if (turns % 1 == 0){
+        double rnd = Math.random() * 20 + 1
+        int num = (int) rnd;
+        if (turns % 1 == 0 && num = 5){
+            double rnd2 = Math.random * 10 + 1;
+            int num2 = (int) rnd2;
 
+            wumpusPos += num2;
+        }
+
+        return wumpusPos;
+    }
+
+    public boolean loseTrivia(){
+        if (playerCorrect == 3){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public int triviaLose(){
+        if (loseTrivia()){
+            for (int i = 0; i < 3; i++){
+                turns += i;
+
+                wumpusPos += 2;
+            }
         }
     }
 }

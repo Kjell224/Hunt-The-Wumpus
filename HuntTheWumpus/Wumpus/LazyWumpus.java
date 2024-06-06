@@ -19,7 +19,6 @@ public class LazyWumpus {
     private int numQ;
     public int wumpusPos;
     public int playerCorrect;
-    public int turn;
     public String state;
 
     ///////////////////////

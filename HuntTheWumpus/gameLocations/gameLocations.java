@@ -64,7 +64,6 @@ public class gameLocations {
     batsPos = new int[2];
     pitsPos = new int[2];
     initializeHints();
-    initializeTypes();
   }
 
   ///////////////////////
@@ -111,7 +110,8 @@ public class gameLocations {
 
 
   public void findHazard(Cave cave, int pPos){
-    int i = 0; //Index to add to hazardPos
+    int i = 0; //Index to add to batsPos
+    int j = 0; //Index to add to pitsPos
     ArrayList<Integer> adjRooms = cave.getNeighbors(cave.getCell(pPos)); //Array List of Cells near Player
     //For each cell next to the player...
     for(Integer c : adjRooms){ 
@@ -121,11 +121,13 @@ public class gameLocations {
         //Give a warning depending on the type
         System.out.println(giveWarning(curCell.getType()));
         //If the type is NOT a wumpus
-        if(curCell.getType() != "Wumpus"){
-          //Add the number of the cell it is in to HazardPos
-          //If it isn't Wumpus it means it is Bats or Pits
-          hazardPos[i] = c;
+        if(curCell.getType() == "SuperBats"){
+          //Add the number of the cell it is in to BatsPos
+          batsPos[i] = c;
           i++;
+        } else if(curCell.getType() == "Pit"){
+          pitsPos[j] = c;
+          j++;
         }
       }
     } 
@@ -211,22 +213,24 @@ public void updatePlayerLocations(int currentPos, int newPos, Cave c){
         // Update gL variable playerPos to match new location of player
         playerPos = rndPlayerCell + 1;
         
-        if(c.cellsArray[batsPos[0] - 1].getCellNum == startingCellNum){
-            c.cellsArray[batPos[0] - 1].setType("null");
+        if(c.cellsArray[batsPos[0] - 1].getCellNum() == startingCellNum){
+            c.cellsArray[batsPos[0] - 1].setType("null");
             batsPos[0] = rndBatCell + 1;
         }
         else{
-            c.cellsArray[batPos[1] - 1].setType("null");
+            c.cellsArray[batsPos[1] - 1].setType("null");
             batsPos[1] = rndBatCell + 1;
         }
     }
     // if the random numbers do not fit the requirements
         // Then run the method again and get new random numbers that have a possibility of working.
-    else setRandomBatsLocation();
+    else setRandomBatsLocation(c, startingCellNum);
 }
 
   //* **** Getters & Setters **** *//
-  public int[] getHazardsLocation(){ return hazardPos; }
+  public int[] getBatsLocation(){ return batsPos; }
+
+  public int[] getPitsLocation(){ return pitsPos; }
 
   public int getWumpusLocation(){ return wumpusPos; }
 

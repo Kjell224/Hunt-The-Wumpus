@@ -64,6 +64,7 @@ public class gameLocations {
     batsPos = new int[2];
     pitsPos = new int[2];
     initializeHints();
+    initializeTypes();
   }
 
   ///////////////////////
@@ -129,6 +130,31 @@ public class gameLocations {
       }
     } 
   }
+  private void initializeTypes(Cave c) { 
+    for(int i = 0; i < 30; i++){
+        // Checks wumpus 
+        if(c.cellsArray[i].getWumpus())
+            wumpusPos = c.cellsArray[i].getCellNum();
+        // Checks bats 
+        else if(c.cellsArray[i].getType().equals("Bats")){
+            if(batsPos[0] == 0) 
+                batsPos[0] = c.cellsArray[i].getCellNum();
+            else 
+                batsPos[1] = c.cellsArray[i].getCellNum();
+        }
+        // Checks pit
+        else if(c.cellsArray[i].getType().equals("Pit")){
+            if(pitsPos[0] == 0)
+                pitsPos[0] = c.cellsArray[i].getCellNum();
+            else 
+                pitsPos[1] = c.cellsArray[i].getCellNum();
+        }
+        //Checks player
+        else if(c.cellsArray[i].getPlayer())
+            playerPos = c.cellsArray[i].getCellNum();
+
+    }
+}
 
 /*
   * There are two situations where trivia is not needed:
@@ -136,12 +162,20 @@ public class gameLocations {
   * Second situtation is when the player is moving to a cell with a bat
     * When this happens a method setRandomBatsLocation() is called 
   */
-public void updateLocations(int currentPos, int newPos){
-    cells[currentPos - 1 ].setType("null");
-    cells[currentPos - 1].setPlayer(false);
-    cells[newPos - 1].setPlayer(true);
-    playerPos = newPos;
-    /* 
+
+// done
+public void updatePlayerLocations(int currentPos, int newPos, Cave c){
+  // set currentpos equal to newPos when player enters an area with a pit (pit case)  
+  if(currentPos == newPos){
+      return;
+  }
+  // (null case)
+  c.cellsArray[currentPos - 1 ].setType("null");
+  c.cellsArray[currentPos - 1].setPlayer(false);
+  c.cellsArray[newPos - 1].setPlayer(true);
+  playerPos = newPos;
+}    
+/* 
     if(cells[newPos-1].getType().equals("Bats")){
         if(cells[newPos-1].getCellNum() == batsPos[0]) setRandomBatsLocation(0);
         else setRandomBatsLocation(1);
@@ -157,25 +191,38 @@ public void updateLocations(int currentPos, int newPos){
 
     }
     */
-
-}
 /*
   * setRandomBatsLocation is a method that is private to the gameLocations class
   * 
   */
-public void setRandomBatsLocation(int batNum){
-    int rndBatCell = (int) (Math.random() * 30);
-    int rndPlayerCell = (int) (Math.random() * 30);
-    if(cells[rndPlayerCell].getType().equals("null") && (cells[rndBatCell].getType().equals("null") || rndBatCell + 1 == playerPos)){
-        cells[rndPlayerCell].setPlayer(true);
-        cells[rndBatCell].setType("Bat");
-        cells[playerPos].setPlayer(false);
-        cells[batsPos[batNum]].setType("null");
+  // done
+  public void setRandomBatsLocation(Cave c, int startingCellNum){
+    // Both are random locations 
+    int rndBatCell = (int) (Math.random() * 30); // (0-30) not a mistake
+    int rndPlayerCell = (int) (Math.random() * 30); // (0-30) not a mistake
+    // If the cell that the player is going to is null AND if the cell that the bat is going to is null OR is the player's old position
+    if(c.cellsArray[rndPlayerCell].getType().equals("null") && (c.cellsArray[rndBatCell].getType().equals("null") || rndBatCell + 1 == playerPos)){
+        // Move the player to the new random cell
+        c.cellsArray[rndPlayerCell].setPlayer(true);
+        // Move the bat to the new random cell
+        c.cellsArray[rndBatCell].setType("Bat");
+        // Set the old cell the player was in back to null
+        c.cellsArray[playerPos - 1].setPlayer(false);
+        // Update gL variable playerPos to match new location of player
         playerPos = rndPlayerCell + 1;
-        batsPos[batNum] = rndBatCell + 1;
+        
+        if(c.cellsArray[batsPos[0] - 1].getCellNum == startingCellNum){
+            c.cellsArray[batPos[0] - 1].setType("null");
+            batsPos[0] = rndBatCell + 1;
+        }
+        else{
+            c.cellsArray[batPos[1] - 1].setType("null");
+            batsPos[1] = rndBatCell + 1;
+        }
     }
-    else setRandomBatsLocation(batNum);
-
+    // if the random numbers do not fit the requirements
+        // Then run the method again and get new random numbers that have a possibility of working.
+    else setRandomBatsLocation();
 }
 
   //* **** Getters & Setters **** *//

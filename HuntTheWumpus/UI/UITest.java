@@ -105,35 +105,32 @@ public class UITest extends JFrame implements ActionListener {
 
     // Method to highlight a button based on its number
     public void highlightButton(int number) {
-        HexagonButton button = buttonMap.get(number);
-        if (button != null) {
-            button.setBackground(Color.GREEN); // Highlight the button by setting its background color to green
-            button.setEnabled(true); // Enable the button
+        Component[] components = getContentPane().getComponents(); // Get all components in the content pane
+        for (Component component : components) {
+            if (component instanceof HexagonButton) { // Check if the component is a HexagonButton
+                HexagonButton button = (HexagonButton) component;
+                if (button.getText().equals(String.valueOf(number))) { // Check if the button's text matches the number
+                    button.setBackground(Color.GREEN); // Highlight the button by setting its background color to green
+                } 
+            }
         }
     }
 
-  // Method to enable only the neighboring buttons
-  private void OnlyNeighbors(int num) {
-    ArrayList<Integer> neighbors = cave.getNeighbors(num); // Get the neighbors from the Cave instance
-    for (HexagonButton button : buttonMap.values()) {
-        button.setEnabled(false); // Disable all buttons
-        button.setBackground(Color.DARK_GRAY); // Reset all buttons to white
-    }
-    buttonMap.get(num).setEnabled(true); // Enable the current button
-    for (int neighbor : neighbors) {
-        highlightButton(neighbor); // Highlight and enable the neighboring buttons
-    }
-}
-
-
-    public void initializePlayerPosition(int num) {
+    public void initilizePlayerPosition(int num){
         try {
-            HexagonButton button = buttonMap.get(num);
-            if (button != null) {
-                button.setBackground(Color.RED); // Highlight the button by setting its background color to red
-                OnlyNeighbors(num); // Enable only the neighboring buttons
-                //button.setForeground(Color.GREEN);
-                button.setText("웃");
+            Component[] components = getContentPane().getComponents(); // Get all components in the content pane
+            for (Component component : components) {
+                if (component instanceof HexagonButton) { // Check if the component is a HexagonButton
+                    HexagonButton button = (HexagonButton) component;
+                    if (button.getText().equals(String.valueOf(num))) { // Check if the button's text matches the number
+                        button.setBackground(Color.RED); // Highlight the button by setting its background color to red
+                    } 
+                }
+            }
+
+            ArrayList<Integer> nums = cave.getNeighbors(num); // Get the neighbors from the Cave instance
+            for (int i = 0; i < nums.size(); i++) {
+                highlightButton(nums.get(i)); // Highlight the neighboring buttons
             }
         } catch (Exception e) {
             System.out.println("Error: " + e);

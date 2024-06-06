@@ -11,6 +11,8 @@ public class HexagonButton extends JButton {
         setContentAreaFilled(false);
         setFocusPainted(false);
         setBorderPainted(false);
+        //setBackground(Color.DARK_GRAY);
+        //setForeground(Color.BLACK);
     }
 
     @Override

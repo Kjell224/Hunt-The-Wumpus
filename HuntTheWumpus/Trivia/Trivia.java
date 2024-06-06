@@ -23,7 +23,7 @@ public class Trivia{
     /////////////////////
 
     public Trivia(){
-        this.file = new File("HuntTheWumpus\\Trivia\\Questions.csv");
+        this.file = new File("HuntTheWumpus/Trivia/Questions.csv");
         this.questions = createQuestions(this.file);
         this.AllQuestions = createQuestions(this.file);
         Collections.shuffle(this.questions);

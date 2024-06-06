@@ -18,7 +18,6 @@ public class LazyWumpus {
     public int arrows = 3;
     public int whealth = 1;
     public int phealth = 1;
-    private int numQ;
     public Cell wumpusPos;
     public int playerCorrect;
     public String state;

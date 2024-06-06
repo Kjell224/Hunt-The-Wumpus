@@ -130,10 +130,9 @@ public class UITest extends JFrame implements ActionListener {
         try {
             HexagonButton button = buttonMap.get(num);
             if (button != null) {
-                button.setBackground(Color.RED); // Highlight the button by setting its background color to red
                 OnlyNeighbors(num); // Enable only the neighboring buttons
-                //button.setForeground(Color.GREEN);
-                button.setText("웃");
+                button.setBackground(Color.RED); // Highlight the button by setting its background color to red
+                //button.setText("P");
             }
         } catch (Exception e) {
             System.out.println("Error: " + e);
@@ -152,9 +151,9 @@ public class UITest extends JFrame implements ActionListener {
             if (selectedButton != null) {
                 selectedButton.setBackground(Color.WHITE); // Reset the previous button color
             }
-            button.setBackground(Color.RED); // Highlight the new button
             selectedButton = button; // Update the selected button reference
             OnlyNeighbors(num); // Enable only the neighboring buttons
+            button.setBackground(Color.RED); // Highlight the new button
         } catch (Exception ex) {
             // Handle other potential exceptions
             JOptionPane.showMessageDialog(this, "An error occurred: " + ex.getMessage());

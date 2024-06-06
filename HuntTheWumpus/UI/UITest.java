@@ -132,7 +132,7 @@ public class UITest extends JFrame implements ActionListener {
             if (button != null) {
                 OnlyNeighbors(num); // Enable only the neighboring buttons
                 button.setBackground(Color.RED); // Highlight the button by setting its background color to red
-                //button.setText("P");
+                button.setText("웃");
             }
         } catch (Exception e) {
             System.out.println("Error: " + e);

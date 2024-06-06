@@ -8,6 +8,8 @@ package Wumpus;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+import Cave.Cave;
+import Cave.Cell;
 
 public class LazyWumpus {
     ///////////////////////
@@ -16,10 +18,10 @@ public class LazyWumpus {
     public int arrows = 3;
     public int whealth = 1;
     public int phealth = 1;
-    private int numQ;
-    public int wumpusPos;
+    public Cell wumpusPos;
     public int playerCorrect;
     public String state;
+    public Cave cave;
 
     ///////////////////////
     // Constructor(s)
@@ -32,13 +34,12 @@ public class LazyWumpus {
     // Methods
     //////////////////////
 
-    public int getLocation(){
+    public Cell getLocation(){
+        wumpusPos = cave.getCell(cave.getWumpusCell());
+
         return wumpusPos;
     }
 
-    public int setLocation(int wumpusPos){
-        return this.wumpusPos = wumpusPos;
-    }
 
     // Precondition: the String state must be "asleep", "awake", or "moving"
     public String state(String state){
@@ -58,17 +59,17 @@ public class LazyWumpus {
         }
     }
 
-    public int move(){
+    public Cell move(){
         if (loseTrivia()){
-            wumpusPos += 1 | wumpusPos + 2 | wumpusPos + 3;
+            int rnd = (int) Math.random() * 3 + 1;
+
+            return wumpusPos += rnd;
         } else {
             return wumpusPos;
         }
-
-        return wumpusPos;
     }
 
-    public int stateMove(){
+    public Cell stateMove(){
         if (state.equalsIgnoreCase("asleep")){
             return wumpusPos;
         } else if (state.equalsIgnoreCase("awake")){

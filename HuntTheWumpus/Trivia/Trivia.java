@@ -77,8 +77,8 @@ public class Trivia{
             FileWriter writer = new FileWriter(tempFile);
             Scanner readFile = new Scanner("HuntTheWumpus/Trivia/Questions(copy).csv");
 
-            for(int i = 0; i < this.tempQuestions.size(); i++){
-                writer.write(this.tempQuestions.get(i).toString() + "\n");
+            while(readFile.hasNext()){
+                writer.write(readFile.nextLine() + "\n");
             }
             writer.close();
             tempFile.renameTo(this.file);

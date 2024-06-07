@@ -36,14 +36,17 @@ public class LazyWumpus {
 
     public Cell getLocation(){
         wumpusPos = cave.getCell(cave.getWumpusCell());
-
         return wumpusPos;
     }
 
 
     // Precondition: the String state must be "asleep", "awake", or "moving"
-    public String state(String state){
-        return this.state = state;
+    public void setState(String state){
+        this.state = state;
+    }
+    
+    public String getState(){
+        return state;
     }
 
     public void miss(){

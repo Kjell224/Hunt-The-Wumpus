@@ -21,6 +21,7 @@ public class ActiveWumpus {
     public int playerCorrect;
     public Cave cave;
     public int rnd;
+    public int currentTurns; // this is the amount of turns to keep track of every "cycle" of the 5-10 wumpus moves
 
     /////////////////
     // CONSTRUCTOR(S)
@@ -49,9 +50,10 @@ public class ActiveWumpus {
     }
 
     public int turnMove(){
-        if (turns == rnd){
+        if (currentTurns == rnd){
             wumpusPos++;
             this.rnd = getNewRnd();
+            this.currentTurns = 0;
         }
 
         return wumpusPos;
@@ -82,7 +84,7 @@ public class ActiveWumpus {
         if (loseTrivia()){
             for (int i = 0; i < 3; i++){
                 turns += i;
-
+                currentTurns += i;
                 wumpusPos += 2;
             }
         }

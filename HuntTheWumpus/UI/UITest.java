@@ -5,6 +5,7 @@ import Cave.Cave;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +37,12 @@ public class UITest extends JFrame implements ActionListener {
         this.goldCount = 0; // Initialize the gold count
         this.arrowCount = 3; // Initialize the arrow count
         this.buttonMap = new HashMap<>(); // Initialize the button map
-        this.gL = new gameLocations();
+        try {
+            this.gL = new gameLocations();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         draw(); // Call the draw method to set up the UI
         initializePlayerPosition(cave.getPlayerCell()); // given the player position (int cell)
     }
@@ -182,7 +188,7 @@ public class UITest extends JFrame implements ActionListener {
         add(getArrowButton);
 
         JButton purchaseSecretButton = new JButton("Purchase Secret");
-        purchaseSecretButton.setBounds(rightSideX, rightSideY + 70, buttonWidth, buttonHeight);
+        purchaseSecretButton.setBounds(rightSideX, rightSideY + 100, buttonWidth, buttonHeight);
         purchaseSecretButton.addActionListener(e -> purchaseSecret());
         add(purchaseSecretButton);
     }
@@ -204,8 +210,8 @@ public class UITest extends JFrame implements ActionListener {
         if(right < 2) return;
         
         //Not useful to useful 1-6
-        int secretType = (int)(math.Random()*6) + 1;
-        int randBatOrPitPos = (int)(math.Random()*2);
+        int secretType = (int)(Math.random()*6) + 1;
+        int randBatOrPitPos = (int)(Math.random()*2);
         if(secretType == 1) JOptionPane.showMessageDialog(this, "Not Useful! You are in cell " + gL.getPlayerLocation());
         else if(secretType == 2) JOptionPane.showMessageDialog(this, "Not Useful!"); // FInd a way to give an answer to a trivia question you already got
         else if(secretType == 3) JOptionPane.showMessageDialog(this, "Useful! A swarm of SuperBats is in room " + gL.getBatsLocation()[randBatOrPitPos]);

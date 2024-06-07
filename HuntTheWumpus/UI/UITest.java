@@ -189,7 +189,7 @@ public class UITest extends JFrame implements ActionListener {
         add(getArrowButton);
 
         JButton purchaseSecretButton = new JButton("Purchase Secret");
-        purchaseSecretButton.setBounds(rightSideX, rightSideY + 70, buttonWidth, buttonHeight);
+        purchaseSecretButton.setBounds(rightSideX, rightSideY + 140, buttonWidth, buttonHeight);
         purchaseSecretButton.addActionListener(e -> purchaseSecret());
         add(purchaseSecretButton);
     }

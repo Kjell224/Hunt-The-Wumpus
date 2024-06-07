@@ -60,20 +60,15 @@ public class ActiveWumpus {
     }
 
     public int teleport(){
-        double rnd = Math.random() * 20 + 1;
-        int num = (int) rnd;
-        if (turns % 1 == 0 && num == 5){
-            double rnd2 = Math.random() * 10 + 1;
-            int num2 = (int) rnd2;
-
-            wumpusPos += num2;
+        int rnd = (int) Math.random() * 20 + 1;
+        if (rnd == 20){
+            wumpusPos = cave.getRandomCell();
         }
-
-        return wumpusPos;
+        return wumpusPos.getCellNum();
     }
 
     public boolean loseTrivia(){
-        if (playerCorrect == 3){
+        if (playerCorrect >= 3){
             return true;
         } else {
             return false;
@@ -82,13 +77,14 @@ public class ActiveWumpus {
 
     public int triviaLose(){
         if (loseTrivia()){
-            for (int i = 0; i < 3; i++){
+            int rnd = (int) Math.random() * 2 + 1;
+            for (int i = 0; i < rnd; i++){
                 turns += i;
                 currentTurns += i;
-                wumpusPos += 2;
+                wumpusPos = cave.getCell(turnMove());
             }
         }
 
-        return wumpusPos;
+        return wumpusPos.getCellNum();
     }
 }

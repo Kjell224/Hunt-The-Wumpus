@@ -12,7 +12,7 @@ import java.util.Random;
 import Cave.Cave;
 import Cave.Cell;
 
-public class ActiveWumpus extends LazyWumpus {
+public class ActiveWumpus extends LazyWumpus{
     /////////////////
     // PROPERTIES
     /////////////////
@@ -29,7 +29,6 @@ public class ActiveWumpus extends LazyWumpus {
     /////////////////
     public ActiveWumpus(){
         this.rnd = getNewRnd();
-        System.out.println(getLocation().getCellNum());
     }
 
     /////////////////
@@ -55,10 +54,11 @@ public class ActiveWumpus extends LazyWumpus {
 
     public int turnMove(){
         if (currentTurns == rnd){
-            move();
+            wumpusPos = cave.getRandomAccesibleCell(wumpusPos);
             this.rnd = getNewRnd();
             this.currentTurns = 0;
         }
+
         return wumpusPos.getCellNum();
     }
 
@@ -81,8 +81,13 @@ public class ActiveWumpus extends LazyWumpus {
     public int triviaLose(){
         if (loseTrivia()){
             int rnd = (int) Math.random() * 2 + 1;
-            moveRooms(rnd);
+            for (int i = 0; i < rnd; i++){
+                turns += i;
+                currentTurns += i;
+                wumpusPos = cave.getCell(turnMove());
+            }
         }
+
         return wumpusPos.getCellNum();
     }
         public static void main(String args[]) throws FileNotFoundException{

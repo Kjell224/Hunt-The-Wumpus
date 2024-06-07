@@ -72,6 +72,8 @@ public class LazyWumpus {
         } else {
             return wumpusPos;
         }
+
+        return wumpusPos;
     }
 
     public Cell stateMove(){

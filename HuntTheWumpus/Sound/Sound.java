@@ -8,9 +8,9 @@ package Sound;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 public class Sound {
@@ -22,7 +22,7 @@ public class Sound {
     // Constructor(s)
     //////////////////////
     public Sound(){
-        BackgroundSound();
+        
     }
     ///////////////////////
     // Methods
@@ -31,66 +31,144 @@ public class Sound {
     // This method plays the background sound of the entire game
     public static void BackgroundSound() {
         try {
-            File backgroundFile = new File("HuntTheWumpus/Sound/SoundEffects/background.wav");
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(backgroundFile);
+            // Provide the path to your .wav file
+            String filePath = "HuntTheWumpus\\Sound\\SoundEffects\\background.wav";
+
+            // Create an AudioInputStream from the file
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(filePath));
+
+            // Get a Clip object to play the audio
             Clip clip = AudioSystem.getClip();
+
+            // Open the AudioInputStream with the Clip
             clip.open(audioInputStream);
+
+            // Start playing the audio
             clip.start();
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+
+            // Add a delay to let the sound play
+            Thread.sleep(clip.getMicrosecondLength() / 1000);
+
+            // Close the resources
+            clip.close();
+            audioInputStream.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
  
     // This method is the sound for when the player dies
-    public void DeathSound(){
-        File death = new File("HuntTheWumpus/Sound/SoundEffects/lose.mp3");
-    
+    public void deathSound() {
+        try {
 
-        try{
+            String mp3File = "HuntTheWumpus\\Sound\\SoundEffects\\lose.mp3";
+
+            // Create an AudioInputStream from the mp3 file
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(mp3File));
+
+            // Get a Clip object to play the audio
             Clip clip = AudioSystem.getClip();
-            clip.open(AudioSystem.getAudioInputStream(death));
+
+            // Open the AudioInputStream with the Clip
+            clip.open(audioInputStream);
+
+            // Start playing the audio
             clip.start();
-        } catch (Exception e){
+
+            // Wait for the audio to finish playing
+            Thread.sleep(clip.getMicrosecondLength() / 1000);
+
+            // Close the clip and release resources
+            clip.close();
+            audioInputStream.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }    
 
     // This method is the sound for when the player beats the Wumpus
     public void WinSound(){
-        File win = new File("HuntTheWumpus/Sound/SoundEffects/win.wav");
-    
+     try {
+            // Provide the path to your .wav file
+            String filePath = "HuntTheWumpus\\Sound\\SoundEffects\\win.wav";
 
-        try{
+            // Create an AudioInputStream from the file
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(filePath));
+
+            // Get a Clip object to play the audio
             Clip clip = AudioSystem.getClip();
-            clip.open(AudioSystem.getAudioInputStream(win));
+
+            // Open the AudioInputStream with the Clip
+            clip.open(audioInputStream);
+
+            // Start playing the audio
             clip.start();
-        } catch (Exception e){
+
+            // Add a delay to let the sound play
+            Thread.sleep(clip.getMicrosecondLength() / 1000);
+
+            // Close the resources
+            clip.close();
+            audioInputStream.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     // This method is the sound for when the player gets a trvia question wrong.
-    public void WrongSound(){
-        File wrong = new File("HuntTheWumpus/Sound/SoundEffects/wrong.mp3");
+    public void wrongSound() {
+        try {
 
-        try{
+            String mp3File = "HuntTheWumpus\\Sound\\SoundEffects\\wrong.mp3";
+
+            // Create an AudioInputStream from the mp3 file
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(mp3File));
+
+            // Get a Clip object to play the audio
             Clip clip = AudioSystem.getClip();
-            clip.open(AudioSystem.getAudioInputStream(wrong));
+
+            // Open the AudioInputStream with the Clip
+            clip.open(audioInputStream);
+
+            // Start playing the audio
             clip.start();
-        } catch(Exception e){
+
+            // Wait for the audio to finish playing
+            Thread.sleep(clip.getMicrosecondLength() / 1000);
+
+            // Close the clip and release resources
+            clip.close();
+            audioInputStream.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    } 
 
     // This method is the sound for when the player gets a trivia question right.
     public void CorrectSound(){
-        File correct = new File("HuntTheWumpus/Sound/SoundEffects/correct.wav");
+        try {
+            // Provide the path to your .wav file
+            String filePath = "HuntTheWumpus\\Sound\\SoundEffects\\correct.wav";
 
-        try{
+            // Create an AudioInputStream from the file
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(filePath));
+
+            // Get a Clip object to play the audio
             Clip clip = AudioSystem.getClip();
-            clip.open(AudioSystem.getAudioInputStream(correct));
+
+            // Open the AudioInputStream with the Clip
+            clip.open(audioInputStream);
+
+            // Start playing the audio
             clip.start();
-        } catch (Exception e){
+
+            // Add a delay to let the sound play
+            Thread.sleep(clip.getMicrosecondLength() / 1000);
+
+            // Close the resources
+            clip.close();
+            audioInputStream.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

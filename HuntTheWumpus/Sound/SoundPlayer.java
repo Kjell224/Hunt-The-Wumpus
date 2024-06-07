@@ -1,3 +1,8 @@
+// Amrit Gill
+// June 6, 2024
+// Period 5
+// Hunt the Wumpus
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -5,10 +10,20 @@ import javazoom.jl.player.Player;
 import java.io.FileInputStream;
 
 public class SoundPlayer {
+    ///////////////////////
+    // PROPERTIES
+    ///////////////////////
+
+    ///////////////////////
+    // CONSTRUCTOR(S)
+    ///////////////////////
     public static void SoundPlayer(String[] args) {
 
     }
 
+    ///////////////////////
+    // METHODS
+    ///////////////////////
     public void background(){
         try {
             // Provide the path to your .wav file

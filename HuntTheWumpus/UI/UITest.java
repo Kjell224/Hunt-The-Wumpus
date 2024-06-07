@@ -1,17 +1,15 @@
 package UI;
 
 import javax.swing.*;
-import Cave.*;
+import Cave.Cave;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import Trivia.Trivia;
 import Trivia.Question;
-import gameLocations.*;
 
 public class UITest extends JFrame implements ActionListener {
 
@@ -28,7 +26,6 @@ public class UITest extends JFrame implements ActionListener {
     private int arrowCount; // To store the player's arrow count
     private JLabel arrowLabel; // Label to display the arrow count
     private Map<Integer, HexagonButton> buttonMap; // Map to store hexagon buttons
-    private gameLocations gL;
 
     // Constructor to initialize the UI
     public UITest(Cave cave) {
@@ -37,12 +34,6 @@ public class UITest extends JFrame implements ActionListener {
         this.goldCount = 0; // Initialize the gold count
         this.arrowCount = 3; // Initialize the arrow count
         this.buttonMap = new HashMap<>(); // Initialize the button map
-        try {
-            this.gL = new gameLocations();
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
         draw(); // Call the draw method to set up the UI
         initializePlayerPosition(cave.getPlayerCell()); // given the player position (int cell)
     }
@@ -186,61 +177,6 @@ public class UITest extends JFrame implements ActionListener {
         getArrowButton.setBounds(rightSideX, rightSideY + 70, buttonWidth, buttonHeight);
         getArrowButton.addActionListener(e -> getArrow());
         add(getArrowButton);
-
-        JButton purchaseSecretButton = new JButton("Purchase Secret");
-        purchaseSecretButton.setBounds(rightSideX, rightSideY + 140, buttonWidth, buttonHeight);
-        purchaseSecretButton.addActionListener(e -> purchaseSecret());
-        add(purchaseSecretButton);
-    }
-
-    private void purchaseSecret(){
-        int right = 0;
-        for(int c = 0; c < 3; c++){
-            Question question = trivia.getQuestion(); // Get a trivia question
-            String userAnswer = JOptionPane.showInputDialog(this, question.printQuestion()); // Prompt the user for an answer
-            // Check the answer
-            if (userAnswer != null && userAnswer.equalsIgnoreCase(question.getAnswer())) {
-                JOptionPane.showMessageDialog(this, "Correct!");
-                right++; // Increment the amount right
-            } else {
-                JOptionPane.showMessageDialog(this, "Wrong.");
-            }
-            if(right >= 2) break;
-        }
-        if(right < 2) return;
-        
-        //Not useful to useful 1-6
-        int secretType = (int)(math.Random()*6) + 1;
-        int randBatOrPitPos = (int)(math.Random()*2);
-        if(secretType == 1) JOptionPane.showMessageDialog(this, "Not Useful! You are in cell " + gL.getPlayerLocation());
-        else if(secretType == 2) JOptionPane.showMessageDialog(this, "Not Useful! The Answer to an old trivia question is " + trivia.getRandomAnswer()); // FInd a way to give an answer to a trivia question you already got
-        else if(secretType == 3){
-            Cell pCell = cave.getCell(gL.getPlayerLocation());
-            Integer[] neighbors = pCell.getAllNeighbors();
-            boolean wumpusFound = false;
-            for(Integer i : neighbors){
-                Cell curCell = cave.getCell(i);
-                if(curCell.getType().equals("Wumpus")){
-                    JOptionPane.showMessageDialog(this, "Useful! A Wumpus is within 2 rooms of you.");
-                    wumpusFound = true;
-                    break;
-                } else {
-                    Integer[] neighbors2 = curCell.getAllNeighbors();
-                    for(Integer j : neighbors2){
-                        Cell curCell2 = cave.getCell(j);
-                        if(curCell2.getType().equals("Wumpus")){
-                            JOptionPane.showMessageDialog(this, "Useful! A Wumpus is within 2 rooms of you.");
-                            wumpusFound = true;
-                            break;
-                        }
-                    }
-                    if (wumpusFound) break; // Break the outer loop if a Wumpus is found in the inner loop
-                }
-            if(!wumpusFound) JOptionPane.showMessageDialog(this, "Useful! A Wumpus is NOT within 2 rooms of you."); //Find a way to give if wumpus is within 2 of player
-        }
-        else if(secretType == 4) JOptionPane.showMessageDialog(this, "Useful! A swarm of SuperBats is in room " + gL.getBatsLocation()[randBatOrPitPos]);
-        else if(secretType == 5) JOptionPane.showMessageDialog(this, "Useful! A Pit is in room " + gL.getPitsLocation()[randBatOrPitPos]);
-        else if(secretType == 6) JOptionPane.showMessageDialog(this, "Very Useful! The Wumpus is in cell" + gL.getWumpusLocation());
     }
 
     private void shootArrow() {

@@ -20,12 +20,13 @@ public class ActiveWumpus {
     public int turns;
     public int playerCorrect;
     public Cave cave;
+    public int rnd;
 
     /////////////////
     // CONSTRUCTOR(S)
     /////////////////
     public ActiveWumpus(){
-        
+        this.rnd = getNewRnd();
     }
 
     /////////////////
@@ -43,11 +44,14 @@ public class ActiveWumpus {
     public String state(String state){
         return state;
     }
+    public int getNewRnd(){
+        return (int) Math.random() * 6 + 5;
+    }
 
     public int turnMove(){
-        int rnd = (int) Math.random() * 6 + 5;
-        if (turns % rnd == 0){
+        if (turns == rnd){
             wumpusPos++;
+            this.rnd = getNewRnd();
         }
 
         return wumpusPos;

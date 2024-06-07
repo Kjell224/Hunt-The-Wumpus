@@ -11,7 +11,7 @@ import java.util.Random;
 import Cave.Cave;
 import Cave.Cell;
 
-public class ActiveWumpus {
+public class ActiveWumpus extends LazyWumpus{
     /////////////////
     // PROPERTIES
     /////////////////

@@ -9,6 +9,7 @@ package Player;
 import Cave.Cell;
 import java.util.Scanner;
 import java.util.Random;
+import java.util.ArrayList;
 import Cave.Cave;
 
 public class Player {
@@ -27,12 +28,13 @@ public class Player {
     public int score;
     public int points;
     public int wumpushealth = 1;
+    public ArrayList<Integer> explored;
 
     ///////////////////////
     // Constructor(s)
     //////////////////////
     public Player(){
-    
+        this.playerPos = getPlayerPos();
     }
     ///////////////////////
     // Methods
@@ -44,35 +46,57 @@ public class Player {
         return playerPos;
     }
 
+    public int getHealth(){
+        return this.health;
+    }
+
+    public void setHealth(int hp){
+        this.health = hp;
+    }
+
+    public void turn(int cellNum){
+        if(isNewCell(cellNum) == false){
+            explored.add(cellNum);
+            gold++;
+        }
+    }
+
+    public boolean isNewCell(int num){
+    for(int i = 0; i < explored.size(); i++){
+        if(num == explored.get(i)){
+            return true;
+        }
+    }
+        return false;
+    }
+
     // This method gives gold to the player
-    public void giveGold(){
+    public void playTrivia(boolean triviaAnswer){
         if(triviaAnswer == true){
-            gold = gold++;
+            gold++;
         } else if (triviaAnswer == false){
-            if (gold == 0){
-                health = health--;
-            }
-            else if (gold >= 1){
-                gold = gold--;
+            if (gold >= 1) {
+                gold--;
+            } else {
+                health--;
             }
         }
     }
 
 
     // This method tracks how many turns the player has taken
-    public int turnTracker(){
+    public int getTurns(){
         return turns;
     }
 
     // This method calculates the high score of the Player
     public int highScore(){
         score = 100 - turns + gold + (5 * arrows) + points;
-
         return score;
     }
 
     // This method is for when the player attacks the wumpus
-    public void attack(Cell c){
+    public void attack(){
         arrows--;
     }
 

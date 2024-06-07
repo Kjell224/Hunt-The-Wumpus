@@ -32,7 +32,7 @@ public class UITest extends JFrame implements ActionListener {
     private gameLocations gL;
 
     // Constructor to initialize the UI
-    public UITest(Cave cave) {
+    public UITest(Cave cave, Trivia trivia) {
         try {
             this.gL = new gameLocations();
         } catch (FileNotFoundException e) {
@@ -40,7 +40,7 @@ public class UITest extends JFrame implements ActionListener {
             e.printStackTrace();
         }
         this.cave = cave;
-        this.trivia = new Trivia(); // Initialize the Trivia instance
+        this.trivia = trivia; // Initialize the Trivia instance
         this.goldCount = 0; // Initialize the gold count
         this.arrowCount = 3; // Initialize the arrow count
         this.buttonMap = new HashMap<>(); // Initialize the button map

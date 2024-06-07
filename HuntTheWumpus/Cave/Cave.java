@@ -69,7 +69,7 @@ public class Cave {
     // Returns an ArrayList of cells given a Cell
     public ArrayList<Cell> getCellNeighbors(Cell c) {
         ArrayList<Cell> neighbors = new ArrayList<Cell>(); // Create a new ArrayList for neighbors
-        ArrayList<Integer> cellValues = c.getAccessibleNeighbors(); // Get accessible neighbors
+        ArrayList<Integer> cellValues = c.getAccesibleNeighbors(); // Get accessible neighbors
         for (int i = 0; i < cellValues.size(); i++) { // Loop through cell values
             neighbors.add(getCellsArray()[cellValues.get(i) - 1]); // Add neighbor cells to the list
         }
@@ -80,7 +80,7 @@ public class Cave {
     public ArrayList<Cell> getCellNeighbors(int num) {
         ArrayList<Cell> neighbors = new ArrayList<Cell>(); // Create a new ArrayList for neighbors
         Cell c = getCell(num); // Get the cell by number
-        ArrayList<Integer> cellValues = c.getAccessibleNeighbors(); // Get accessible neighbors
+        ArrayList<Integer> cellValues = c.getAccesibleNeighbors(); // Get accessible neighbors
         for (int i = 0; i < cellValues.size(); i++) { // Loop through cell values
             neighbors.add(getCellsArray()[cellValues.get(i) - 1]); // Add neighbor cells to the list
         }
@@ -91,12 +91,23 @@ public class Cave {
 
     // Returns an ArrayList of integers given an int
     public ArrayList<Integer> getNeighbors(int num) {
-        return getCell(num).getAccessibleNeighbors(); // Return accessible neighbors
+        return getCell(num).getAccesibleNeighbors(); // Return accessible neighbors
     }
 
     // Returns an ArrayList of integers given a Cell
     public ArrayList<Integer> getNeighbors(Cell cell) {
-        return cell.getAccessibleNeighbors(); // Return accessible neighbors
+        return cell.getAccesibleNeighbors(); // Return accessible neighbors
+    }
+
+    public Cell getRandomCell(){
+        int rnd = (int) Math.random() * 30 + 1;
+        return getCell(rnd);
+    }
+
+    public Cell getRandomAccesibleCell(Cell cell){
+       ArrayList<Integer> cells = cell.getAccesibleNeighbors();
+       int rnd = (int) Math.random() * cells.size();
+       return getCell(cells.get(rnd));
     }
 
     // Checks if it's possible to move to a cell given the current cell and target cell

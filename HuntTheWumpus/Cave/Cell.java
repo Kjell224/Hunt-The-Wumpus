@@ -72,7 +72,7 @@ public class Cell {
         return str; // Return walls string
     }
 
-    private Integer[] getAllNeighbors() {
+    public Integer[] getAllNeighbors() {
         Integer[] cellValues = new Integer[6]; // Initialize neighbors array
         cellValues[0] = getUp(cellNum); // Get cell above
         cellValues[1] = getUpRight(cellNum); // Get cell up-right
@@ -83,7 +83,7 @@ public class Cell {
         return cellValues; // Return neighbors array
     }
 
-    public ArrayList<Integer> getAccesibleNeighbors() {
+    public ArrayList<Integer> getAccessibleNeighbors() {
         Integer[] all = getAllNeighbors(); // Get all neighbors
         ArrayList<Integer> accesible = new ArrayList<Integer>(); // Initialize accessible neighbors list
         for (int i = 0; i < all.length; i++) {

@@ -71,13 +71,17 @@ public class Trivia{
     }
 
     // method used by game control
-    public void reInitilizeQuestions(){
+    public void reInitializeQuestions(){
         try{
-            FileWriter writer = new FileWriter(this.file);
+            File tempFile = new File("Questions2.csv");
+            FileWriter writer = new FileWriter(tempFile);
+            Scanner readFile = new Scanner("HuntTheWumpus/Trivia/Questions(copy).csv");
+
             for(int i = 0; i < this.tempQuestions.size(); i++){
                 writer.write(this.tempQuestions.get(i).toString() + "\n");
             }
             writer.close();
+            tempFile.renameTo(this.file);
         } catch (Exception e){
             System.out.println("I SUCK! " + e);
         }

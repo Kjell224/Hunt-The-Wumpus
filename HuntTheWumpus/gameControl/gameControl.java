@@ -14,6 +14,7 @@ import Cave.Cave;
 import Player.Player;
 import UI.MainMenu;
 import UI.UITest;
+import Trivia.*;
 
 public class gameControl {
     ///////////////////////
@@ -23,6 +24,7 @@ public class gameControl {
     private Cave cave;
     private Scanner scanner;
     private MainMenu mainmenu;
+    private Trivia trivia;
 
     ///////////////////////
     // Constructor(s)
@@ -30,6 +32,8 @@ public class gameControl {
     
     public gameControl() throws FileNotFoundException {
             this.cave = new Cave();
+            this.trivia = new Trivia();
+            trivia.reInitializeQuestions();
             SwingUtilities.invokeLater(() -> { // Ensure the UI is created on the Event Dispatch Thread
             this.mainmenu = new MainMenu(this.cave); // Create the main menu
             this.mainmenu.setVisible(true); // Make the main menu visible

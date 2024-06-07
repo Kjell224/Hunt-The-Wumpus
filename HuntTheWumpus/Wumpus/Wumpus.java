@@ -31,22 +31,32 @@ public class Wumpus {
         return rnd;
     }
 
-    public void turn(){
+    public int getMovingRND(){
+        int rnd = (int) Math.random() * 3 + 1;
+        return rnd;
+    }
+
+    public int turn(){
         //if wumpus asleep do the count time
         cycleTurns++;
         if(getState().equals("asleep")){
-            if(getCycleTurns() != getCappedRND()){
+            if(getCycleTurns() == getCappedRND()){
                 move(1);
+            }else{
                 setCycleTurns(0);
+                setCappedRND(getLazyRND());
             }
         } else if(getState().equals("moving")){
             if(getCycleTurns() != getCappedRND()){
                 move(2);
+            }else{
                 setCycleTurns(0);
+                setState("active");
             }
         } else { //wumpus is awake
             teleport();
         }
+        return getWumpCell().getCellNum();
     }
 
     //move(int howmany)
@@ -79,35 +89,16 @@ public class Wumpus {
             if(getState().equals("asleep")){
                 move(3);
                 setState("moving");
-                int angryTurn = 0;
-            } else if(getState().equals("awake") || getState().equals("moving")){
-
-            }
-        }
-    }
-
-    public boolean WumpusWins(){
-        if (WumpusLoses() == false && playerDeath() == true){
-            return true;
+                setCappedRND(getMovingRND());
+            } else if(getState().equals("awake")){
+                move(2);
+                setState("moving");
+                setCappedRND(getMovingRND());
+            } else { //moving wumpus
+                move(2);
+            }      
         } else {
-            return false;
-        }
-    }
-
-    public boolean WumpusLoses(){
-        if (getHealth() == 0){
-            return true;
-        } else{
-            return false;
-        }
-    }
-
-    // This method is for when the player dies
-    public boolean playerDeath(){
-        if (player.getHealth() == 0){
-            return true;
-        } else {
-            return false;
+           player.setHealth(0);
         }
     }
 

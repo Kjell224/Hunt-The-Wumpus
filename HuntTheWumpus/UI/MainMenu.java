@@ -7,6 +7,7 @@ import Cave.Cave;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 
 public class MainMenu extends JFrame implements ActionListener {
     private Cave cave;
@@ -42,7 +43,7 @@ public class MainMenu extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Play")) { // Check if the "Play" button was clicked
-            new UITest(getCave()); // Create and show the UITest frame
+            new UITest(getCave());
             dispose(); // Close the main menu window
         }
     }

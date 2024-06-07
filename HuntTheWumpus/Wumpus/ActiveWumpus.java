@@ -5,80 +5,87 @@
 
 package Wumpus;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+import Cave.Cave;
+import Cave.Cell;
 
-public class ActiveWumpus {
+public class ActiveWumpus extends LazyWumpus{
     /////////////////
     // PROPERTIES
     /////////////////
     public int health = 1;
-    public int wumpusPos;
+    public Cell wumpusPos;
     public int turns;
     public int playerCorrect;
+    public Cave cave;
+    public int rnd;
+    public int currentTurns; // this is the amount of turns to keep track of every "cycle" of the 5-10 wumpus moves
 
     /////////////////
     // CONSTRUCTOR(S)
     /////////////////
     public ActiveWumpus(){
-        
+        this.rnd = getNewRnd();
     }
 
     /////////////////
     // METHODS
     /////////////////
-    public int getLocation(){
+
+
+
+    // This method gets the location of the wumpus
+    public Cell getInitialLocation(){
+        wumpusPos = cave.getCell(cave.getWumpusCell());
         return wumpusPos;
     }
 
-    public int setLocation(int wumpusPos){
-        return this.wumpusPos = wumpusPos;
+    public int getNewRnd(){
+        return (int) Math.random() * 6 + 5;
     }
 
-// Precondition: the String state must be "asleep" or "awake"
-    public String state(String state){
-        return state;
-    }
-
-    public int turnMove(){
-        if (turns % 5 == 0 | turns % 6 == 0 | turns % 7 == 0 | turns % 8 == 0 | turns % 9 == 0 | turns % 10 == 0){
-            wumpusPos++;
+    public int randomMove(){
+        if (currentTurns == rnd){
+            wumpusPos = cave.getRandomAccesibleCell(wumpusPos);
+            this.rnd = getNewRnd();
+            this.currentTurns = 0;
         }
 
-        return wumpusPos;
+        return wumpusPos.getCellNum();
     }
 
     public int teleport(){
-        double rnd = Math.random() * 20 + 1;
-        int num = (int) rnd;
-        if (turns % 1 == 0 && num == 5){
-            double rnd2 = Math.random() * 10 + 1;
-            int num2 = (int) rnd2;
-
-            wumpusPos += num2;
+        int rnd = (int) Math.random() * 20 + 1;
+        if (rnd == 20){
+            wumpusPos = cave.getRandomCell();
         }
-
-        return wumpusPos;
+        return wumpusPos.getCellNum();
     }
 
-    public boolean loseTrivia(){
-        if (playerCorrect == 3){
+    public boolean loseTrivia(int correct){
+        if (correct >= 3){
             return true;
         } else {
             return false;
         }
     }
 
-    public int triviaLose(){
-        if (loseTrivia()){
-            for (int i = 0; i < 3; i++){
+    public int triviaFight(int correct){
+        if (loseTrivia(correct)){
+            int rnd = (int) Math.random() * 2 + 1;
+            for (int i = 0; i < rnd; i++){
                 turns += i;
-
-                wumpusPos += 2;
+                currentTurns += i;
+                wumpusPos = cave.getCell(randomMove());
             }
         }
-
-        return wumpusPos;
+        return wumpusPos.getCellNum();
     }
+        public static void main(String args[]) throws FileNotFoundException{
+        ActiveWumpus wumpus = new ActiveWumpus();
+    }
+
 }

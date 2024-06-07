@@ -16,22 +16,27 @@ public class Trivia{
     // Properties & Fields
     //////////////////////
     private File file;
+    private File masterFile;
     private ArrayList<Question> questions;
     private ArrayList<Question> tempQuestions;
+    private ArrayList<String> questionsAsked; //Useless answers for "purchase secret" button (don't remove)
+
     /////////////////////
     // Constructor(s)
     /////////////////////
 
     public Trivia(){
         this.file = new File("HuntTheWumpus/Trivia/Questions.csv");
+        this.masterFile = new File("HuntTheWumpus/Trivia/Questions(copy).csv");
         this.questions = createQuestions(this.file);
         this.tempQuestions = this.questions;
+        this.questionsAsked = new ArrayList<String>();
         Collections.shuffle(this.questions);
     }
 
     ///////////////////////
     // Methods
-    //////////////////////
+    ///////////////////////
 
     public ArrayList<Question> createQuestions(File f){
         ArrayList<Question> lines = new ArrayList<Question>();
@@ -53,6 +58,7 @@ public class Trivia{
     
     public Question getQuestion(){
         Question tempQuestion = this.questions.get(0);
+        questionsAsked.add(tempQuestion.getAnswer());
         this.questions.remove(0);
         try{
             FileWriter writer = new FileWriter(this.file);
@@ -77,6 +83,11 @@ public class Trivia{
         } catch (Exception e){
             System.out.println("I SUCK! " + e);
         }
+    }
+
+    //Get answer of already asked questions for "purchase secret"
+    public String getRandomAnswer(){
+        return questionsAsked.remove(0);
     }
 
 }

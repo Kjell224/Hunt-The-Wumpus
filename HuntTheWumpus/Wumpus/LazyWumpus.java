@@ -8,6 +8,8 @@ package Wumpus;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+import Cave.Cave;
+import Cave.Cell;
 
 public class LazyWumpus {
     ///////////////////////
@@ -16,10 +18,10 @@ public class LazyWumpus {
     public int arrows = 3;
     public int whealth = 1;
     public int phealth = 1;
-    private int numQ;
-    public int wumpusPos;
+    public Cell wumpusPos;
     public int playerCorrect;
     public String state;
+    public Cave cave;
 
     ///////////////////////
     // Constructor(s)
@@ -32,22 +34,25 @@ public class LazyWumpus {
     // Methods
     //////////////////////
 
-    public int getLocation(){
+    public Cell getLocation(){
+        wumpusPos = cave.getCell(cave.getWumpusCell());
         return wumpusPos;
     }
 
-    public int setLocation(int wumpusPos){
-        return this.wumpusPos = wumpusPos;
-    }
 
     // Precondition: the String state must be "asleep", "awake", or "moving"
-    public String state(String state){
-        return this.state = state;
+    public void setState(String state){
+        this.state = state;
+    }
+    
+    public String getState(){
+        return state;
     }
 
     public void miss(){
         if ((arrows == 2 && whealth != 0) | (arrows == 1 && whealth != 0) | (arrows == 0 && whealth != 0)){
-            wumpusPos += 2;
+            wumpusPos = cave.getRandomAccesibleCell(wumpusPos);
+            wumpusPos = cave.getRandomAccesibleCell(wumpusPos);
         }
     }
     public boolean loseTrivia(){
@@ -58,9 +63,12 @@ public class LazyWumpus {
         }
     }
 
-    public int move(){
+    public Cell move(){
         if (loseTrivia()){
-            wumpusPos += 1 | wumpusPos + 2 | wumpusPos + 3;
+            int rnd = (int) Math.random() * 3 + 1;
+            for (int i = 0; i < 3; i++){
+                wumpusPos = cave.getRandomAccesibleCell(wumpusPos);
+            }
         } else {
             return wumpusPos;
         }
@@ -68,13 +76,13 @@ public class LazyWumpus {
         return wumpusPos;
     }
 
-    public int stateMove(){
+    public Cell stateMove(){
         if (state.equalsIgnoreCase("asleep")){
             return wumpusPos;
         } else if (state.equalsIgnoreCase("awake")){
             return wumpusPos;
         } else if (state.equalsIgnoreCase("moving")){
-            wumpusPos++;
+            wumpusPos = cave.getRandomAccesibleCell(wumpusPos);
         }
 
         return wumpusPos;

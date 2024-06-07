@@ -9,108 +9,94 @@ package Player;
 import Cave.Cell;
 import java.util.Scanner;
 import java.util.Random;
+import java.util.ArrayList;
+import Cave.Cave;
 
 public class Player {
     ///////////////////////
     // Properties & Fields
     //////////////////////
-    public String name;
+    public String name; 
+    public Cave cave;
     private boolean triviaAnswer;
     private int gold = 0;
     public int health = 1;
     public String choice;
     public int arrows = 3;
-    public int playerPos;
+    public Cell playerPos;
     public int turns = 0;
     public int score;
     public int points;
     public int wumpushealth = 1;
+    public ArrayList<Integer> explored;
 
     ///////////////////////
     // Constructor(s)
     //////////////////////
     public Player(){
-    
+        this.playerPos = getPlayerPos();
     }
     ///////////////////////
     // Methods
     //////////////////////
 
-    public int setPlayerPos(int playerPos){
-        return this.playerPos = playerPos;
-    }
-
-    public int getPlayerPos(){
+    // This method gets the player position
+    public Cell getPlayerPos(){
+        playerPos = cave.getCell(cave.getPlayerCell()); // cell
         return playerPos;
     }
 
-    // This method gets the name of the Player
-    public String getName(){
-        Scanner s = new Scanner(System.in);
-        System.out.println("What is your name?");
-        name = s.nextLine();
-        System.out.println("Hello " + name + "! Welcome to Hunt the Wumpus!");
-
-        s.close();
-
-        return name;
+    public int getHealth(){
+        return this.health;
     }
 
-    // This method makes the player move
-    public Cell move(Cell c){
-        return c;
+    public void setHealth(int hp){
+        this.health = hp;
+    }
+
+    public void turn(int cellNum){
+        if(isNewCell(cellNum) == false){
+            explored.add(cellNum);
+            gold++;
+        }
+    }
+
+    public boolean isNewCell(int num){
+    for(int i = 0; i < explored.size(); i++){
+        if(num == explored.get(i)){
+            return true;
+        }
+    }
+        return false;
     }
 
     // This method gives gold to the player
-    public void giveGold(){
+    public void playTrivia(boolean triviaAnswer){
         if(triviaAnswer == true){
-            gold = gold++;
+            gold++;
         } else if (triviaAnswer == false){
-            if (gold == 0){
-                health = health--;
-            }
-            else if (gold >= 1){
-                gold = gold--;
+            if (gold >= 1) {
+                gold--;
+            } else {
+                health--;
             }
         }
     }
 
-    // This method allows the player to choose which spot they would like to move to
-    public void chooseMove(){
-        Scanner s = new Scanner(System.in);
-        System.out.println("Where would you like to move? Up, Down, Left, or Right? or Would you like to Shoot?");
-        choice = s.nextLine();
-        if (choice.substring(0,1).equalsIgnoreCase("R")){
-            playerPos++;
-        } else if (choice.substring(0,1).equalsIgnoreCase("L")){
-            playerPos--;
-        } else if (choice.substring(0,1).equalsIgnoreCase("U")){
-            playerPos++;
-        } else if (choice.substring(0,1).equalsIgnoreCase("D")){
-            playerPos--;
-        } else if(choice.substring(0,1).equalsIgnoreCase("S")){    
-            arrows--;
-        }else {
-            System.out.println();
-            System.out.println("Sorry you did not enter one of the following options. Please try again.");
-            System.out.println();
-            turns++;
-            chooseMove();
-        }
-    }
 
-    public int turnTracker(){
+    // This method tracks how many turns the player has taken
+    public int getTurns(){
         return turns;
     }
 
+    // This method calculates the high score of the Player
     public int highScore(){
         score = 100 - turns + gold + (5 * arrows) + points;
-
         return score;
     }
 
-
-    public void attack(Cell c){
+    // This method is for when the player attacks the wumpus
+    public void attack(){
         arrows--;
     }
 
@@ -129,6 +115,7 @@ public class Player {
         }
     }
 
+    // This method is for when the player wins, it is give 50 points upon killing the wumpus
     public int win(){
         if (wumpushealth == 0){
             points += 50;

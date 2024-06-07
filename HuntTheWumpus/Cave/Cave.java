@@ -1,6 +1,6 @@
+///////////////////// 
+// Import 
 /////////////////////
-//Import
-////////////////////
 package Cave;
 
 import java.io.File;
@@ -10,134 +10,161 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Cave {
-  /////////////
-  //Properties
-  /////////////
-  private File wallMap; // csv file
-  private Scanner reader; //readers that reads csv map file
-  private String map; // the full string map from the csv file
-  public Cell[] cellsArray = new Cell[30]; // ***************** ALL CELLS IN ACENDING ORDER! ************
-  /////////////////
-  //Constuctor(s)
-  ///////////////
-  public Cave() throws FileNotFoundException {
-    this.wallMap = new File("HuntTheWumpus\\Cave\\Maps.csv"); // grab pathname
-    this.reader = new Scanner(wallMap); // read the file
-    this.map = getMapFromCsv(); // csv information (rotates the maps)
-    createCells(this.map); // from information generates the cells info
-    System.out.println("Player cell : " + getPlayerCell());
-    System.out.println("Wumpus cell: " + getWumpusCell());
-  }
-  ///////////
-  //Methods
-  //////////
-  private String getMapFromCsv() throws FileNotFoundException {
-    String map = reader.nextLine();
-    String restOfLines = "";
-    while(reader.hasNextLine()){
-      restOfLines += reader.nextLine() + "\n";
-    }
-    try {
-      FileWriter fw = new FileWriter(wallMap);
-      fw.write(restOfLines + map);
-      fw.close();
-    } catch(Exception e) {
-      System.out.println("writing back into Walls.csv failed " +  e);
-    }
-    return map;
-  }
-  
-  private void createCells(String info) throws FileNotFoundException {
-    String[] cellInfo = info.split(",");
-    for(int i = 0; i < 30; i++){
-      Cell cell = new Cell(cellInfo[i]);
-      cellsArray[i] = cell;
-    }
-  } 
 
-  // ⇓⇓⇓⇓⇓⇓⇓⇓⇓⇓⇓ RETURNS CELL ARRAYLIST ⇓⇓⇓⇓⇓⇓⇓⇓⇓⇓⇓
+    ///////////// 
+    // Properties 
+    /////////////
 
-  // RETURNS ARRAYLIST OF CELLS GIVEN A CELL
-  public ArrayList<Cell> getCellNeighbors(Cell c){
-    ArrayList<Cell> neighbors = new ArrayList<Cell>();
-    ArrayList<Integer> cellValues = c.getAccesibleNeighbors();
-    for(int i = 0; i < cellValues.size(); i++){
-      neighbors.add(getCellsArray()[cellValues.get(i) - 1]);
+    private File wallMap; // CSV file
+
+    private Scanner reader; // Reader that reads CSV map file
+
+    private String map; // The full string map from the CSV file
+
+    public Cell[] cellsArray = new Cell[30]; // All cells in ascending order
+
+    //////////////////
+    // Constructors
+    /////////////////
+
+    public Cave() throws FileNotFoundException {
+        this.wallMap = new File("HuntTheWumpus\\Cave\\Maps.csv"); // Grab pathname
+        this.reader = new Scanner(wallMap); // Read the file
+        this.map = getMapFromCsv(); // CSV information (rotates the maps)
+        createCells(this.map); // From information, generate the cells info
+        System.out.println("Player cell : " + getPlayerCell()); // Print player cell
+        System.out.println("Wumpus cell: " + getWumpusCell()); // Print Wumpus cell
     }
-    return neighbors;
-  }
-  // RETURNS ARRAYLIST OF CELLS GIVEN A INT
-  public ArrayList<Cell> getCellNeighbors(int num){
-    ArrayList<Cell> neighbors = new ArrayList<Cell>();
-    Cell c = getCell(num);
-    ArrayList<Integer> cellValues = c.getAccesibleNeighbors();
-    for(int i = 0; i < cellValues.size(); i++){
-      neighbors.add(getCellsArray()[cellValues.get(i) - 1]);
+
+    //////////
+    // Methods 
+    //////////
+
+    private String getMapFromCsv() throws FileNotFoundException {
+        String map = reader.nextLine(); // Read the first line
+        String restOfLines = ""; // Initialize the rest of the lines as empty
+        while (reader.hasNextLine()) { // Loop through the rest of the lines
+            restOfLines += reader.nextLine() + "\n"; // Append each line to restOfLines
+        }
+        try {
+            FileWriter fw = new FileWriter(wallMap); // Create a FileWriter object
+            fw.write(restOfLines + map); // Write the rest of the lines followed by the first line
+            fw.close(); // Close the FileWriter
+        } catch (Exception e) {
+            System.out.println("Writing back into Maps.csv failed " + e); // Print an error message if writing fails
+        }
+        return map; // Return the map
     }
-    return neighbors;
-  }
-  
 
-  // ⇓⇓⇓⇓⇓⇓⇓⇓⇓⇓⇓ RETURNS INTEGER ARRAYLIST ⇓⇓⇓⇓⇓⇓⇓⇓⇓⇓⇓
-  
-  public ArrayList<Integer> getNeighbors(int num){
-    return getCell(num).getAccesibleNeighbors();
-  }
-
-  public ArrayList<Integer> getNeighbors(Cell cell){
-    return cell.getAccesibleNeighbors();
-  }
-  
-
-  // CHECKS IF POSSIBLE TO MOVE TO A CELL GIVEN A CELLS DESTINATION
-  public boolean isValid(Cell current, Cell target){
-     ArrayList<Cell> neighbors = getCellNeighbors(current);
-    for(int i = 0; i < neighbors.size(); i++){
-      if( neighbors.get(i).getCellNum() == target.getCellNum() ){
-        return true;
-      }
+    private void createCells(String info) throws FileNotFoundException {
+        String[] cellInfo = info.split(","); // Split the map string by commas
+        for (int i = 0; i < 30; i++) { // Loop through the first 30 elements
+            Cell cell = new Cell(cellInfo[i]); // Create a new Cell object
+            cellsArray[i] = cell; // Assign the Cell object to cellsArray
+        }
     }
-    return false;
-  }
 
-  public int getPlayerCell(){
-    for(int i = 1; i <= cellsArray.length; i++){
-      if(getCell(i).getPlayer()){
-        return getCell(i).getCellNum();
-      }
+    // ⇓⇓⇓⇓⇓⇓⇓⇓⇓⇓⇓ RETURNS CELL ARRAYLIST ⇓⇓⇓⇓⇓⇓⇓⇓⇓⇓⇓ 
+
+    // Returns an ArrayList of cells given a Cell
+    public ArrayList<Cell> getCellNeighbors(Cell c) {
+        ArrayList<Cell> neighbors = new ArrayList<Cell>(); // Create a new ArrayList for neighbors
+        ArrayList<Integer> cellValues = c.getAccesibleNeighbors(); // Get accessible neighbors
+        for (int i = 0; i < cellValues.size(); i++) { // Loop through cell values
+            neighbors.add(getCellsArray()[cellValues.get(i) - 1]); // Add neighbor cells to the list
+        }
+        return neighbors; // Return the list of neighbors
     }
-    return -1;
-  }
 
-  public int getWumpusCell(){
-    for(int i = 1; i <= cellsArray.length; i++){
-      if(getCell(i).getWumpus()){
-        return getCell(i).getCellNum();
-      }
+    // Returns an ArrayList of cells given an int
+    public ArrayList<Cell> getCellNeighbors(int num) {
+        ArrayList<Cell> neighbors = new ArrayList<Cell>(); // Create a new ArrayList for neighbors
+        Cell c = getCell(num); // Get the cell by number
+        ArrayList<Integer> cellValues = c.getAccesibleNeighbors(); // Get accessible neighbors
+        for (int i = 0; i < cellValues.size(); i++) { // Loop through cell values
+            neighbors.add(getCellsArray()[cellValues.get(i) - 1]); // Add neighbor cells to the list
+        }
+        return neighbors; // Return the list of neighbors
     }
-    return -1;
-  }
 
-  /* 
-  public void printCellsNeighbors(Cell c){
-    ArrayList<Integer> nums = c.getAccesibleNeighbors();
-    for(int i = 0; i < nums.size(); i++){
-      System.out.println(getCellsArray()[nums.get(i)].toString());
+    // ⇓⇓⇓⇓⇓⇓⇓⇓⇓⇓⇓ RETURNS INTEGER ARRAYLIST ⇓⇓⇓⇓⇓⇓⇓⇓⇓⇓⇓ 
+
+    // Returns an ArrayList of integers given an int
+    public ArrayList<Integer> getNeighbors(int num) {
+        return getCell(num).getAccesibleNeighbors(); // Return accessible neighbors
     }
-  }
-  */
-  
-  public Cell[] getCellsArray(){
-    return cellsArray;
-  }
-  
-  //this will return ACTUAL cell num (not the offset index)
-  public Cell getCell(int num){
-    return cellsArray[num - 1];
-  }
-  
-  public String getMap(){
-    return this.map;
-  }
 
+    // Returns an ArrayList of integers given a Cell
+    public ArrayList<Integer> getNeighbors(Cell cell) {
+        return cell.getAccesibleNeighbors(); // Return accessible neighbors
+    }
+
+    public Cell getRandomCell(){
+        int rnd = (int) Math.random() * 30 + 1;
+        return getCell(rnd);
+    }
+
+    public Cell getRandomAccesibleCell(Cell cell){
+       ArrayList<Integer> cells = cell.getAccesibleNeighbors();
+       int rnd = (int) Math.random() * cells.size();
+       return getCell(cells.get(rnd));
+    }
+
+    public Cell getRandomCell(){
+        int rnd = (int) Math.random() * 30 + 1;
+        return getCell(rnd);
+    }
+
+    public Cell getRandomAccesibleCell(Cell cell){
+       ArrayList<Integer> cells = cell.getAccessibleNeighbors();
+       int rnd = (int) Math.random() * cells.size();
+       return getCell(cells.get(rnd));
+    }
+
+    // Checks if it's possible to move to a cell given the current cell and target cell
+    public boolean isValid(Cell current, Cell target) {
+        ArrayList<Cell> neighbors = getCellNeighbors(current); // Get neighbors of the current cell
+        for (int i = 0; i < neighbors.size(); i++) { // Loop through the neighbors
+            if (neighbors.get(i).getCellNum() == target.getCellNum()) { // Check if the target cell is a neighbor
+                return true; // Return true if it's a valid move
+            }
+        }
+        return false; // Return false if it's not a valid move
+    }
+
+    // Get the cell number where the player is located
+    public int getPlayerCell() {
+        for (int i = 1; i <= cellsArray.length; i++) { // Loop through the cellsArray
+            if (getCell(i).getPlayer()) { // Check if the cell has the player
+                return getCell(i).getCellNum(); // Return the cell number
+            }
+        }
+        return -1; // Return -1 if the player is not found
+    }
+
+    // Get the cell number where the Wumpus is located
+    public int getWumpusCell() {
+        for (int i = 1; i <= cellsArray.length; i++) { // Loop through the cellsArray
+            if (getCell(i).getWumpus()) { // Check if the cell has the Wumpus
+                return getCell(i).getCellNum(); // Return the cell number
+            }
+        }
+        return -1; // Return -1 if the Wumpus is not found
+    }
+
+    // Returns the array of cells
+    public Cell[] getCellsArray() {
+        return cellsArray; // Return the cellsArray
+    }
+
+    // Returns a specific cell by its number
+    // This will return the actual cell number (not the offset index)
+    public Cell getCell(int num) {
+        return cellsArray[num - 1]; // Return the cell
+    }
+
+    // Returns the map string
+    public String getMap() {
+        return this.map; // Return the map
+    }
 }

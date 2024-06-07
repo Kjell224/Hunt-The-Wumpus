@@ -48,10 +48,11 @@ public class gameLocations {
   // Properties & Fields
   //////////////////////
   private ArrayList<String> hints;
-  public int wumpusPos;
-  public int playerPos;
-  public int[] batsPos;
-  public int[] pitsPos;
+  private int wumpusPos;
+  private int playerPos;
+  private int[] batsPos;
+  private int[] pitsPos;
+
 
 
   ///////////////////////
@@ -64,7 +65,6 @@ public class gameLocations {
     batsPos = new int[2];
     pitsPos = new int[2];
     initializeHints();
-    initializeTypes();
   }
 
   ///////////////////////
@@ -72,7 +72,7 @@ public class gameLocations {
   //////////////////////
 
   //Initialize the ArrayList hints to include all answers from Questions.csv to give to the player
-  public void initializeHints() throws FileNotFoundException{
+  private void initializeHints() throws FileNotFoundException{
     try{
       //Initialize File Questions.csv and a Scanner to read the file
       File data = new File("HuntTheWumpus/Trivia/Questions.csv");
@@ -82,7 +82,7 @@ public class gameLocations {
         String currentLine = readFile.nextLine();
         //Array of the Line in Questions.csv
         String[] splitLine = currentLine.split(",");   
-        hints.add(splitLine[2]); // Get the answer portion and fill up ArrayList hints
+        hints.add(splitLine[6]); // Get the answer portion and fill up ArrayList hints
       }
       readFile.close(); // Close the Scanner
     } catch(IOException e){ // Catch Exceptions
@@ -111,7 +111,8 @@ public class gameLocations {
 
 
   public void findHazard(Cave cave, int pPos){
-    int i = 0; //Index to add to hazardPos
+    int i = 0; //Index to add to batsPos
+    int j = 0; //Index to add to pitsPos
     ArrayList<Integer> adjRooms = cave.getNeighbors(cave.getCell(pPos)); //Array List of Cells near Player
     //For each cell next to the player...
     for(Integer c : adjRooms){ 
@@ -121,11 +122,13 @@ public class gameLocations {
         //Give a warning depending on the type
         System.out.println(giveWarning(curCell.getType()));
         //If the type is NOT a wumpus
-        if(curCell.getType() != "Wumpus"){
-          //Add the number of the cell it is in to HazardPos
-          //If it isn't Wumpus it means it is Bats or Pits
-          hazardPos[i] = c;
+        if(curCell.getType() == "SuperBats"){
+          //Add the number of the cell it is in to BatsPos
+          batsPos[i] = c;
           i++;
+        } else if(curCell.getType() == "Pit"){
+          pitsPos[j] = c;
+          j++;
         }
       }
     } 
@@ -211,30 +214,40 @@ public void updatePlayerLocations(int currentPos, int newPos, Cave c){
         // Update gL variable playerPos to match new location of player
         playerPos = rndPlayerCell + 1;
         
-        if(c.cellsArray[batsPos[0] - 1].getCellNum == startingCellNum){
-            c.cellsArray[batPos[0] - 1].setType("null");
+        if(c.cellsArray[batsPos[0] - 1].getCellNum() == startingCellNum){
+            c.cellsArray[batsPos[0] - 1].setType("null");
             batsPos[0] = rndBatCell + 1;
         }
         else{
-            c.cellsArray[batPos[1] - 1].setType("null");
+            c.cellsArray[batsPos[1] - 1].setType("null");
             batsPos[1] = rndBatCell + 1;
         }
     }
     // if the random numbers do not fit the requirements
         // Then run the method again and get new random numbers that have a possibility of working.
-    else setRandomBatsLocation();
+    else setRandomBatsLocation(c, startingCellNum);
 }
 
-  //* **** Getters & Setters **** *//
-  public int[] getHazardsLocation(){ return hazardPos; }
+public void setRandomWumpusLocation(Cave c, int startingWumpCell){
+  int rnd = (int)(Math.random() * 3) + 2; // Random number from 2-4 - how many spaces the wumpus will move
+  int newPos = (rnd + startingWumpCell) % 30;
+  c.cellsArray[wumpusPos - 1].setWumpus(false);
+  c.cellsArray[newPos - 1].setWumpus(true);
+  wumpusPos = newPos;
+}
 
-  public int getWumpusLocation(){ return wumpusPos; }
+//* **** Getters & Setters **** *//
+public int[] getBatsLocation(){ return batsPos; }
 
-  public void setWumpusLocation(int newLoc){ wumpusPos = newLoc; }
+public int[] getPitsLocation(){ return pitsPos; }
 
-  public int getPlayerLocation(){ return playerPos; }
+public int getWumpusLocation(){ return wumpusPos; }
 
-  public void setPlayerLocation(int newLoc){ playerPos = newLoc; }
+public void setWumpusLocation(int newLoc){ wumpusPos = newLoc; }
+
+public int getPlayerLocation(){ return playerPos; }
+
+public void setPlayerLocation(int newLoc){ playerPos = newLoc; }
 
       
 

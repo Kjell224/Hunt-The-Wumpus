@@ -3,6 +3,8 @@
 // 2/12/24
 // Hunt The Wumpus - Main Class
 
+import java.io.FileNotFoundException;
+
 import Cave.*;
 import gameControl.*;
 import gameLocations.*;
@@ -21,8 +23,8 @@ public class Main{
     ////////////////////
     // Main Method
     ///////////////////
-    public static void main(String[] args){
-        new UITest();
+    public static void main(String[] args) throws FileNotFoundException {
+        gameControl gc = new gameControl();
     }
 
     ////////////////////

@@ -51,12 +51,12 @@ public class ActiveWumpus {
 
     public int turnMove(){
         if (currentTurns == rnd){
-            wumpusPos++;
+            wumpusPos = cave.getRandomAccesibleCell(wumpusPos);
             this.rnd = getNewRnd();
             this.currentTurns = 0;
         }
 
-        return wumpusPos;
+        return wumpusPos.getCellNum();
     }
 
     public int teleport(){

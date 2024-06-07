@@ -38,21 +38,16 @@ public class ActiveWumpus extends LazyWumpus{
 
 
     // This method gets the location of the wumpus
-    public Cell getLocation(){
+    public Cell getInitialLocation(){
         wumpusPos = cave.getCell(cave.getWumpusCell());
-
         return wumpusPos;
     }
 
-// Precondition: the String state must be "asleep" or "awake"
-    public String state(String state){
-        return state;
-    }
     public int getNewRnd(){
         return (int) Math.random() * 6 + 5;
     }
 
-    public int turnMove(){
+    public int randomMove(){
         if (currentTurns == rnd){
             wumpusPos = cave.getRandomAccesibleCell(wumpusPos);
             this.rnd = getNewRnd();
@@ -70,24 +65,23 @@ public class ActiveWumpus extends LazyWumpus{
         return wumpusPos.getCellNum();
     }
 
-    public boolean loseTrivia(){
-        if (playerCorrect >= 3){
+    public boolean loseTrivia(int correct){
+        if (correct >= 3){
             return true;
         } else {
             return false;
         }
     }
 
-    public int triviaLose(){
-        if (loseTrivia()){
+    public int triviaFight(int correct){
+        if (loseTrivia(correct)){
             int rnd = (int) Math.random() * 2 + 1;
             for (int i = 0; i < rnd; i++){
                 turns += i;
                 currentTurns += i;
-                wumpusPos = cave.getCell(turnMove());
+                wumpusPos = cave.getCell(randomMove());
             }
         }
-
         return wumpusPos.getCellNum();
     }
         public static void main(String args[]) throws FileNotFoundException{

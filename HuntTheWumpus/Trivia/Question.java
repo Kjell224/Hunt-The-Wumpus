@@ -64,7 +64,7 @@ public class Question {
 
     @Override
     public String toString(){
-        String line = this.index + "," + this.question + "," + this.answer;
+        String line = this.index + "," + this.question + this.optionA + "," + this.optionB + "," + this.optionC + "," + this.optionD + "," + this.answer;
         return line;
     }
     

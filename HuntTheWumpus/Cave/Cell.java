@@ -77,7 +77,7 @@ public class Cell {
     return cellValues;
   }
 
-  public ArrayList<Integer> getAccesibleNeighbors(){
+  public ArrayList<Integer> getAccessibleNeighbors(){
     Integer[] all = getAllNeighbors();
     ArrayList<Integer> accesible = new ArrayList<Integer>();
     for(int i = 0; i < all.length; i++){

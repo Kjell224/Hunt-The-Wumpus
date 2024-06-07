@@ -69,7 +69,7 @@ public class Cave {
     // Returns an ArrayList of cells given a Cell
     public ArrayList<Cell> getCellNeighbors(Cell c) {
         ArrayList<Cell> neighbors = new ArrayList<Cell>(); // Create a new ArrayList for neighbors
-        ArrayList<Integer> cellValues = c.getAccesibleNeighbors(); // Get accessible neighbors
+        ArrayList<Integer> cellValues = c.getAccessibleNeighbors(); // Get accessible neighbors
         for (int i = 0; i < cellValues.size(); i++) { // Loop through cell values
             neighbors.add(getCellsArray()[cellValues.get(i) - 1]); // Add neighbor cells to the list
         }
@@ -80,7 +80,7 @@ public class Cave {
     public ArrayList<Cell> getCellNeighbors(int num) {
         ArrayList<Cell> neighbors = new ArrayList<Cell>(); // Create a new ArrayList for neighbors
         Cell c = getCell(num); // Get the cell by number
-        ArrayList<Integer> cellValues = c.getAccesibleNeighbors(); // Get accessible neighbors
+        ArrayList<Integer> cellValues = c.getAccessibleNeighbors(); // Get accessible neighbors
         for (int i = 0; i < cellValues.size(); i++) { // Loop through cell values
             neighbors.add(getCellsArray()[cellValues.get(i) - 1]); // Add neighbor cells to the list
         }
@@ -91,12 +91,12 @@ public class Cave {
 
     // Returns an ArrayList of integers given an int
     public ArrayList<Integer> getNeighbors(int num) {
-        return getCell(num).getAccesibleNeighbors(); // Return accessible neighbors
+        return getCell(num).getAccessibleNeighbors(); // Return accessible neighbors
     }
 
     // Returns an ArrayList of integers given a Cell
     public ArrayList<Integer> getNeighbors(Cell cell) {
-        return cell.getAccesibleNeighbors(); // Return accessible neighbors
+        return cell.getAccessibleNeighbors(); // Return accessible neighbors
     }
 
     // Checks if it's possible to move to a cell given the current cell and target cell

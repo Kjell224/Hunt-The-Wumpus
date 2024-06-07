@@ -44,6 +44,8 @@ public class ActiveWumpus {
     public String state(String state){
         return state;
     }
+
+    
     public int getNewRnd(){
         return (int) Math.random() * 6 + 5;
     }

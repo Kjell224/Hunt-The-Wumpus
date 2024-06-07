@@ -82,7 +82,7 @@ public class gameLocations {
         String currentLine = readFile.nextLine();
         //Array of the Line in Questions.csv
         String[] splitLine = currentLine.split(",");   
-        hints.add(splitLine[2]); // Get the answer portion and fill up ArrayList hints
+        hints.add(splitLine[6]); // Get the answer portion and fill up ArrayList hints
       }
       readFile.close(); // Close the Scanner
     } catch(IOException e){ // Catch Exceptions

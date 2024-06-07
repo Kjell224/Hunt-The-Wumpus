@@ -22,7 +22,7 @@ public class Sound {
     // Constructor(s)
     //////////////////////
     public Sound(){
-        
+        BackgroundSound();
     }
     ///////////////////////
     // Methods

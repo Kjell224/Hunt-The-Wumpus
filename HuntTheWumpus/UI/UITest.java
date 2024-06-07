@@ -1,7 +1,7 @@
 package UI;
 
 import javax.swing.*;
-import Cave.Cave;
+import Cave.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

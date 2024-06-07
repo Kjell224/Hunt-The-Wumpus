@@ -66,7 +66,7 @@ public class Cell {
     return str;
   }
 
-  private Integer[] getAllNeighbors(){
+  public Integer[] getAllNeighbors(){
     Integer[] cellValues = new Integer[6];
     cellValues[0] = getUp(cellNum);
     cellValues[1] = getUpRight(cellNum);

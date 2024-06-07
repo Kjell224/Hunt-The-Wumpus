@@ -51,7 +51,8 @@ public class LazyWumpus {
 
     public void miss(){
         if ((arrows == 2 && whealth != 0) | (arrows == 1 && whealth != 0) | (arrows == 0 && whealth != 0)){
-            wumpusPos += 2;
+            wumpusPos = cave.getRandomAccesibleCell(wumpusPos);
+            wumpusPos = cave.getRandomAccesibleCell(wumpusPos);
         }
     }
     public boolean loseTrivia(){
@@ -65,8 +66,9 @@ public class LazyWumpus {
     public Cell move(){
         if (loseTrivia()){
             int rnd = (int) Math.random() * 3 + 1;
-
-            return wumpusPos += rnd;
+            for (int i = 0; i < 3; i++){
+                wumpusPos = cave.getRandomAccesibleCell(wumpusPos);
+            }
         } else {
             return wumpusPos;
         }
@@ -78,7 +80,7 @@ public class LazyWumpus {
         } else if (state.equalsIgnoreCase("awake")){
             return wumpusPos;
         } else if (state.equalsIgnoreCase("moving")){
-            wumpusPos++;
+            wumpusPos = cave.getRandomAccesibleCell(wumpusPos);
         }
 
         return wumpusPos;

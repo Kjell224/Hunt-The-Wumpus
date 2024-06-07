@@ -44,18 +44,6 @@ public class Player {
         return playerPos;
     }
 
-    // This method gets the name of the Player
-    public String getName(){
-        Scanner s = new Scanner(System.in);
-        System.out.println("What is your name?");
-        name = s.nextLine();
-        System.out.println("Hello " + name + "! Welcome to Hunt the Wumpus!");
-
-        s.close();
-
-        return name;
-    }
-
     // This method gives gold to the player
     public void giveGold(){
         if(triviaAnswer == true){

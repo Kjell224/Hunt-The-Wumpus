@@ -91,7 +91,7 @@ public class UITest extends JFrame implements ActionListener {
         addRightSideButtons();
 
         // Add the gold label to display the current gold count
-        goldLabel = new JLabel("Gold: 0");
+        goldLabel = new JLabel("Gold: " + goldCount);
         goldLabel.setBounds(1050, 280, 150, 50);
         goldLabel.setFont(new Font("Arial", Font.BOLD, 20));
         add(goldLabel);
@@ -197,7 +197,7 @@ public class UITest extends JFrame implements ActionListener {
             endGame();
         }
         else if(type.equals("SuperBat")){
-            JOptionPane.showMessageDialog(this, "You Have Encountered Bats! Answer 2 out of 3 questions right!");
+            JOptionPane.showMessageDialog(this, "You Have Encountered Bats!");
             return gL.setRandomBatsLocation(cave, cellNum);
         } else if(type.equals("Pit")){
             JOptionPane.showMessageDialog(this, "You Have Encountered A Bottomless Pit! Answer 2 out of 3 questions right!");
@@ -371,6 +371,8 @@ public class UITest extends JFrame implements ActionListener {
         } else {
             JOptionPane.showMessageDialog(this, "Wrong.");
         }
+        goldCount--;
+        if(goldCount == 0) endGame();
         return correct;
     }
 

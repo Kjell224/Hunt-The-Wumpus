@@ -8,7 +8,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+<<<<<<< HEAD
 import gameControl.gameControl;
+=======
+import gameControl.*;
+>>>>>>> ab83fb65e34004ee02f5a3f5f54ce67a9aa0339f
 
 public class GameOver {
 
@@ -39,7 +43,7 @@ public class GameOver {
                 // Add code to restart the game
                 JOptionPane.showMessageDialog(frame, "Restarting the game...");
                 try {
-                    new gameControl();
+                    gameControl newGc = new gameControl();
                 } catch (FileNotFoundException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();

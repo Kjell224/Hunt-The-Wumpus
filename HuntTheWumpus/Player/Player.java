@@ -88,12 +88,6 @@ public class Player {
         return turns;
     }
 
-    // This method calculates the high score of the Player
-    public int highScore(){
-        score = 100 - turns + gold + (5 * arrows) + points;
-        return score;
-    }
-
     // This method is for when the player attacks the wumpus
     public void attack(){
         arrows--;

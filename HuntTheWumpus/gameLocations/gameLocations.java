@@ -110,17 +110,18 @@ public class gameLocations {
 
 
 
-  public void findHazard(Cave cave, int pPos){
+  public ArrayList<String> findHazard(Cave cave){
     int i = 0; //Index to add to batsPos
     int j = 0; //Index to add to pitsPos
-    ArrayList<Integer> adjRooms = cave.getNeighbors(cave.getCell(pPos)); //Array List of Cells near Player
+    ArrayList<String> warnings = new ArrayList<String>();
+    ArrayList<Integer> adjRooms = cave.getNeighbors(cave.cellsArray[playerPos].getCellNum()); //Array List of Cells near Player
     //For each cell next to the player...
     for(Integer c : adjRooms){ 
       Cell curCell = cave.getCell(c); //Get the cell from the number
       //If the cellType is NOT an empty String
       if(curCell.getType() != ""){
         //Give a warning depending on the type
-        System.out.println(giveWarning(curCell.getType()));
+        warnings.add(giveWarning(curCell.getType()));
         //If the type is NOT a wumpus
         if(curCell.getType() == "SuperBat"){
           //Add the number of the cell it is in to BatsPos
@@ -131,10 +132,11 @@ public class gameLocations {
           j++;
         }
       }
+      return warnings;
     } 
   }
 
-  private void initializeTypes(Cave c) { 
+  public void initializeTypes(Cave c) { 
     for(int i = 0; i < 30; i++){
         // Checks wumpus 
         if(c.cellsArray[i].getWumpus())
@@ -170,9 +172,9 @@ public class gameLocations {
 // done
 public void updatePlayerLocations(int currentPos, int newPos, Cave c){
   // set currentpos equal to newPos when player enters an area with a pit (pit case)  
-  if(currentPos == newPos){
+  /*if(currentPos == newPos){
       return;
-  }
+  }*/
   // (null case)
   c.cellsArray[currentPos - 1 ].setType("null");
   c.cellsArray[currentPos - 1].setPlayer(false);
@@ -202,14 +204,14 @@ public void updatePlayerLocations(int currentPos, int newPos, Cave c){
   // done
   public int setRandomBatsLocation(Cave c, int startingCellNum){
     // Both are random locations 
-    int rndBatCell = (int) (Math.random() * 30); // (0-30) not a mistake
-    int rndPlayerCell = (int) (Math.random() * 30); // (0-30) not a mistake
+    int rndBatCell = (int) (Math.random() * 30); // (0-29) not a mistake
+    int rndPlayerCell = (int) (Math.random() * 30); // (0-29) not a mistake
     // If the cell that the player is going to is null AND if the cell that the bat is going to is null OR is the player's old position
     if(c.cellsArray[rndPlayerCell].getType().equals("null") && (c.cellsArray[rndBatCell].getType().equals("null") || rndBatCell + 1 == playerPos)){
         // Move the player to the new random cell
         c.cellsArray[rndPlayerCell].setPlayer(true);
         // Move the bat to the new random cell
-        c.cellsArray[rndBatCell].setType("Bat");
+        c.cellsArray[rndBatCell].setType("SuperBat");
         // Set the old cell the player was in back to null
         c.cellsArray[playerPos - 1].setPlayer(false);
         // Update gL variable playerPos to match new location of player
@@ -226,15 +228,13 @@ public void updatePlayerLocations(int currentPos, int newPos, Cave c){
     }
     // if the random numbers do not fit the requirements
         // Then run the method again and get new random numbers that have a possibility of working.
-    else setRandomBatsLocation(c, startingCellNum);
-
     return rndPlayerCell;
 }
 
 public void setRandomWumpusLocation(Cave c, int startingWumpCell){
   int rnd = (int)(Math.random() * 3) + 2; // Random number from 2-4 - how many spaces the wumpus will move
   int newPos = (rnd + startingWumpCell) % 30;
-  c.cellsArray[wumpusPos - 1].setWumpus(false);
+  c.cellsArray[startingWumpCell - 1].setWumpus(false);
   c.cellsArray[newPos - 1].setWumpus(true);
   wumpusPos = newPos;
 }

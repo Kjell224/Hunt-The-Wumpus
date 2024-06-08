@@ -54,6 +54,7 @@ public class UITest extends JFrame implements ActionListener {
         this.buttonMap = new HashMap<>(); // Initialize the button map
         draw(); // Call the draw method to set up the UI
         initializePlayerPosition(cave.getPlayerCell()); // given the player position (int cell)
+        gL.initializeTypes(cave);
     }
 
     ///////////////////////
@@ -166,14 +167,18 @@ public class UITest extends JFrame implements ActionListener {
             this.number = button.getText(); // Get the number from the button's text
             int num = Integer.parseInt(number); // Parse the number
             System.out.println(number); // Print the number to the console
-            turn(num);
+            num = turn(num);
+            System.out.println(num);
+            System.out.println(gL.getBatsLocation()[0]);
+            System.out.println(gL.getBatsLocation()[1]);
 
             if (selectedButton != null) {
                 selectedButton.setBackground(Color.WHITE); // Reset the previous button color
             }
             selectedButton = button; // Update the selected button reference
             OnlyNeighbors(num); // Enable only the neighboring buttons
-            button.setBackground(Color.RED); // Highlight the new button
+
+            buttonMap.get(num).setBackground(Color.RED); // Highlight the new button
         } catch (Exception ex) {
             // Handle other potential exceptions
             JOptionPane.showMessageDialog(this, "An error occurred: " + ex.getMessage());
@@ -183,27 +188,33 @@ public class UITest extends JFrame implements ActionListener {
     public int checkHazard(int cellNum){
         Cell cell = cave.getCell(cellNum);
         String type = cell.getType();
-        if(type.equals("SuperBat")){
-            return gL.setRandomBatsLocation(cave, cellNum);
-        } else if(type.equals("Pit")){
-            if(askMultipleQuestions(3, 2)){
-                return cellNum;
-            }
-            endGame();
-        } else if(cell.getWumpus()){
+        if(cell.getWumpus()){
+            JOptionPane.showMessageDialog(this, "You Have Encountered A Wumpus! Answer 3 out of 5 questions right!");
             if(askMultipleQuestions(5, 3)){
                 gL.setRandomWumpusLocation(cave, cellNum);
                 return cellNum;
             }
             endGame();
         }
+        else if(type.equals("SuperBat")){
+            JOptionPane.showMessageDialog(this, "You Have Encountered Bats! Answer 2 out of 3 questions right!");
+            return gL.setRandomBatsLocation(cave, cellNum);
+        } else if(type.equals("Pit")){
+            JOptionPane.showMessageDialog(this, "You Have Encountered A Bottomless Pit! Answer 2 out of 3 questions right!");
+            if(askMultipleQuestions(3, 2)){
+                return gL.getPlayerLocation();
+            }
+            endGame();
+        }
         return cellNum;
     }
 
-    public void turn(int cellNum){
-        checkHazard(cellNum);
+    public int turn(int cellNum){
+        cellNum = checkHazard(cellNum);
         player.turn(cellNum);
+        gL.updatePlayerLocations(gL.getPlayerLocation(), cellNum, cave);
         wumpus.turn();
+        return gL.getPlayerLocation();
     }
 
     // Method to add "Shoot Arrow" and "Get Arrow" buttons on the right side in the middle

@@ -2,7 +2,6 @@
 // March 1, 2024
 // Period 5
 // Hunt the Wumpus - Player Class 
-//On me amrit is selling our team.
 
 package Player;
 
@@ -94,12 +93,6 @@ public class Player {
     // This method tracks how many turns the player has taken
     public int getTurns(){
         return turns;
-    }
-
-    // This method calculates the high score of the Player
-    public int highScore(){
-        score = 100 - turns + gold + (5 * arrows) + points;
-        return score;
     }
 
     // This method is for when the player attacks the wumpus

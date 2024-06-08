@@ -9,7 +9,6 @@ import Cave.*;
 import gameControl.*;
 import gameLocations.*;
 import Player.*;
-import Sound.*;
 import Trivia.*;
 import UI.*;
 import Wumpus.*;

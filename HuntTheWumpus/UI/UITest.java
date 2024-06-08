@@ -49,7 +49,7 @@ public class UITest extends JFrame implements ActionListener {
         this.wumpus = wumpus;
         this.player = player;
 
-        this.goldCount = 0; // Initialize the gold count
+        this.goldCount = 30; // Initialize the gold count
         this.arrowCount = 3; // Initialize the arrow count
         this.buttonMap = new HashMap<>(); // Initialize the button map
         draw(); // Call the draw method to set up the UI
@@ -371,8 +371,9 @@ public class UITest extends JFrame implements ActionListener {
         } else {
             JOptionPane.showMessageDialog(this, "Wrong.");
         }
-        goldCount--;
-        if(goldCount == 0) endGame();
+        this.goldCount--;
+        this.goldLabel.setText("Gold: " + goldCount);
+        if(this.goldCount == 0) endGame();
         return correct;
     }
 

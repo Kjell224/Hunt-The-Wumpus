@@ -247,7 +247,7 @@ public class UITest extends JFrame implements ActionListener {
     private void purchaseSecret(){
         int right = 0;
         for(int c = 0; c < 3; c++){
-            Question question = trivia.getQuestion(); // Get a trivia question
+            Question question = this.trivia.getQuestion(); // Get a trivia question
             String userAnswer = JOptionPane.showInputDialog(this, question.printQuestion()); // Prompt the user for an answer
             // Check the answer
             if (userAnswer != null && userAnswer.equalsIgnoreCase(question.getAnswer())) {

@@ -32,7 +32,7 @@ public class gameControl {
     
     public gameControl() throws FileNotFoundException {
             this.trivia = new Trivia();
-            trivia.reInitilizeQuestions();
+            System.out.println("just re initialized");
             this.cave = new Cave();
             SwingUtilities.invokeLater(() -> { // Ensure the UI is created on the Event Dispatch Thread
             this.mainmenu = new MainMenu(this.cave, this.trivia); // Create the main menu

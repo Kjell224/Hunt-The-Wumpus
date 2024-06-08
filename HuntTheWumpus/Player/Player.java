@@ -33,8 +33,10 @@ public class Player {
     ///////////////////////
     // Constructor(s)
     //////////////////////
-    public Player(){
+    public Player(Cave cave){
+        this.cave = cave;
         this.playerPos = getPlayerPos();
+        //this.explored = 
     }
     ///////////////////////
     // Methods
@@ -54,11 +56,16 @@ public class Player {
         this.health = hp;
     }
 
+    // gameLocation updates player position
     public void turn(int cellNum){
-        if(isNewCell(cellNum) == false){
-            explored.add(cellNum);
+        turns++;
+        if(gold < 100){
             gold++;
         }
+        /*if(isNewCell(cellNum) == false){
+            explored.add(cellNum);
+            gold++;
+        }*/
     }
 
     public boolean isNewCell(int num){

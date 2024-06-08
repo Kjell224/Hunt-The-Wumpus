@@ -99,7 +99,7 @@ public class gameLocations {
 
   public String giveWarning(String warnType){
     //Return certain warnings depending on the String warnType (or cell type)
-    if(warnType.equals("SuperBats")) 
+    if(warnType.equals("SuperBat")) 
       return "Bats Nearby.";
     else if(warnType.equals("Pit")) 
       return "I feel a draft."; 
@@ -122,7 +122,7 @@ public class gameLocations {
         //Give a warning depending on the type
         System.out.println(giveWarning(curCell.getType()));
         //If the type is NOT a wumpus
-        if(curCell.getType() == "SuperBats"){
+        if(curCell.getType() == "SuperBat"){
           //Add the number of the cell it is in to BatsPos
           batsPos[i] = c;
           i++;
@@ -133,13 +133,14 @@ public class gameLocations {
       }
     } 
   }
+
   private void initializeTypes(Cave c) { 
     for(int i = 0; i < 30; i++){
         // Checks wumpus 
         if(c.cellsArray[i].getWumpus())
             wumpusPos = c.cellsArray[i].getCellNum();
         // Checks bats 
-        else if(c.cellsArray[i].getType().equals("Bats")){
+        else if(c.cellsArray[i].getType().equals("SuperBat")){
             if(batsPos[0] == 0) 
                 batsPos[0] = c.cellsArray[i].getCellNum();
             else 
@@ -199,7 +200,7 @@ public void updatePlayerLocations(int currentPos, int newPos, Cave c){
   * 
   */
   // done
-  public void setRandomBatsLocation(Cave c, int startingCellNum){
+  public int setRandomBatsLocation(Cave c, int startingCellNum){
     // Both are random locations 
     int rndBatCell = (int) (Math.random() * 30); // (0-30) not a mistake
     int rndPlayerCell = (int) (Math.random() * 30); // (0-30) not a mistake
@@ -226,6 +227,8 @@ public void updatePlayerLocations(int currentPos, int newPos, Cave c){
     // if the random numbers do not fit the requirements
         // Then run the method again and get new random numbers that have a possibility of working.
     else setRandomBatsLocation(c, startingCellNum);
+
+    return rndPlayerCell;
 }
 
 public void setRandomWumpusLocation(Cave c, int startingWumpCell){

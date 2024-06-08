@@ -17,7 +17,8 @@ public class Wumpus {
     public int health;
     public Player player;
     //constuctor
-    public Wumpus() {
+    public Wumpus(Cave cave) {
+        this.cave = cave;
         this.WumpCell = cave.getCell(cave.getWumpusCell());
         this.state = "asleep";
         this.health = 1;

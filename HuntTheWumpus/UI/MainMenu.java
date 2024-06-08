@@ -2,21 +2,30 @@ package UI;
 
 import javax.swing.*;
 import Cave.Cave;
+import Player.Player;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import Trivia.*;
+import Wumpus.Wumpus;
 
 public class MainMenu extends JFrame implements ActionListener {
     private Cave cave;
     private JTextField nameField;
     private Trivia trivia;
+    private UITest uitest;
+    private Wumpus wumpus;
+    private Player player;
+
 
     // Constructor to initialize the main menu UI
-    public MainMenu(Cave cave, Trivia trivia) {
+    public MainMenu(Cave cave, Trivia trivia, Player player, Wumpus wumpus) {
         this.cave = cave;
         this.trivia = trivia;
+        this.wumpus = wumpus;
+        this.player = player;
         setTitle("Main Menu"); // Set the title of the JFrame
         setSize(800, 800); // Set the size of the JFrame (corrected to more reasonable dimensions)
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Close the application when the window is closed
@@ -65,10 +74,14 @@ public class MainMenu extends JFrame implements ActionListener {
             if (playerName.isEmpty()) { // Check if the name field is empty
                 JOptionPane.showMessageDialog(this, "Please enter your name.", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                new UITest(getCave(), this.trivia); // Pass the cave and player's name to UITest
+                this.uitest = new UITest(getCave(), this.trivia, player, wumpus); // Pass the cave and player's name to UITest
                 dispose(); // Close the main menu window
             }
         }
+    }
+
+    public UITest getUITest(){
+        return uitest;
     }
 
     public Cave getCave() {

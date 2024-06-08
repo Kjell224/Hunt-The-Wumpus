@@ -2,6 +2,8 @@ package UI;
 
 import javax.swing.*;
 import Cave.Cave;
+import Wumpus.Wumpus;
+import Player.Player;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import Trivia.Trivia;
 import Cave.Cell;
+import Player.*;
 import Trivia.Question;
 import gameLocations.*;
 
@@ -30,9 +33,12 @@ public class UITest extends JFrame implements ActionListener {
     private JLabel arrowLabel; // Label to display the arrow count
     private Map<Integer, HexagonButton> buttonMap; // Map to store hexagon buttons
     private gameLocations gL;
+    private Wumpus wumpus;
+    private Player player;
 
     // Constructor to initialize the UI
-    public UITest(Cave cave, Trivia trivia) {
+    public UITest(Cave cave, Trivia trivia, Player player, Wumpus wumpus) {
+        this.trivia = trivia; // Initialize the Trivia instance
         try {
             this.gL = new gameLocations();
         } catch (FileNotFoundException e) {
@@ -40,7 +46,9 @@ public class UITest extends JFrame implements ActionListener {
             e.printStackTrace();
         }
         this.cave = cave;
-        this.trivia = trivia; // Initialize the Trivia instance
+        this.wumpus = wumpus;
+        this.player = player;
+
         this.goldCount = 0; // Initialize the gold count
         this.arrowCount = 3; // Initialize the arrow count
         this.buttonMap = new HashMap<>(); // Initialize the button map
@@ -158,6 +166,7 @@ public class UITest extends JFrame implements ActionListener {
             this.number = button.getText(); // Get the number from the button's text
             int num = Integer.parseInt(number); // Parse the number
             System.out.println(number); // Print the number to the console
+            turn(num);
 
             if (selectedButton != null) {
                 selectedButton.setBackground(Color.WHITE); // Reset the previous button color
@@ -171,12 +180,38 @@ public class UITest extends JFrame implements ActionListener {
         }
     }
 
+    public int checkHazard(int cellNum){
+        Cell cell = cave.getCell(cellNum);
+        String type = cell.getType();
+        if(type.equals("SuperBat")){
+            return gL.setRandomBatsLocation(cave, cellNum);
+        } else if(type.equals("Pit")){
+            if(askMultipleQuestions(3, 2)){
+                return cellNum;
+            }
+            endGame();
+        } else if(cell.getWumpus()){
+            if(askMultipleQuestions(5, 3)){
+                gL.setRandomWumpusLocation(cave, cellNum);
+                return cellNum;
+            }
+            endGame();
+        }
+        return cellNum;
+    }
+
+    public void turn(int cellNum){
+        checkHazard(cellNum);
+        player.turn(cellNum);
+        wumpus.turn();
+    }
+
     // Method to add "Shoot Arrow" and "Get Arrow" buttons on the right side in the middle
     private void addRightSideButtons() {
         int buttonWidth = 150;
         int buttonHeight = 50;
         int rightSideX = 1050;
-        int rightSideY = 350; 
+        int rightSideY = 400; 
 
         JButton shootArrowButton = new JButton("Shoot Arrow");
         shootArrowButton.setBounds(rightSideX, rightSideY, buttonWidth, buttonHeight);
@@ -228,8 +263,7 @@ public class UITest extends JFrame implements ActionListener {
             arrowCount--;
             arrowLabel.setText("Arrows: " + arrowCount);
             if (arrowCount == 0) {
-                new GameOver();
-                dispose();
+                endGame();
             }
         };
 
@@ -315,9 +349,40 @@ public class UITest extends JFrame implements ActionListener {
             }
         }
     }
+    
+    public boolean askTriviaQuestion(){
+        boolean correct = false;
+        Question question = this.trivia.getQuestion(); // Get a trivia question
+        String userAnswer = JOptionPane.showInputDialog(this, question.printQuestion()); // Prompt the user for an answer
+        if (userAnswer != null && userAnswer.equalsIgnoreCase(question.getAnswer())) {
+            JOptionPane.showMessageDialog(this, "Correct!");
+            correct = true;
+        } else {
+            JOptionPane.showMessageDialog(this, "Wrong.");
+        }
+        return correct;
+    }
+
+    public boolean askMultipleQuestions(int qNum, int numCorrect){ //Amount of questions you need to ask
+        int right = 0; //Amount of questions got right
+        for(int i = 0; i < qNum; i++){
+            if(askTriviaQuestion()){
+                right++;
+            }
+            if(right >= numCorrect){
+                return true;
+            }     
+        }
+        return false;
+    }
 
     // Method to get the currently selected number
     public String getNumber() {
         return this.number;
+    }
+
+    public GameOver endGame(){
+        dispose();
+        return new GameOver();
     }
 }

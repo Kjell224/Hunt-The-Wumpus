@@ -32,8 +32,8 @@ shoot mode ?????
 
 
 
-Objective   : class      : name
-Theme       : ui         : kjell
-Ui Walls    : cave / ui  : anders
-High score  : ui / player: armit eyu
-kill wumpus : GC / GL    : ishaan adhaav arunium
+Objective   : class      : name                        : steps to achieve
+Theme       : ui         : kjell                       : FIGMA
+Ui Walls    : cave / ui  : anders                      : ui elements
+High score  : ui / player: armit eyu                   : new file and high score object
+kill wumpus : GC / GL    : ishaan adhaav arunium armit : make sure wumpus can be killed

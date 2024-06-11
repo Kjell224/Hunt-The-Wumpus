@@ -99,6 +99,17 @@ public class Cave {
         return cell.getAccesibleNeighbors(); // Return accessible neighbors
     }
 
+    public Cell getRandomCell(){
+        int rnd = (int) Math.random() * 30 + 1;
+        return getCell(rnd);
+    }
+
+    public Cell getRandomAccesibleCell(Cell cell){
+       ArrayList<Integer> cells = cell.getAccesibleNeighbors();
+       int rnd = (int) Math.random() * cells.size();
+       return getCell(cells.get(rnd));
+    }
+
     // Checks if it's possible to move to a cell given the current cell and target cell
     public boolean isValid(Cell current, Cell target) {
         ArrayList<Cell> neighbors = getCellNeighbors(current); // Get neighbors of the current cell

@@ -2,14 +2,20 @@ package UI;
 
 import javax.swing.*;
 import Cave.Cave;
+import Wumpus.Wumpus;
+import Player.Player;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import Trivia.Trivia;
+import Cave.Cell;
+import Player.*;
 import Trivia.Question;
+import gameLocations.*;
 
 public class UITest extends JFrame implements ActionListener {
 
@@ -26,16 +32,29 @@ public class UITest extends JFrame implements ActionListener {
     private int arrowCount; // To store the player's arrow count
     private JLabel arrowLabel; // Label to display the arrow count
     private Map<Integer, HexagonButton> buttonMap; // Map to store hexagon buttons
+    private gameLocations gL;
+    private Wumpus wumpus;
+    private Player player;
 
     // Constructor to initialize the UI
-    public UITest(Cave cave) {
+    public UITest(Cave cave, Trivia trivia, Player player, Wumpus wumpus) {
+        this.trivia = trivia; // Initialize the Trivia instance
+        try {
+            this.gL = new gameLocations();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         this.cave = cave;
-        this.trivia = new Trivia(); // Initialize the Trivia instance
-        this.goldCount = 0; // Initialize the gold count
+        this.wumpus = wumpus;
+        this.player = player;
+
+        this.goldCount = 30; // Initialize the gold count
         this.arrowCount = 3; // Initialize the arrow count
         this.buttonMap = new HashMap<>(); // Initialize the button map
         draw(); // Call the draw method to set up the UI
         initializePlayerPosition(cave.getPlayerCell()); // given the player position (int cell)
+        gL.initializeTypes(cave);
     }
 
     ///////////////////////
@@ -72,7 +91,7 @@ public class UITest extends JFrame implements ActionListener {
         addRightSideButtons();
 
         // Add the gold label to display the current gold count
-        goldLabel = new JLabel("Gold: 0");
+        goldLabel = new JLabel("Gold: " + goldCount);
         goldLabel.setBounds(1050, 280, 150, 50);
         goldLabel.setFont(new Font("Arial", Font.BOLD, 20));
         add(goldLabel);
@@ -148,17 +167,54 @@ public class UITest extends JFrame implements ActionListener {
             this.number = button.getText(); // Get the number from the button's text
             int num = Integer.parseInt(number); // Parse the number
             System.out.println(number); // Print the number to the console
+            num = turn(num);
+            System.out.println(num);
+            System.out.println(gL.getBatsLocation()[0]);
+            System.out.println(gL.getBatsLocation()[1]);
 
             if (selectedButton != null) {
                 selectedButton.setBackground(Color.WHITE); // Reset the previous button color
             }
             selectedButton = button; // Update the selected button reference
             OnlyNeighbors(num); // Enable only the neighboring buttons
-            button.setBackground(Color.RED); // Highlight the new button
+
+            buttonMap.get(num).setBackground(Color.RED); // Highlight the new button
         } catch (Exception ex) {
             // Handle other potential exceptions
             JOptionPane.showMessageDialog(this, "An error occurred: " + ex.getMessage());
         }
+    }
+
+    public int checkHazard(int cellNum){
+        Cell cell = cave.getCell(cellNum);
+        String type = cell.getType();
+        if(cell.getWumpus()){
+            JOptionPane.showMessageDialog(this, "You Have Encountered A Wumpus! Answer 3 out of 5 questions right!");
+            if(askMultipleQuestions(5, 3)){
+                gL.setRandomWumpusLocation(cave, cellNum);
+                return cellNum;
+            }
+            endGame();
+        }
+        else if(type.equals("SuperBat")){
+            JOptionPane.showMessageDialog(this, "You Have Encountered Bats!");
+            return gL.setRandomBatsLocation(cave, cellNum);
+        } else if(type.equals("Pit")){
+            JOptionPane.showMessageDialog(this, "You Have Encountered A Bottomless Pit! Answer 2 out of 3 questions right!");
+            if(askMultipleQuestions(3, 2)){
+                return gL.getPlayerLocation();
+            }
+            endGame();
+        }
+        return cellNum;
+    }
+
+    public int turn(int cellNum){
+        cellNum = checkHazard(cellNum);
+        player.turn(cellNum);
+        gL.updatePlayerLocations(gL.getPlayerLocation(), cellNum, cave);
+        wumpus.turn();
+        return gL.getPlayerLocation();
     }
 
     // Method to add "Shoot Arrow" and "Get Arrow" buttons on the right side in the middle
@@ -166,7 +222,7 @@ public class UITest extends JFrame implements ActionListener {
         int buttonWidth = 150;
         int buttonHeight = 50;
         int rightSideX = 1050;
-        int rightSideY = 350; 
+        int rightSideY = 400; 
 
         JButton shootArrowButton = new JButton("Shoot Arrow");
         shootArrowButton.setBounds(rightSideX, rightSideY, buttonWidth, buttonHeight);
@@ -177,6 +233,11 @@ public class UITest extends JFrame implements ActionListener {
         getArrowButton.setBounds(rightSideX, rightSideY + 70, buttonWidth, buttonHeight);
         getArrowButton.addActionListener(e -> getArrow());
         add(getArrowButton);
+
+        JButton purchaseSecretButton = new JButton("Purchase Secret");
+        purchaseSecretButton.setBounds(rightSideX, rightSideY + 140, buttonWidth, buttonHeight);
+        purchaseSecretButton.addActionListener(e -> purchaseSecret());
+        add(purchaseSecretButton);
     }
 
     private void shootArrow() {
@@ -213,8 +274,7 @@ public class UITest extends JFrame implements ActionListener {
             arrowCount--;
             arrowLabel.setText("Arrows: " + arrowCount);
             if (arrowCount == 0) {
-                new GameOver();
-                dispose();
+                endGame();
             }
         };
 
@@ -226,6 +286,58 @@ public class UITest extends JFrame implements ActionListener {
         northWestButton.addActionListener(arrowListener);
 
         dialog.setVisible(true);
+    }
+
+    
+    private void purchaseSecret(){
+        int right = 0;
+        for(int c = 0; c < 3; c++){
+            Question question = this.trivia.getQuestion(); // Get a trivia question
+            String userAnswer = JOptionPane.showInputDialog(this, question.printQuestion()); // Prompt the user for an answer
+            // Check the answer
+            if (userAnswer != null && userAnswer.equalsIgnoreCase(question.getAnswer())) {
+                JOptionPane.showMessageDialog(this, "Correct!");
+                right++; // Increment the amount right
+            } else {
+                JOptionPane.showMessageDialog(this, "Wrong.");
+            }
+            if(right >= 2) break;
+        }
+        if(right < 2) return;
+        
+        //Not useful to useful 1-6
+        int secretType = (int)(Math.random()*6) + 1;
+        int randBatOrPitPos = (int)(Math.random()*2);
+        if(secretType == 1) JOptionPane.showMessageDialog(this, "Not Useful! You are in cell " + gL.getPlayerLocation());
+        else if(secretType == 2) JOptionPane.showMessageDialog(this, "Not Useful! The Answer to an old trivia question is " + trivia.getRandomAnswer()); // FInd a way to give an answer to a trivia question you already got
+        else if(secretType == 3){
+            Cell pCell = cave.getCell(gL.getPlayerLocation());
+            Integer[] neighbors = pCell.getAllNeighbors();
+            boolean wumpusFound = false;
+            for(Integer i : neighbors){
+                Cell curCell = cave.getCell(i);
+                if(curCell.getType().equals("Wumpus")){
+                    JOptionPane.showMessageDialog(this, "Useful! A Wumpus is within 2 rooms of you.");
+                    wumpusFound = true;
+                    break;
+                } else {
+                    Integer[] neighbors2 = curCell.getAllNeighbors();
+                    for(Integer j : neighbors2){
+                        Cell curCell2 = cave.getCell(j);
+                        if(curCell2.getType().equals("Wumpus")){
+                            JOptionPane.showMessageDialog(this, "Useful! A Wumpus is within 2 rooms of you.");
+                            wumpusFound = true;
+                            break;
+                        }
+                    }
+                    if (wumpusFound) break; // Break the outer loop if a Wumpus is found in the inner loop
+                }
+            }
+            if(!wumpusFound) JOptionPane.showMessageDialog(this, "Useful! A Wumpus is NOT within 2 rooms of you."); //Find a way to give if wumpus is within 2 of player
+        }
+        else if(secretType == 4) JOptionPane.showMessageDialog(this, "Useful! A swarm of SuperBats is in room " + gL.getBatsLocation()[randBatOrPitPos]);
+        else if(secretType == 5) JOptionPane.showMessageDialog(this, "Useful! A Pit is in room " + gL.getPitsLocation()[randBatOrPitPos]);
+        else if(secretType == 6) JOptionPane.showMessageDialog(this, "Very Useful! The Wumpus is in cell" + gL.getWumpusLocation());
     }
 
     private void getArrow() {
@@ -248,9 +360,43 @@ public class UITest extends JFrame implements ActionListener {
             }
         }
     }
+    
+    public boolean askTriviaQuestion(){
+        boolean correct = false;
+        Question question = this.trivia.getQuestion(); // Get a trivia question
+        String userAnswer = JOptionPane.showInputDialog(this, question.printQuestion()); // Prompt the user for an answer
+        if (userAnswer != null && userAnswer.equalsIgnoreCase(question.getAnswer())) {
+            JOptionPane.showMessageDialog(this, "Correct!");
+            correct = true;
+        } else {
+            JOptionPane.showMessageDialog(this, "Wrong.");
+        }
+        this.goldCount--;
+        this.goldLabel.setText("Gold: " + goldCount);
+        if(this.goldCount == 0) endGame();
+        return correct;
+    }
+
+    public boolean askMultipleQuestions(int qNum, int numCorrect){ //Amount of questions you need to ask
+        int right = 0; //Amount of questions got right
+        for(int i = 0; i < qNum; i++){
+            if(askTriviaQuestion()){
+                right++;
+            }
+            if(right >= numCorrect){
+                return true;
+            }     
+        }
+        return false;
+    }
 
     // Method to get the currently selected number
     public String getNumber() {
         return this.number;
+    }
+
+    public GameOver endGame(){
+        dispose();
+        return new GameOver();
     }
 }

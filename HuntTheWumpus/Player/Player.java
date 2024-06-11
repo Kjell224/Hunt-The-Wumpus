@@ -2,20 +2,20 @@
 // March 1, 2024
 // Period 5
 // Hunt the Wumpus - Player Class 
-//On me amrit is selling our team.
 
 package Player;
 
 import Cave.Cell;
 import java.util.Scanner;
 import java.util.Random;
+import java.util.ArrayList;
 import Cave.Cave;
 
 public class Player {
     ///////////////////////
     // Properties & Fields
     //////////////////////
-    public String name; // This variable is for the name of the Player
+    public String name; 
     public Cave cave;
     private boolean triviaAnswer;
     private int gold = 0;
@@ -27,61 +27,76 @@ public class Player {
     public int score;
     public int points;
     public int wumpushealth = 1;
+    public ArrayList<Integer> explored;
 
     ///////////////////////
     // Constructor(s)
     //////////////////////
-    public Player(){
-    
+    public Player(Cave cave){
+        this.cave = cave;
+        this.playerPos = getPlayerPos();
+        //this.explored = 
     }
     ///////////////////////
     // Methods
     //////////////////////
 
+    // This method gets the player position
     public Cell getPlayerPos(){
         playerPos = cave.getCell(cave.getPlayerCell()); // cell
         return playerPos;
     }
 
-    // This method gets the name of the Player
-    public String getName(){
-        Scanner s = new Scanner(System.in);
-        System.out.println("What is your name?");
-        name = s.nextLine();
-        System.out.println("Hello " + name + "! Welcome to Hunt the Wumpus!");
+    public int getHealth(){
+        return this.health;
+    }
 
-        s.close();
+    public void setHealth(int hp){
+        this.health = hp;
+    }
 
-        return name;
+    // gameLocation updates player position
+    public void turn(int cellNum){
+        turns++;
+        if(gold < 100){
+            gold++;
+        }
+        /*if(isNewCell(cellNum) == false){
+            explored.add(cellNum);
+            gold++;
+        }*/
+    }
+
+    public boolean isNewCell(int num){
+    for(int i = 0; i < explored.size(); i++){
+        if(num == explored.get(i)){
+            return true;
+        }
+    }
+        return false;
     }
 
     // This method gives gold to the player
-    public void giveGold(){
+    public void playTrivia(boolean triviaAnswer){
         if(triviaAnswer == true){
-            gold = gold++;
+            gold++;
         } else if (triviaAnswer == false){
-            if (gold == 0){
-                health = health--;
-            }
-            else if (gold >= 1){
-                gold = gold--;
+            if (gold >= 1) {
+                gold--;
+            } else {
+                health--;
             }
         }
     }
 
 
-    public int turnTracker(){
+    // This method tracks how many turns the player has taken
+    public int getTurns(){
         return turns;
     }
 
-    public int highScore(){
-        score = 100 - turns + gold + (5 * arrows) + points;
-
-        return score;
-    }
-
-
-    public void attack(Cell c){
+    // This method is for when the player attacks the wumpus
+    public void attack(){
         arrows--;
     }
 
@@ -100,6 +115,7 @@ public class Player {
         }
     }
 
+    // This method is for when the player wins, it is give 50 points upon killing the wumpus
     public int win(){
         if (wumpushealth == 0){
             points += 50;

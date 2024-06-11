@@ -17,6 +17,6 @@ public class PlayerTest {
     // Constructor(s)
     //////////////////////
     public static void main(String[] args){
-        new Player();
+        //new Player();
     }
 }

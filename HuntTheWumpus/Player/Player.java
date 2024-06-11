@@ -35,7 +35,7 @@ public class Player {
     public Player(Cave cave){
         this.cave = cave;
         this.playerPos = getPlayerPos();
-        //this.explored = 
+        this.explored = new ArrayList<Integer>();
     }
     ///////////////////////
     // Methods
@@ -61,10 +61,9 @@ public class Player {
         if(gold < 100){
             gold++;
         }
-        /*if(isNewCell(cellNum) == false){
+        if(isNewCell(cellNum) == false){
             explored.add(cellNum);
-            gold++;
-        }*/
+        }
     }
 
     public boolean isNewCell(int num){
@@ -123,4 +122,9 @@ public class Player {
 
         return points;
     }
+
+    public ArrayList<Integer> getExplored(){
+        return this.explored;
+    }
+
 }

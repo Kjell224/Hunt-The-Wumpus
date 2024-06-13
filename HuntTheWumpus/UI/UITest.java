@@ -65,7 +65,7 @@ public class UITest extends JFrame implements ActionListener {
     public void draw() {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Close the frame when the close button is clicked
         setLayout(null); // Use null layout for absolute positioning
-        this.getContentPane().setBackground(Color.BLACK); // Set background color
+        this.getContentPane().setBackground(new java.awt.Color(255, 230, 1)); // Set background color
 
         setSize(8000, 8000); // Set the size of the JFrame
 
@@ -116,7 +116,7 @@ public class UITest extends JFrame implements ActionListener {
         }
         
         button.setBounds(posX, posY, HEX_WIDTH, HEX_HEIGHT); // Set the button's bounds
-        button.setBackground(Color.WHITE); // Set the button's background color
+        button.setBackground(new java.awt.Color(255, 253, 159)); // Set the button's background color
         button.addActionListener(this); // Add the action listener to handle button clicks
         buttonMap.put(number, button); // Store the button in the map
         add(button); // Add the button to the JFrame
@@ -136,7 +136,7 @@ public class UITest extends JFrame implements ActionListener {
     ArrayList<Integer> neighbors = cave.getNeighbors(num); // Get the neighbors from the Cave instance
     for (HexagonButton button : buttonMap.values()) {
         button.setEnabled(false); // Disable all buttons
-        button.setBackground(Color.DARK_GRAY); // Reset all buttons to white
+        button.setBackground(new java.awt.Color(255, 253, 159)); // Reset all buttons to white
     }
     buttonMap.get(num).setEnabled(true); // Enable the current button
     for (int neighbor : neighbors) {
@@ -173,7 +173,7 @@ public class UITest extends JFrame implements ActionListener {
             System.out.println(gL.getBatsLocation()[1]);
 
             if (selectedButton != null) {
-                selectedButton.setBackground(Color.WHITE); // Reset the previous button color
+                selectedButton.setBackground(new java.awt.Color(255, 253, 159)); // Reset the previous button color
             }
             selectedButton = button; // Update the selected button reference
             OnlyNeighbors(num); // Enable only the neighboring buttons

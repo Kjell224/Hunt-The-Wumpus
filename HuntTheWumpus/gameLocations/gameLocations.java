@@ -132,8 +132,8 @@ public class gameLocations {
           j++;
         }
       }
-      return warnings;
     } 
+    return warnings;
   }
 
   public void initializeTypes(Cave c) { 

@@ -30,6 +30,8 @@ public class MainMenu extends JFrame implements ActionListener {
         setSize(800, 800); // Set the size of the JFrame (corrected to more reasonable dimensions)
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Close the application when the window is closed
         setLayout(new BorderLayout()); // Use BorderLayout for the JFrame's layout
+        this.getContentPane().setBackground(new java.awt.Color(255, 230, 1)); // Set background color
+
 
         // Create and configure the title label
         JLabel titleLabel = new JLabel("Hunt the Wumpus", SwingConstants.CENTER);
@@ -40,6 +42,7 @@ public class MainMenu extends JFrame implements ActionListener {
         // Create a panel for the name input
         JPanel namePanel = new JPanel();
         namePanel.setLayout(new FlowLayout()); // Use FlowLayout for the name panel
+        namePanel.setBackground(new java.awt.Color(253, 255, 159));
 
         // Create and configure the name label and text field
         JLabel nameLabel = new JLabel("Enter your name: ");
@@ -47,9 +50,11 @@ public class MainMenu extends JFrame implements ActionListener {
 
         nameField = new JTextField(20); // Set the text field with a width of 20 characters
         nameField.setFont(new Font("Arial", Font.PLAIN, 30)); // Set font of the text field
+    
 
         namePanel.add(nameLabel); // Add the name label to the name panel
         namePanel.add(nameField); // Add the text field to the name panel
+        namePanel.setBackground(new java.awt.Color(255, 230, 1));
         add(namePanel, BorderLayout.CENTER); // Add the name panel to the center of the JFrame
 
         // Create and configure the play button
@@ -58,11 +63,13 @@ public class MainMenu extends JFrame implements ActionListener {
         playButton.setFont(new Font("Arial", Font.PLAIN, 30)); // Set font of the button text
         playButton.setPreferredSize(new Dimension(200, 100)); // Set preferred size of the button
         playButton.addActionListener(this); // Add an action listener to handle button clicks
+        playButton.setBackground(new java.awt.Color(253, 255, 159));
 
         // Create a panel to hold the play button
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridBagLayout()); // Use GridBagLayout to center the button
         buttonPanel.add(playButton); // Add the play button to the panel
+        buttonPanel.setBackground(new java.awt.Color(255, 230, 1)); // Set background color
         add(buttonPanel, BorderLayout.SOUTH); // Add the panel to the bottom of the JFrame
     }
 

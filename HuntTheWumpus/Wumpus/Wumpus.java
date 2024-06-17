@@ -6,6 +6,7 @@ import java.util.Random;
 import Cave.Cave;
 import Cave.Cell;
 import Player.Player;
+import gameControl.gameControl;
 
 public class Wumpus {
     //properties
@@ -16,9 +17,12 @@ public class Wumpus {
     public String state;
     public int health;
     public Player player;
+    private gameControl gc;
+
     //constuctor
-    public Wumpus(Cave cave) {
-        this.cave = cave;
+    public Wumpus(gameControl gc) {
+        this.gc = gc;
+        this.cave = gc.getCave();
         this.WumpCell = cave.getCell(cave.getWumpusCell());
         this.state = "asleep";
         this.health = 1;

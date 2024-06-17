@@ -43,7 +43,7 @@ public class gameControl {
             this.player = new Player(this);
             this.wumpus = new Wumpus(this);
             SwingUtilities.invokeLater(() -> { // Ensure the UI is created on the Event Dispatch Thread
-            this.mainmenu = new MainMenu(this.cave, this.trivia, this.player, this.wumpus); // Create the main menu
+            this.mainmenu = new MainMenu(this); // Create the main menu
             this.uitest = mainmenu.getUITest();
             this.mainmenu.setVisible(true); // Make the main menu visible
         });

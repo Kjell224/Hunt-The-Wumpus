@@ -10,6 +10,7 @@ import java.util.Scanner;
 import java.util.Random;
 import java.util.ArrayList;
 import Cave.Cave;
+import gameControl.*;
 
 public class Player {
     ///////////////////////
@@ -27,13 +28,15 @@ public class Player {
     public int score;
     public int points;
     public int wumpushealth = 1;
+    private gameControl gc;
     public ArrayList<Integer> explored;
 
     ///////////////////////
     // Constructor(s)
     //////////////////////
-    public Player(Cave cave){
-        this.cave = cave;
+    public Player(gameControl gc){
+        this.gc = gc;
+        this.cave = gc.getCave();
         this.playerPos = getPlayerPos();
         this.explored = new ArrayList<Integer>();
     }

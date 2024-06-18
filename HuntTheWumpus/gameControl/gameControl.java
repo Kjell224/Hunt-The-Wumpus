@@ -40,10 +40,10 @@ public class gameControl {
             System.out.println("just re initialized");
             this.cave = new Cave();
             this.gL = new gameLocations();
-            this.player = new Player(cave);
-            this.wumpus = new Wumpus(cave);
+            this.player = new Player(this);
+            this.wumpus = new Wumpus(this);
             SwingUtilities.invokeLater(() -> { // Ensure the UI is created on the Event Dispatch Thread
-            this.mainmenu = new MainMenu(this.cave, this.trivia, this.player, this.wumpus); // Create the main menu
+            this.mainmenu = new MainMenu(this); // Create the main menu
             this.uitest = mainmenu.getUITest();
             this.mainmenu.setVisible(true); // Make the main menu visible
         });
@@ -56,6 +56,14 @@ public class gameControl {
 
     public Player getPlayer(){
         return this.player;
+    }
+
+    public Trivia getTrivia(){
+        return this.trivia;
+    }
+
+    public Wumpus getWumpus(){
+        return this.wumpus;
     }
 
 

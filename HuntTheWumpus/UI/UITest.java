@@ -16,6 +16,7 @@ import Cave.Cell;
 import Player.*;
 import Trivia.Question;
 import gameLocations.*;
+import gameControl.*;
 
 public class UITest extends JFrame implements ActionListener {
 
@@ -35,19 +36,21 @@ public class UITest extends JFrame implements ActionListener {
     private gameLocations gL;
     private Wumpus wumpus;
     private Player player;
+    private gameControl gc;
 
     // Constructor to initialize the UI
-    public UITest(Cave cave, Trivia trivia, Player player, Wumpus wumpus) {
-        this.trivia = trivia; // Initialize the Trivia instance
+    public UITest(gameControl gc) {
+        this.gc = gc;
+        this.trivia = gc.getTrivia(); // Initialize the Trivia instance
         try {
             this.gL = new gameLocations();
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        this.cave = cave;
-        this.wumpus = wumpus;
-        this.player = player;
+        this.cave = gc.getCave();
+        this.wumpus = gc.getWumpus();
+        this.player = gc.getPlayer();
 
         this.goldCount = 30; // Initialize the gold count
         this.arrowCount = 3; // Initialize the arrow count

@@ -3,6 +3,7 @@ package UI;
 import javax.swing.*;
 import Cave.Cave;
 import Player.Player;
+import gameControl.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,14 +19,16 @@ public class MainMenu extends JFrame implements ActionListener {
     private UITest uitest;
     private Wumpus wumpus;
     private Player player;
+    private gameControl gc;
 
 
     // Constructor to initialize the main menu UI
-    public MainMenu(Cave cave, Trivia trivia, Player player, Wumpus wumpus) {
-        this.cave = cave;
-        this.trivia = trivia;
-        this.wumpus = wumpus;
-        this.player = player;
+    public MainMenu(gameControl gc) {
+        this.gc = gc;
+        this.cave = gc.getCave();
+        this.trivia = gc.getTrivia();
+        this.wumpus = gc.getWumpus();
+        this.player = gc.getPlayer();
         setTitle("Main Menu"); // Set the title of the JFrame
         setSize(800, 800); // Set the size of the JFrame (corrected to more reasonable dimensions)
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Close the application when the window is closed
@@ -81,7 +84,7 @@ public class MainMenu extends JFrame implements ActionListener {
             if (playerName.isEmpty()) { // Check if the name field is empty
                 JOptionPane.showMessageDialog(this, "Please enter your name.", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                this.uitest = new UITest(getCave(), this.trivia, player, wumpus); // Pass the cave and player's name to UITest
+                this.uitest = new UITest(this.gc); // Pass the cave and player's name to UITest
                 dispose(); // Close the main menu window
             }
         }

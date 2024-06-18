@@ -243,7 +243,7 @@ public class UITest extends JFrame implements ActionListener {
         add(purchaseSecretButton);
     }
 
-    private void shootArrow() {
+    public void shootArrow() {
         // Define arrow buttons with Unicode arrow symbols
         JButton northButton = new JButton("\u2191"); // Up arrow
         JButton northEastButton = new JButton("\u2197"); // Up-right arrow
@@ -343,7 +343,7 @@ public class UITest extends JFrame implements ActionListener {
         else if(secretType == 6) JOptionPane.showMessageDialog(this, "Very Useful! The Wumpus is in cell" + gL.getWumpusLocation());
     }
 
-    private void getArrow() {
+    public void getArrow() {
         // Implement the logic for getting arrow
         int right = 0;
         for(int c = 0; c < 3; c++){

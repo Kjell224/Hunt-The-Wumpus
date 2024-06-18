@@ -66,6 +66,14 @@ public class gameControl {
         return this.wumpus;
     }
 
+    public MainMenu getMainMenu(){
+        return this.mainmenu;
+    }
+
+    public gameLocations getGameLocations(){
+        return this.gL;
+    }
+
 
     ///////////////////////
     // Methods

@@ -84,7 +84,7 @@ public class MainMenu extends JFrame implements ActionListener {
             if (playerName.isEmpty()) { // Check if the name field is empty
                 JOptionPane.showMessageDialog(this, "Please enter your name.", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                this.uitest = new UITest(getCave(), this.trivia, player, wumpus); // Pass the cave and player's name to UITest
+                this.uitest = new UITest(this.gc); // Pass the cave and player's name to UITest
                 dispose(); // Close the main menu window
             }
         }

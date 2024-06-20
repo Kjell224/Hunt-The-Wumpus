@@ -3,6 +3,7 @@ package UI;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Path2D;
+import java.util.Arrays;
 
 public class HexagonButton extends JButton {
 
@@ -40,14 +41,19 @@ public class HexagonButton extends JButton {
     private Polygon createHexagon() {
         int width = getWidth();
         int height = getHeight();
+
+        double radius = Math.min(width,height) / 2.0;
+        double centerX = width / 2.0;
+        double centerY = height / 2.0;
+
         int[] xPoints = new int[6];
         int[] yPoints = new int[6];
 
         for (int i = 0; i < 6; i++) {
-            xPoints[i] = (int) (width / 2 + width / 2 * Math.cos(i * 2 * Math.PI / 6));
-            yPoints[i] = (int) (height / 2 + height / 2 * Math.sin(i * 2 * Math.PI / 6));
+            double angle = Math.toRadians(60 * i);
+            xPoints[i] = (int) (centerX + radius * Math.cos(angle));
+            yPoints[i] = (int) (centerY + radius * Math.sin(angle));
         }
-
         return new Polygon(xPoints, yPoints, 6);
     }
 }

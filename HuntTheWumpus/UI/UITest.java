@@ -111,13 +111,14 @@ public class UITest extends JFrame implements ActionListener {
     // Method to add a hexagon button at a specific grid position
     private void addHexagonButton(int x, int y, int number) {
         HexagonButton button = new HexagonButton(String.valueOf(number)); // Create a new button with the number as text
-        int posX = x * (HEX_WIDTH * 3 / 4) + 500; // Calculate the x position
-        int posY = y * (HEX_HEIGHT * 3 / 4) + (x % 2) * (HEX_HEIGHT / 2) + 200; // Calculate the y position
+  
+        int posX = x * ((HEX_WIDTH*3)/4) + 100;
+        int posY = y * ((HEX_HEIGHT*3)/4) + 100;
 
-        if (x % 2 == 0) {
-            posY += 6; 
+        if (x % 2 == 1) {
+            posY += 36; 
         }
-        
+
         button.setBounds(posX, posY, HEX_WIDTH, HEX_HEIGHT); // Set the button's bounds
         button.setBackground(new java.awt.Color(255, 253, 159)); // Set the button's background color
         button.addActionListener(this); // Add the action listener to handle button clicks
